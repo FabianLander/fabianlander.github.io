@@ -154,8 +154,8 @@ permalink: "/custom-url.html"
 
 Common commands:
 ```bash
-# Serve locally with draft posts
-bundle exec jekyll serve --drafts
+# Serve locally with draft posts and live reloading (local)
+bundle exec jekyll serve --drafts --livereload
 
 # Build site
 bundle exec jekyll build
