@@ -3,6 +3,7 @@ layout: post
 title: "Jekyll Gotchas and Solutions: A Personal Reference"
 date: 2024-11-18
 categories: [technical, reference]
+excerpt: "This is my personal reference for Jekyll setup issues and solutions I’ve encountered. Consider it a “note to future self.”"
 ---
 
 # Jekyll Setup Reference
