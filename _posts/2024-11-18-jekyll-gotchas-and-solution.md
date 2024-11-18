@@ -178,6 +178,69 @@ bundle update
 - No date needed in filename for drafts
 - View drafts locally with `--drafts` flag
 
+
+## Font Customization
+
+### Method 1: Modify Google Fonts in head.html
+In `_includes/head.html`, find and modify the Google Fonts link:
+
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+```
+
+To use different Google Fonts (for example, Roboto and Lato), replace with:
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400italic,700|Lato:400">
+```
+
+### Method 2: Update CSS Variables
+In `public/css/lanyon.css`, find and modify these sections:
+
+```css
+/* Default font settings */
+html {
+  font-family: "PT Serif", Georgia, "Times New Roman", serif;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #313131;
+  letter-spacing: -.025rem;
+}
+```
+
+To change fonts, update these values like:
+```css
+/* Default font settings */
+html {
+  font-family: "Roboto", Arial, sans-serif;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Lato", Helvetica, sans-serif;
+  font-weight: 400;
+  color: #313131;
+  letter-spacing: -.025rem;
+}
+```
+
+### Popular Font Combinations
+Some tested combinations:
+- Body: Roboto, Headings: Lato
+- Body: Merriweather, Headings: Source Sans Pro
+- Body: Open Sans, Headings: Montserrat
+- Body: Lora, Headings: Poppins
+
+### Tips
+- Always include fallback fonts
+- Test readability at different screen sizes
+- Consider loading times when adding multiple font weights
+- Use `font-display: swap` for better performance
+
+
 ## Useful Links
 - [Jekyll Documentation](https://jekyllrb.com/docs/)
 - [Lanyon Theme](https://github.com/poole/lanyon)
