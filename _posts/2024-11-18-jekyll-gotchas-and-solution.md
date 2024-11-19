@@ -174,6 +174,18 @@ bundle update
 - `public/js/`: JavaScript files
 - `assets/images/`: Image files
 
+# Custom text boxes 
+Every non lanyon style goes in `public/css/custom.css`. For example this is how we style a definition block (actual code may not be up to date):
+
+```css
+.definition{
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 0px solid #33c17a;
+    background-color: #f8f9fa;
+}
+```
+
 ### Draft Posts
 - Place draft posts in `_drafts/` folder
 - No date needed in filename for drafts

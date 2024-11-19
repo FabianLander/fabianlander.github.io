@@ -1,7 +1,21 @@
-.theorem {
+.definition{
     margin: 1em 0;
     padding: 1em;
-    border-left: 3px solid #2077b2;
+    border-left: 0px solid #33c17a;
+    background-color: #ffffff;
+}
+
+.example{
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 0px solid #33c17a;
+    background-color: #f8f9fa;
+}
+
+.lemma {
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 3px solid #807eff;
     background-color: #f8f9fa;
 }
 
@@ -9,4 +23,12 @@
     margin: 1em 0;
     padding-left: 1em;
     border-left: 2px solid #6c757d;
+    /* background-color: #ffffff; */ 
+}
+
+.theorem {
+    margin: 1em 0;
+    padding: 1em;
+    border-left: 3px solid #807eff;
+    background-color: #f8f9fa;
 }

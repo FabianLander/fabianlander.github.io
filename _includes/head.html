@@ -48,7 +48,15 @@
       packages: {'[+]': ['ams']},
       inlineMath: [['$', '$']],
       displayMath: [['\\[', '\\]'], ['$$', '$$']],
-      processEscapes: true
+      processEscapes: true,
+      macros: {
+      // Define your macros here
+      "R": "\\mathbb{R}",
+      "N": "\\mathbb{N}",
+      "norm": ["\\left\\lVert#1\\right\\rVert", 1],
+      "abs": ["\\left|#1\\right|", 1],
+      "inv": "^{-1}"
+    }
     }
   };
 </script>
