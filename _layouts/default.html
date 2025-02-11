@@ -3,8 +3,12 @@
 
   {% include head.html %}
 
-  <body>
-
+  <body class="font-combo-1" >
+    {% if page.banner_image %}
+    <div class="site-banner">
+      <img src="{{ page.banner_image }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
     {% include sidebar.html %}
 
     <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
@@ -13,7 +17,7 @@
       <div class="masthead">
         <div class="container">
           <h3 class="masthead-title">
-            <a href="{{ site.baseurl }}/" title="Home">{{ site.title }}</a>
+            <a href="{{ site.baseurl }}/" title="Home"><span class="invisible-title">{{ site.title }}</span></a>
             <small>{{ site.tagline }}</small>
           </h3>
         </div>

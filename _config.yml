@@ -1,7 +1,7 @@
 # Setup
-title: Lanyon
-tagline: 'A Jekyll theme'
-description: 'A reserved <a href="https://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+title: Home
+tagline: ''
+description: 'This text can be edited in config.yml'
 url: 'https://siegfriedfabian.github.io'
 baseurl: ''
 
@@ -24,9 +24,8 @@ permalink: pretty
 
 # About/contact
 author:
-  name: Mark Otto      # Fixed indentation
-  url: https://twitter.com/mdo
-  email: markdotto@gmail.com
+  name: Fabian Lander      # Fixed indentation
+  email: landerfabian at gmail dot com
 
 # Custom vars
 version: 1.1.0

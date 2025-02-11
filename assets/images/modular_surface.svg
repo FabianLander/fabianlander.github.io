@@ -1,0 +1,28 @@
+<svg viewBox="-2.0 -2.0 4.0 4.0" 
+                     xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <style>
+            text { font-family: "Arial", sans-serif; }
+        </style>
+    </defs>
+    <g transform="scale(1,-1)"> 
+    <!-- Background grid -->
+    <line x1="-2.0" y1="-2.0" x2="-2.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-1.0" y1="-2.0" x2="-1.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="0.0" y1="-2.0" x2="0.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="1.0" y1="-2.0" x2="1.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="2.0" y1="-2.0" x2="2.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-2.0" y1="-2.0" x2="2.0" y2="-2.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-2.0" y1="-1.0" x2="2.0" y2="-1.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-2.0" y1="0.0" x2="2.0" y2="0.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-2.0" y1="1.0" x2="2.0" y2="1.0" stroke="#eee" stroke-width="0.01"/>
+<line x1="-2.0" y1="2.0" x2="2.0" y2="2.0" stroke="#eee" stroke-width="0.01"/>
+
+    <!-- Unit circle centered at origin -->
+    <circle cx="0" cy="0" r="1" stroke="red" fill="none" stroke-width="0.02"/>
+    
+    <!-- Vertical lines at x = ±1/2 starting from the circle -->
+    <line x1="-0.5" y1="0.8660254037844386" x2="-0.5" y2="2" stroke="blue" stroke-width="0.02"/>
+    <line x1="0.5" y1="0.8660254037844386" x2="0.5" y2="2" stroke="blue" stroke-width="0.02"/>
+        </g>
+</svg>

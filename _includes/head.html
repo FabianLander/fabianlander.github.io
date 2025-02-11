@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="/public/css/syntax.css">
 <link rel="stylesheet" href="/public/css/lanyon.css">
 <link rel="stylesheet" href="/public/css/custom.css">
+<!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"> -->
 
   <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/public/apple-touch-icon-precomposed.png' | absolute_url }}">
   <link rel="shortcut icon" href="{{ '/public/favicon.ico' | absolute_url }}">
@@ -43,24 +44,49 @@
 <!-- MathJax -->
 <script>
   window.MathJax = {
-    loader: {load: ['[tex]/ams']},
+    loader: {
+      load: [
+        '[tex]/ams',
+        '[tex]/newcommand',
+        '[tex]/boldsymbol'
+      ]
+    },
     tex: {
-      packages: {'[+]': ['ams']},
-      inlineMath: [['$', '$']],
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      packages: {'[+]': [
+        'ams',
+        'newcommand',
+        'boldsymbol'
+      ]},
       displayMath: [['\\[', '\\]'], ['$$', '$$']],
       processEscapes: true,
       macros: {
-      // Define your macros here
-      "R": "\\mathbb{R}",
-      "N": "\\mathbb{N}",
-      "norm": ["\\left\\lVert#1\\right\\rVert", 1],
-      "abs": ["\\left|#1\\right|", 1],
-      "inv": "^{-1}"
-    }
+        // Basic number sets
+        "R": "\\mathbb{R}",
+        "N": "\\mathbb{N}",
+        "KK": "\\mathbb{K}",
+        "RR": "\\mathbb{R}",
+        "CC": "\\mathbb{C}",
+        "HH": "\\mathbb{H}",
+        "ZZ": "\\mathbb{Z}",
+        "SS": "\\mathbb{S}",
+        
+        // Operators
+        "GL": ["\\operatorname{GL}"],
+        "Aut": ["\\operatorname{Aut}"],
+        "Hom": ["\\operatorname{Hom}"],
+        "PSL": ["\\operatorname{PSL}"],
+        
+        // Common notations
+        "norm": ["\\left\\lVert#1\\right\\rVert", 1],
+        "abs": ["\\left|#1\\right|", 1],
+        "inv": "^{-1}"
+      }
     }
   };
 </script>
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+<link rel="stylesheet" href="{{ site.baseurl }}/public/css/search.css">
+<script src="{{ site.baseurl }}/public/js/search.js"></script>
+
 </head>

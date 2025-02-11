@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "A primer on interval exchange transformations and Rauzy induction"
-date: 2024-03-21 16:00:00 +0100
+date: 2024-11-21 16:00:00 +0100
 categories: dilationsurfaces rauzy-veech-induction
 permalink: "/rauzy-veech-induction.html"
 excerpt: "An introduction to Interval Exchange Transformations (IETs) and their properties, focusing on how we can understand them through Rauzy-Veech induction."
@@ -48,7 +48,7 @@ Let's start with an informal definition Interval Exchange Transformations (IETs)
 This shuffling is purely about rearranging the pieces using translations — no flipping or stretching allowed.
 
 
-<div style="text-align: center; margin-top: 50px; margin-bottom: 50px;">
+<div style="text-align: center; margin-top: 50px; margin-bottom: 50px; display: flex; flex-direction: column; align-items: center;">
     <img src="assets/images/Rauzy-Veech/flipStretch.png" alt="Alt text" width="600" />
         <br>
     <span style="font-size: 14px; color: grey;">No flips or stretches allowed.</span>
