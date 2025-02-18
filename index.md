@@ -55,7 +55,7 @@ hide_title: true
     <div class="content-card">
       <h2>Current Projects</h2>
       <!-- This section can be filled with your current projects -->
-      <p>[Your current projects and ongoing research work will go here]</p>
+      <p>[Under Construction]</p>
     </div>
   </div>
 </div>
