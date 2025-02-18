@@ -4,6 +4,13 @@
 
      <!-- Toggleable sidebar -->
      <div class="sidebar" id="sidebar">
+       <!-- Profile section -->
+       <div class="sidebar-profile">
+         <img src="{{ site.baseurl }}/public/logo.png" alt="Logo" class="sidebar-logo">
+         <h2 class="sidebar-name">Fabian Lander</h2>
+         <p class="sidebar-position">PhD Student<br>Max Planck Institute for Mathematics in the Sciences</p>
+       </div>
+     
        <div class="sidebar-item">
          <p>{{ site.description }}</p>
        </div>
@@ -17,16 +24,18 @@
              {% endif %}
            {% endif %}
          {% endfor %}
-     
+         
        </nav>
+     
        <div class="sidebar-search">
          <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
          <div id="search-results" class="search-results"></div>
          
          <div class="sidebar-item">
-           <p>
-             &copy; {{ site.time | date: '%Y' }}. All rights reserved.
-            </p>
-          </div>
-        </div>
+           <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+         </div>
+       </div>
      </div>
+
+
+     
