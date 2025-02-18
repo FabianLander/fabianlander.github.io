@@ -28,7 +28,7 @@ hide_title: true
         </div>
       </div>
       <div class="profile-image">
-        <img src="assets/images/IMG_2886.png" alt="There should be an image of myself..." />
+        <img src="assets/images/IMG_2886.jpg" alt="There should be an image of myself..." />
       </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ hide_title: true
       <p>My research focuses on straight line flows on half-dilation surfaces on punctured spheres. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
       
       <div class="blackboard-image">
-        <img src="assets/images/IMG_6794.png" alt="Blackboard drawing of half-dilation surface" class="research-diagram"/>
+        <img src="assets/images/IMG_6794.jpg" alt="Blackboard drawing of half-dilation surface" class="research-diagram"/>
       </div>
       
       <p>Before starting my PhD, I worked on polygonal symplectic billiards, where we proved several theorems about their dynamics.</p>
