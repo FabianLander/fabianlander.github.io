@@ -16,7 +16,7 @@ hide_title: true
         <p class="profile-title">PhD Student at Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany</p>
         
         <div class="social-links">
-          <a href="https://github.com/SiegfriedFabian" class="social-button github" aria-label="GitHub profile of Fabian Lander">
+          <a href="https://github.com/FabianLander" class="social-button github" aria-label="GitHub profile of Fabian Lander">
             <i class="fab fa-github"></i>
           </a>
           <a href="https://linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin">
