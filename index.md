@@ -19,7 +19,7 @@ hide_title: true
           <a href="https://github.com/SiegfriedFabian" class="social-button github" aria-label="GitHub profile of Fabian Lander">
             <i class="fab fa-github"></i>
           </a>
-          <a href="www.linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin">
+          <a href="https://linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin">
             <i class="fab fa-linkedin"></i>
           </a>
           <a href="mailto:fabian.lander[you know what goes here]mis[dot]mpg[dot]de" class="social-button email">
