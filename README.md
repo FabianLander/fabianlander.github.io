@@ -10,7 +10,7 @@ Personal website of Fabian Lander, PhD Student in Geometry, Groups and Dynamics 
 
 ## About This Repository
 
-This repository hosts my academic website (accessible at [fabian-lander.github.io](https://fabian-lander.github.io)), featuring:
+This repository hosts my academic website (accessible at [fabian-lander.github.io](https://fabianlander.github.io)), featuring:
 - Research overview and current projects
 - Mathematical visualizations and diagrams
 - Academic background and publications
