@@ -5,7 +5,7 @@ Personal website of Fabian Lander, PhD Student in Geometry, Groups and Dynamics 
 ## Research Focus
 
 - **Primary Area**: Straight line flows on half-dilation surfaces on punctured spheres
-- **Previous Work**: Polygonal symplectic billiards and their dynamics
+- **Previous Work**: Polygonal symplectic billiards and their discrete dynamics
 - **Research Group**: Member of Anna Wienhard's research group, working under the supervision of James Farre
 
 ## About This Repository
