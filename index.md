@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Fabian Lander - Mathematics PhD Student at Max Planck Institute"
+nav_title: "About"
 description: "PhD Student in Geometry, Groups and Dynamics at Max Planck Institute for Mathematics. Research by Fabian Lander (GitHub: SiegfriedFabian) on straight line flows on half-dilation surfaces."
 permalink: /
 hide_title: true
