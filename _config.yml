@@ -1,6 +1,7 @@
 title: "Fabian Lander - Mathematics"
-description: "PhD Student in Geometry, Groups and Dynamics at Max Planck Institute for Mathematics. Research on straight line flows on half-dilation surfaces."
-url: 'https://siegfriedfabian.github.io'
+url: 'https://fabianlander.github.io'
+baseurl: ''
+
 author:
   name: Fabian Lander
   email: landerfabian at gmail dot com
