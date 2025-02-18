@@ -1,6 +1,8 @@
 ---
 layout: page
-title: About
+title: "Fabian Lander - Mathematics PhD Student at Max Planck Institute"
+description: "PhD Student in Geometry, Groups and Dynamics at Max Planck Institute for Mathematics. Research by Fabian Lander (GitHub: SiegfriedFabian) on straight line flows on half-dilation surfaces."
+permalink: /
 hide_title: true
 ---
 
@@ -13,7 +15,7 @@ hide_title: true
         <p class="profile-title">PhD Student at Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany</p>
         
         <div class="social-links">
-          <a href="https://github.com/SiegfriedFabian" class="social-button github">
+          <a href="https://github.com/SiegfriedFabian" class="social-button github" aria-label="GitHub profile of Fabian Lander">
             <i class="fab fa-github"></i>
           </a>
           <a href="www.linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin">
