@@ -11,21 +11,22 @@
          <p class="sidebar-position">PhD Student<br>Max Planck Institute for Mathematics in the Sciences</p>
        </div>
      
-       <div class="sidebar-item">
+       <!-- <div class="sidebar-item">
          <p>{{ site.description }}</p>
-       </div>
+       </div> -->
      
        <nav class="sidebar-nav">
-         {% assign pages_list = site.pages | sort:"url" %}
-         {% for node in pages_list %}
-           {% if node.title != null %}
-             {% if node.layout == "page" %}
-               <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url | absolute_url }}">{{ node.title }}</a>
-             {% endif %}
-           {% endif %}
-         {% endfor %}
-         
-       </nav>
+        {% assign pages_list = site.pages | sort:"url" %}
+        {% for node in pages_list %}
+          {% if node.title != null %}
+            {% if node.layout == "page" %}
+              <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url | absolute_url }}">
+                {{ node.nav_title | default: node.title }}
+              </a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </nav>
      
        <div class="sidebar-search">
          <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
