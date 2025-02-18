@@ -85,9 +85,9 @@ body, p {
 }
 
 .sidebar-logo {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 1rem;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.0rem;
   display: block;
 }
 
