@@ -1,7 +1,9 @@
 <head>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://www.geogebra.org">
+  
   <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <title>
@@ -16,81 +18,56 @@
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   {% endif %}
 
- <!-- CSS -->
- <link rel="stylesheet" href="/public/css/poole.css">
- <link rel="stylesheet" href="/public/css/syntax.css">
- <link rel="stylesheet" href="/public/css/lanyon.css">
- <link rel="stylesheet" href="/public/css/search.css">
- <link rel="stylesheet" href="/public/css/custom.css">
-<!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet"> -->
+  <!-- Preload critical CSS -->
+  <link rel="preload" href="/public/css/poole.css" as="style">
+  <link rel="preload" href="/public/css/lanyon.css" as="style">
+  <link rel="preload" href="/public/css/custom.css" as="style">
 
-<link rel="apple-touch-icon" sizes="180x180" href="{{ '/public/apple-touch-icon.png' | absolute_url }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ '/public/favicon-32x32.png' | absolute_url }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ '/public/favicon-16x16.png' | absolute_url }}">
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="/public/css/custom.css">
+  
+  <!-- Non-critical CSS -->
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/search.css">
 
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ '/public/apple-touch-icon.png' | absolute_url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/public/favicon-32x32.png' | absolute_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ '/public/favicon-16x16.png' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ '/atom.xml' | absolute_url }}">
 
-  <!-- {% if site.google_analytics_id %}
+  <!-- MathJax Configuration -->
+  <link rel="preload" href="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" as="script">
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', '{{ site.google_analytics_id }}', 'auto');
-    ga('send', 'pageview');
-  </script>
-  {% endif %} -->
-
-
-<!-- MathJax -->
-<script>
-  window.MathJax = {
-    loader: {
-      load: [
-        '[tex]/ams',
-        '[tex]/newcommand',
-        '[tex]/boldsymbol'
-      ]
-    },
-    tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      packages: {'[+]': [
-        'ams',
-        'newcommand',
-        'boldsymbol'
-      ]},
-      displayMath: [['\\[', '\\]'], ['$$', '$$']],
-      processEscapes: true,
-      macros: {
-        // Basic number sets
-        "R": "\\mathbb{R}",
-        "N": "\\mathbb{N}",
-        "KK": "\\mathbb{K}",
-        "RR": "\\mathbb{R}",
-        "CC": "\\mathbb{C}",
-        "HH": "\\mathbb{H}",
-        "ZZ": "\\mathbb{Z}",
-        "SS": "\\mathbb{S}",
-        
-        // Operators
-        "GL": ["\\operatorname{GL}"],
-        "Aut": ["\\operatorname{Aut}"],
-        "Hom": ["\\operatorname{Hom}"],
-        "PSL": ["\\operatorname{PSL}"],
-        
-        // Common notations
-        "norm": ["\\left\\lVert#1\\right\\rVert", 1],
-        "abs": ["\\left|#1\\right|", 1],
-        "inv": "^{-1}"
+    window.MathJax = {
+      loader: {
+        load: ['[tex]/ams', '[tex]/newcommand', '[tex]/boldsymbol']
+      },
+      startup: {
+        pageReady: () => {
+          return MathJax.startup.defaultPageReady().then(() => {
+            // Optional: Add any post-load actions here
+          });
+        }
+      },
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        packages: {'[+]': ['ams', 'newcommand', 'boldsymbol']},
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        processEscapes: true,
+        macros: {
+          // Your existing macros...
+        }
       }
-    }
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" defer></script>
 
-<script type="text/javascript" src="https://www.geogebra.org/apps/deployggb.js"></script>
+  <!-- GeoGebra -->
+  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
 
-<link rel="stylesheet" href="{{ site.baseurl }}/public/css/search.css">
-<script src="{{ site.baseurl }}/public/js/search.js"></script>
-
+  <!-- Search -->
+  <script src="{{ site.baseurl }}/public/js/search.js" defer></script>
 </head>

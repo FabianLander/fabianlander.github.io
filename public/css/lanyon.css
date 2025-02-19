@@ -161,12 +161,15 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
   overflow-y: auto;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
-  font-size: .875rem; /* 15px */
+  font-size: .875rem;
   color: rgba(255,255,255,.6);
   background-color: #b73c3c;
-  -webkit-transition: all .3s ease-in-out;
-          transition: all .3s ease-in-out;
+  transform: translate3d(0, 0, 0);  /* Force GPU acceleration */
+  transition: visibility 0s linear 0.2s,  /* Delay visibility change */
+              transform 0.2s ease-out;
+  will-change: transform;  /* Hint to browser about animation */
 }
+
 @media (min-width: 30em) {
   .sidebar {
     font-size: .75rem; /* 14px */
@@ -221,39 +224,51 @@ a.sidebar-nav-item:focus {
           user-select: none;
 }
 
-/* Style the `label` that we use to target the `.sidebar-checkbox` */
+/* In lanyon.css, update the sidebar-toggle styles */
 .sidebar-toggle {
   position: absolute;
-  top:  .8rem;
+  top: 0.8rem;
   left: 1rem;
+  width: 44px;
+  height: 44px; 
   display: flex;
   align-items: center;
-  padding: .25rem .75rem;
-  color: #505050;
-  background-color: #fff;
+  padding: 0.5rem;
+  background-color: white;
   border-radius: .25rem;
   cursor: pointer;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.1);  /* Subtle shadow to make it look like a button */
 }
 
 .sidebar-toggle::before {
   display: inline-block;
-  width: 32px;
-  height: 32px;
-  content: "";
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23555' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z' clip-rule='evenodd'/%3E%3C/svg%3E") no-repeat;
+  width: 24px;
+  height: 2.5px;
+  content: '';
+  background-color: #555;
+  position: relative;
 }
 
+.sidebar-toggle::before {
+  box-shadow: 
+    0 -7px 0 0 #555,   /* Top line */
+    0 7px 0 0 #555;    /* Bottom line */
+}
+
+/* Remove all state changes */
 .sidebar-toggle:active,
 #sidebar-checkbox:focus ~ .sidebar-toggle,
 #sidebar-checkbox:checked ~ .sidebar-toggle {
-  color: #fff;
-  background-color: #555;
+  background-color: white !important;
+  color: #505050;
 }
 
-.sidebar-toggle:active:before,
-#sidebar-checkbox:focus ~ .sidebar-toggle::before,
+/* Keep hamburger icon consistent */
 #sidebar-checkbox:checked ~ .sidebar-toggle::before {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='%23fff' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z' clip-rule='evenodd'/%3E%3C/svg%3E") no-repeat;
+  background-color: #555;
+  box-shadow: 
+    0 -7px 0 0 #555,
+    0 7px 0 0 #555;
 }
 
 @media (min-width: 30.1em) {
@@ -281,30 +296,36 @@ a.sidebar-nav-item:focus {
  * Read more about it at http://meyerweb.com/eric/thoughts/2011/09/12/.
  */
 
-.wrap,
-.sidebar,
-.sidebar-toggle {
-  -webkit-backface-visibility: hidden;
-      -ms-backface-visibility: hidden;
-          backface-visibility: hidden;
-}
-.wrap,
-.sidebar-toggle {
-  -webkit-transition: -webkit-transform .3s ease-in-out;
-          transition: transform .3s ease-in-out;
-}
-
-#sidebar-checkbox:checked + .sidebar {
-  z-index: 10;
-  visibility: visible;
-}
-#sidebar-checkbox:checked ~ .sidebar,
-#sidebar-checkbox:checked ~ .wrap,
-#sidebar-checkbox:checked ~ .sidebar-toggle {
-  -webkit-transform: translateX(14rem);
-      -ms-transform: translateX(14rem);
-          transform: translateX(14rem);
-}
+ .wrap,
+ .sidebar,
+ .sidebar-toggle {
+   -webkit-backface-visibility: hidden;
+       -ms-backface-visibility: hidden;
+           backface-visibility: hidden;
+   transform: translate3d(0, 0, 0);
+ }
+ 
+ .wrap,
+ .sidebar-toggle {
+   transition: transform 0.2s ease-out;
+   will-change: transform;
+ }
+ 
+ /* Update the checked state */
+ #sidebar-checkbox:checked + .sidebar {
+   z-index: 10;
+   visibility: visible;
+   transition: visibility 0s linear 0s,  /* No delay when showing */
+               transform 0.2s ease-out;
+ }
+ 
+ #sidebar-checkbox:checked ~ .sidebar,
+ #sidebar-checkbox:checked ~ .wrap,
+ #sidebar-checkbox:checked ~ .sidebar-toggle {
+   -webkit-transform: translateX(14rem);
+       -ms-transform: translateX(14rem);
+           transform: translateX(14rem);
+ }
 
 
 /*
@@ -556,7 +577,7 @@ a.pagination-item:hover {
  * aside when toggled.
  */
 
-.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+/* .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
   -webkit-transform: translateX(0);
       -ms-transform: translateX(0);
           transform: translateX(0);
@@ -566,12 +587,12 @@ a.pagination-item:hover {
 }
 .sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
   box-shadow: .25rem 0 .5rem rgba(0,0,0,.1);
-}
+} */
 
 /* Only one tweak for a reverse layout */
-.layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
+/* .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
   box-shadow: -.25rem 0 .5rem rgba(0,0,0,.1);
-}
+} */
 
 
 /* Add background image to sidebar */

@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fill.style.width = '0';
     setTimeout(() => {
       fill.style.width = width;
-    }, 200);
+    }, 0);
   }
 });
 </script>
