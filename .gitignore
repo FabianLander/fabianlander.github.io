@@ -6,5 +6,5 @@ _site/
 vendor/
 Gemfile.lock
 .DS_Store
-_drafts
-assets/images/n=4
+_drafts/
+assets/images/n=4/
