@@ -19,22 +19,26 @@ hide_title: true
           <a href="https://github.com/FabianLander" class="social-button github" aria-label="GitHub profile of Fabian Lander">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin">
+          <a href="https://linkedin.com/in/fabian-lander-b88286339" class="social-button linkedin" aria-label="LinkedIn profile of Fabian Lander">
             <i class="fab fa-linkedin"></i>
           </a>
-          <a href="mailto:fabian.lander[you know what goes here]mis[dot]mpg[dot]de" class="social-button email">
+          <a href="mailto:fabian.lander[you know what goes here]mis[dot]mpg[dot]de" class="social-button email" aria-label="Email Fabian Lander">
             <i class="fas fa-envelope"></i>
           </a>
         </div>
       </div>
       <div class="profile-image">
-        <img 
-          src="assets/images/IMG_2886.jpg" 
-          alt="There should be an image of myself..." 
-          width="200" 
-          height="200"
-          loading="eager" 
-        />
+        <picture>
+          <source srcset="assets/images/IMG_2886.webp" type="image/webp">
+          <img 
+            src="assets/images/IMG_2886.jpg" 
+            alt="There should be an image of myself..." 
+            width="200" 
+            height="200"
+            loading="eager" 
+            decoding="async"
+          />
+        </picture>
       </div>
     </div>
   </div>
@@ -53,14 +57,18 @@ hide_title: true
       <p>My research focuses on straight line foliations on half-dilation surfaces on punctured spheres. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
       
       <div class="blackboard-image">
-        <img 
-          src="assets/images/IMG_6794.jpg" 
-          alt="Blackboard drawing of half-dilation surface" 
-          class="research-diagram"
-          width="800"
-          height="600"
-          loading="eager"
-        />
+        <picture>
+          <source srcset="assets/images/IMG_6794.webp" type="image/webp">
+          <img 
+            src="assets/images/IMG_6794.jpg" 
+            alt="Blackboard drawing of half-dilation surface" 
+            class="research-diagram"
+            width="800"
+            height="600"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       </div>
       
       <p>Before starting my PhD, I worked on polygonal symplectic billiards, where we proved several theorems about their dynamics.</p>
@@ -75,8 +83,14 @@ hide_title: true
   </div>
 </div>
 
-<!-- Add Font Awesome for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<!-- Optimized Font Awesome loading -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" as="style">
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" as="style">
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" as="style">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css">
 
 <style>
 :root {
@@ -88,6 +102,7 @@ hide_title: true
 }
 
 @keyframes fadeIn {
+  will-change: opacity, transform;
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -104,6 +119,7 @@ hide_title: true
     padding: 2rem 1rem;
     opacity: 0;
     animation: fadeIn 0.8s ease-out forwards;
+    contain: content;
 }
 
 .profile-section {
@@ -111,6 +127,7 @@ hide_title: true
     opacity: 0;
     animation: fadeIn 0.8s ease-out forwards;
     animation-delay: 0.2s;
+    contain: layout style;
 }
 
 .profile-layout {
@@ -169,7 +186,8 @@ hide_title: true
     justify-content: center;
     background: var(--background-secondary);
     color: var(--text-primary);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
+    will-change: transform;
 }
 
 .blackboard-image {
@@ -177,6 +195,7 @@ hide_title: true
     margin: 2rem 0;
     border-radius: 8px;
     overflow: hidden;
+    content-visibility: auto;
     contain: layout paint;
 }
 
