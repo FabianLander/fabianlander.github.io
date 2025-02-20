@@ -50,7 +50,7 @@ hide_title: true
     <div class="content-card">
       <p>Hello! I'm a first-year PhD student in the Geometry, Groups and Dynamics division at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany. I work under the supervision of James Farre as part of Anna Wienhard's research group.</p>
       
-      <p>My research focuses on straight line flows on half-dilation surfaces on punctured spheres. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
+      <p>My research focuses on straight line foliations on half-dilation surfaces on punctured spheres. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
       
       <div class="blackboard-image">
         <img 
