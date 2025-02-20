@@ -1,3 +1,4 @@
+# Site settings
 title: "Fabian Lander - Mathematics"
 url: 'https://fabianlander.github.io'
 baseurl: ''
@@ -8,17 +9,18 @@ author:
 
 # Pagination
 paginate: 5
-paginate_path: "/page:num/"  # Note the added slash
+paginate_path: "/page:num/"
 
 # Build settings
-markdown: kramdown  # Added this
-highlighter: rouge  # Added this
+markdown: kramdown
+highlighter: rouge
 
 # Plugins
 plugins:
   - jekyll-paginate
-  - jekyll-gist     # Added this
-  - jekyll-seo-tag  # Added this
+  - jekyll-gist
+  - jekyll-seo-tag
+  - jekyll-picture-tag  # Added for WebP generation
 
 # Permalinks
 permalink: pretty
@@ -26,3 +28,23 @@ permalink: pretty
 # Custom vars
 version: 1.1.0
 google_analytics_id: #UA-XXXX-Y
+
+# Compression settings
+sass:
+  style: compressed
+  
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  ignore:
+    envs: []
+  blanklines: false
+  profile: false
+  startings: []
+
+# Picture tag settings
+picture:
+  source: "assets/images"
+  output: "assets/images/generated"
+  suppress_warnings: true
