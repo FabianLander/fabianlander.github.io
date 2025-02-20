@@ -58,7 +58,26 @@
         displayMath: [['\\[', '\\]'], ['$$', '$$']],
         processEscapes: true,
         macros: {
-          // Your existing macros...
+        // Basic number sets
+        "R": "\\mathbb{R}",
+        "N": "\\mathbb{N}",
+        "KK": "\\mathbb{K}",
+        "RR": "\\mathbb{R}",
+        "CC": "\\mathbb{C}",
+        "HH": "\\mathbb{H}",
+        "ZZ": "\\mathbb{Z}",
+        "SS": "\\mathbb{S}",
+
+        // Operators
+        "GL": ["\\operatorname{GL}"],
+        "Aut": ["\\operatorname{Aut}"],
+        "Hom": ["\\operatorname{Hom}"],
+        "PSL": ["\\operatorname{PSL}"],
+
+        // Common notations
+        "norm": ["\\left\\lVert#1\\right\\rVert", 1],
+        "abs": ["\\left|#1\\right|", 1],
+        "inv": "^{-1}"
         }
       }
     };
