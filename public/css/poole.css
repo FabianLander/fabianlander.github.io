@@ -197,6 +197,7 @@ tbody tr:nth-child(odd) th {
 /* Posts and pages */
 .page,
 .post {
+  text-align: justify;
   margin-bottom: 4em;
 }
 
