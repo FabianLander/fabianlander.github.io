@@ -28,14 +28,11 @@
         {% endfor %}
       </nav>
      
-       <div class="sidebar-search">
-         <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
-         <div id="search-results" class="search-results"></div>
-         
-         <div class="sidebar-item">
-           <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
-         </div>
-       </div>
+      <div class="sidebar-search">
+        <input type="text" id="search-input" class="search-input" placeholder="Search posts...">
+        <div id="search-results" class="search-results"></div>
+      </div>
+      <p class="copyright">&copy; Fabian Lander {{ site.time | date: '%Y' }}</p>
      </div>
 
 

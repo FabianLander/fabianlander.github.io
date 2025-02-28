@@ -114,6 +114,13 @@ body, p {
   line-height: 1.4;
 }
 
+.copyright {
+  padding: 1.5rem;
+  color: rgba(255, 255, 255, 0.587);
+  margin: 0;
+  font-size: 0.8rem;
+}
+
 /* ===== MATH ENVIRONMENT STYLES ===== */
 /* Base styling for boxes */
 .definition, .example, .lemma, .theorem {
