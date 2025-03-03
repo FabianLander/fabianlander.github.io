@@ -75,7 +75,7 @@ hide_title: true
         
         <p>Before starting my PhD in 2024, I completed my bachelor's (2017-2021) and master's (2021-2023) degrees in mathematics at Heidelberg University. My master's thesis on "Vertical Foliations of Triangulable Dilation Tori" was supervised by JProf. Dr. James Farre, while my bachelor's thesis on "Polygonal Symplectic Billiards" was supervised by Prof. Dr. Peter Albers.</p>
         
-        <p>During my studies, I worked as a research assistant at Heidelberg University on visualization tools for flat surfaces and developing a symplectic billiard dynamics simulator. I also gained teaching experience as a teaching assistant for Analysis 1-3 courses, conducting tutorials for over 300 students.</p>
+        <p>During my studies, I worked as a research assistant at Heidelberg University on visualization tools for flat surfaces and developing a symplectic billiard dynamics simulator. I also gained teaching experience as a teaching assistant for Analysis 1-3 courses.</p>
       </section>
 
       <section class="content-section">
@@ -87,14 +87,7 @@ hide_title: true
 
   <div id="projects" class="tab-content">
     <div class="content-card">
-      <section class="content-section">
-        <h2>Research</h2>
-        <p><strong>Current focus:</strong> My current research explores affine measured foliations and dilation structures, investigating their geometric and dynamic properties.</p>
-        
-        <p><strong>Previous work:</strong> My work on polygonal symplectic billiards investigated dynamical properties and theorems in symplectic dynamics in polygonal domains, leading to a published preprint.</p>
-      </section>
-      
-      <section class="content-section">
+      <!-- <section class="content-section">
         <h2>Work in Progress</h2>
         <p>I'm currently working on several 3D modeling projects using Blender to visualize complex mathematical structures:</p>
         <ul class="compact-list">
@@ -103,9 +96,8 @@ hide_title: true
           <li>Designing 3D printable models that make abstract mathematical concepts tangible for research and education</li>
         </ul>
         <p>These projects combine computational techniques with geometric intuition to create both digital and physical representations of mathematical objects.</p>
-      </section>
-      
-      <section class="content-section">
+      </section> -->
+      <!-- <section class="content-section">
         <h2>Software & Visualization</h2>
         <p>I develop software tools to explore and visualize mathematical concepts:</p>
         <ul class="compact-list">
@@ -113,10 +105,9 @@ hide_title: true
           <li><strong>Raymarching Engine</strong> (JavaScript/WebGL) - Interactive visualization of locally flat surfaces. <a href="https://github.com/hegl-lab/Independent-SS22-Raymarching-Flat-Surfaces" target="_blank">GitHub</a></li>
           <li>I also create 3D printed models of mathematical concepts to help visualize complex geometrical structures.</li>
         </ul>
-      </section>
-    </div>
-  </div>
-</div>
+      </section> -->
+
+
 
 <!-- Optimized Font Awesome loading -->
 <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" as="style">
