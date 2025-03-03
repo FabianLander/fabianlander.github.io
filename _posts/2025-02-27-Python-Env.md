@@ -29,85 +29,157 @@ python -c "import torch; print('CUDA available:', torch.cuda.is_available()); pr
 
 ## Test Drive: CPU vs GPU Performance
 
-Save this script as `mnist_test.py` to compare training speed:
+Save this script as `gpu_benchmark.py` to see the dramatic speedup GPUs provide:
 
 ```python
-import time
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
+import time
+import matplotlib.pyplot as plt
 
-# Device configuration
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(f"Using device: {device}")
+# Device detection - works with NVIDIA and Apple Silicon GPUs
+print(f"PyTorch version: {torch.__version__}")
+has_cuda = torch.cuda.is_available()
+has_mps = hasattr(torch.backends, "mps") and torch.backends.mps.is_available()
 
-# Simple neural network
-class SimpleNN(nn.Module):
+if has_cuda:
+    device = torch.device("cuda")
+    print(f"CUDA GPU available: {torch.cuda.get_device_name(0)}")
+elif has_mps:
+    device = torch.device("mps")
+    print("Apple Silicon GPU available (MPS)")
+else:
+    device = torch.device("cpu")
+    print("No GPU detected - using CPU")
+
+# CNN model for MNIST - GPUs excel at these parallel operations
+class ConvNet(nn.Module):
     def __init__(self):
-        super(SimpleNN, self).__init__()
-        self.flatten = nn.Flatten()
-        self.layers = nn.Sequential(
-            nn.Linear(28*28, 512),
-            nn.ReLU(),
-            nn.Linear(512, 512),
-            nn.ReLU(),
-            nn.Linear(512, 10)
-        )
-
+        super(ConvNet, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, 3)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(32, 64, 3)
+        self.fc1 = nn.Linear(64 * 5 * 5, 128)
+        self.dropout = nn.Dropout(0.5)
+        self.fc2 = nn.Linear(128, 10)
+        
     def forward(self, x):
-        x = self.flatten(x)
-        return self.layers(x)
+        x = self.pool(torch.relu(self.conv1(x)))
+        x = self.pool(torch.relu(self.conv2(x)))
+        x = x.view(-1, 64 * 5 * 5)
+        x = torch.relu(self.fc1(x))
+        x = self.dropout(x)
+        return self.fc2(x)
 
-# Load MNIST dataset
-transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.1307,), (0.3081,))
-])
-
-train_dataset = torchvision.datasets.MNIST(root='./data', train=True, 
-                                           download=True, transform=transform)
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
-
-# Training function
-def train_model(device_type):
-    model = SimpleNN().to(device_type)
+# Training function with timing
+def train_model(device_name):
+    dev = torch.device(device_name)
+    print(f"\nTraining on {device_name}")
+    
+    model = ConvNet().to(dev)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
     
     start_time = time.time()
+    epochs = 3
     
-    model.train()
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data.to(device_type), target.to(device_type)
+    for epoch in range(epochs):
+        model.train()
+        running_loss = 0.0
+        correct = 0
+        total = 0
         
-        optimizer.zero_grad()
-        output = model(data)
-        loss = criterion(output, target)
-        loss.backward()
-        optimizer.step()
-        
-        if batch_idx % 100 == 0:
-            print(f'Device: {device_type}, Batch: {batch_idx}/{len(train_loader)}, Loss: {loss.item():.6f}')
+        for i, (inputs, labels) in enumerate(trainloader):
+            inputs, labels = inputs.to(dev), labels.to(dev)
             
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+            
+            running_loss += loss.item()
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+            
+            if i % 50 == 49:
+                print(f'Epoch {epoch+1}, Batch {i+1}, Loss: {running_loss/50:.3f}, Acc: {100*correct/total:.1f}%')
+                running_loss = 0.0
+    
     total_time = time.time() - start_time
-    print(f"Training on {device_type} took {total_time:.2f} seconds")
+    print(f"Training on {device_name} took {total_time:.2f} seconds")
     return total_time
 
-# Run comparison
-print("\n--- CPU Training ---")
-cpu_time = train_model(torch.device("cpu"))
+# Additionally benchmark large matrix multiplication
+def benchmark_matrix():
+    print("\n--- Matrix Operations Benchmark ---")
+    # Large matrices benefit tremendously from GPU
+    size = 5000
+    a = torch.randn(size, size)
+    b = torch.randn(size, size)
+    
+    # CPU timing
+    cpu_start = time.time()
+    _ = torch.matmul(a, b)
+    cpu_time = time.time() - cpu_start
+    print(f"CPU matrix multiplication: {cpu_time:.2f} seconds")
+    
+    # Skip if no GPU
+    if device.type == "cpu":
+        return
+        
+    # GPU timing
+    a_gpu = a.to(device)
+    b_gpu = b.to(device)
+    
+    # Warmup run
+    _ = torch.matmul(a_gpu, b_gpu)
+    if has_cuda:
+        torch.cuda.synchronize()
+    elif has_mps:
+        torch.mps.synchronize()
+    
+    # Timed run
+    gpu_start = time.time()
+    _ = torch.matmul(a_gpu, b_gpu)
+    if has_cuda:
+        torch.cuda.synchronize()
+    elif has_mps:
+        torch.mps.synchronize()
+    gpu_time = time.time() - gpu_start
+    
+    print(f"GPU matrix multiplication: {gpu_time:.2f} seconds")
+    print(f"Speedup: {cpu_time/gpu_time:.1f}x faster on GPU")
 
-if torch.cuda.is_available():
-    print("\n--- GPU Training ---")
-    gpu_time = train_model(torch.device("cuda:0"))
-    print(f"\nGPU is {cpu_time/gpu_time:.2f}x faster than CPU")
-else:
-    print("\nGPU not available for comparison")
+# Prepare data (use subset for quick demo)
+transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+mnist_train = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+subset_train = torch.utils.data.Subset(mnist_train, range(10000))  # Use 10k examples
+trainloader = torch.utils.data.DataLoader(subset_train, batch_size=128, shuffle=True, num_workers=2)
+
+# Run model training benchmark
+cpu_time = train_model("cpu")
+
+if device.type != "cpu":
+    gpu_time = train_model(device.type)
+    speedup = cpu_time / gpu_time
+    print(f"\nGPU is {speedup:.1f}x faster than CPU for training")
+
+# Run matrix multiplication benchmark
+benchmark_matrix()
+
+# Cleanup
+if has_cuda:
+    torch.cuda.empty_cache()
 ```
 
-Run with: `python mnist_test.py`
+Run with: `python gpu_benchmark.py`
+
+On our hardware (NVIDIA RTX 4000 Ada Generation), this example typically shows a 17x speedup on GPU.
 
 ## Essential Environment Commands
 
