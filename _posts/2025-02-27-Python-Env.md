@@ -1,150 +1,194 @@
 ---
 layout: post
-title: "Working with Python Virtual Environments"
-date: 2025-02-27
- 08:00:00 +0100
+title: "Working with Python Virtual Environments for PyTorch"
+date: 2025-02-27 08:00:00 +0100
 categories: machine-learning python
 permalink: "python-envs"
-excerpt: "This guide covers the essential commands for creating and managing Python virtual environments."
+excerpt: "A practical guide to creating and using Python virtual environments for PyTorch development."
 ---
 
+# Working with Python Virtual Environments for PyTorch
 
-This guide covers the essential commands for creating and managing Python virtual environments.
+This guide provides a hands-on approach to setting up Python environments for PyTorch development.
 
-## Creating and Activating Environments
+## Quick Start: Complete PyTorch Environment
 
-### Create a new environment
 ```bash
-# Basic syntax
-python3 -m venv environment_name
-
-# Examples
+# 1. Create and activate environment
 python3 -m venv pytorch-env
-python3 -m venv ml-project
-python3 -m venv .venv  # Hidden directory (common in projects)
+source pytorch-env/bin/activate  # On Windows: pytorch-env\Scripts\activate
+
+# 2. Install PyTorch with CUDA support
+pip install --upgrade pip
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# 3. Install common data science packages
+pip install jupyter numpy pandas matplotlib scikit-learn tensorboard
+
+# 4. Verify GPU access
+python -c "import torch; print('CUDA available:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'None')"
 ```
 
-### Activate an environment
+## Test Drive: CPU vs GPU Performance
+
+Save this script as `mnist_test.py` to compare training speed:
+
+```python
+import time
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision
+import torchvision.transforms as transforms
+
+# Device configuration
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+# Simple neural network
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super(SimpleNN, self).__init__()
+        self.flatten = nn.Flatten()
+        self.layers = nn.Sequential(
+            nn.Linear(28*28, 512),
+            nn.ReLU(),
+            nn.Linear(512, 512),
+            nn.ReLU(),
+            nn.Linear(512, 10)
+        )
+
+    def forward(self, x):
+        x = self.flatten(x)
+        return self.layers(x)
+
+# Load MNIST dataset
+transform = transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
+
+train_dataset = torchvision.datasets.MNIST(root='./data', train=True, 
+                                           download=True, transform=transform)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
+
+# Training function
+def train_model(device_type):
+    model = SimpleNN().to(device_type)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+    
+    start_time = time.time()
+    
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(device_type), target.to(device_type)
+        
+        optimizer.zero_grad()
+        output = model(data)
+        loss = criterion(output, target)
+        loss.backward()
+        optimizer.step()
+        
+        if batch_idx % 100 == 0:
+            print(f'Device: {device_type}, Batch: {batch_idx}/{len(train_loader)}, Loss: {loss.item():.6f}')
+            
+    total_time = time.time() - start_time
+    print(f"Training on {device_type} took {total_time:.2f} seconds")
+    return total_time
+
+# Run comparison
+print("\n--- CPU Training ---")
+cpu_time = train_model(torch.device("cpu"))
+
+if torch.cuda.is_available():
+    print("\n--- GPU Training ---")
+    gpu_time = train_model(torch.device("cuda:0"))
+    print(f"\nGPU is {cpu_time/gpu_time:.2f}x faster than CPU")
+else:
+    print("\nGPU not available for comparison")
+```
+
+Run with: `python mnist_test.py`
+
+## Essential Environment Commands
+
+### Creating & Managing Environments
+
 ```bash
-# On Linux/macOS
-source environment_name/bin/activate
+# Create a new environment
+python3 -m venv env_name
 
-# On Windows
-environment_name\Scripts\activate
-```
+# Activate/Deactivate
+source env_name/bin/activate  # Linux/macOS
+env_name\Scripts\activate     # Windows
+deactivate                    # Any platform
 
-Once activated, your command prompt will change to show the active environment:
-```
-(pytorch-env) username@hostname:~$
-```
-
-### Deactivate an environment
-When you're done working, deactivate the environment:
-```bash
-deactivate
-```
-
-## Managing Environments
-
-### See which environment is active
-```bash
-# Look at your command prompt - it should show (env_name)
-
-# Check Python path
+# Check active environment
 which python
-
-# Check environment variable
 echo $VIRTUAL_ENV
 ```
 
-### List all environments
-Python doesn't provide a built-in command to list all environments, but you can:
+### Package Management
+
 ```bash
-# List directories in a common location where you store environments
-ls ~/environments/
+# Install packages
+pip install package_name
+pip install package_name==1.2.3
+pip install -r requirements.txt
 
-# Or use find to search for pyvenv.cfg files which indicate virtual environments
-find ~ -name pyvenv.cfg -exec dirname {} \;
-```
-
-## Working with Packages
-
-### List installed packages
-```bash
-# List all packages in the current environment
+# List packages
 pip list
-
-# Generate a requirements.txt file
 pip freeze > requirements.txt
 ```
 
-### Install packages
+## Working with Jupyter
+
 ```bash
-# Install a single package
-pip install package_name
-
-# Install with specific version
-pip install package_name==1.2.3
-
-# Install multiple packages
-pip install package1 package2 package3
-
-# Install from requirements.txt
-pip install -r requirements.txt
-```
-
-### Example: Setting up a Jupyter environment
-```bash
-# Create and activate environment
-python3 -m venv jupyter-env
-source jupyter-env/bin/activate
-
-# Install Jupyter and common data science packages
-pip install jupyter numpy pandas matplotlib scikit-learn
-
-# Install PyTorch with CUDA support
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-
-# Register the environment with Jupyter
-python -m ipykernel install --user --name=jupyter-env --display-name="Python (Jupyter Env)"
-```
-
-## Using Jupyter Notebooks
-
-### Launch Jupyter Notebook
-```bash
-# Make sure your environment is activated
+# Launch from activated environment
 jupyter notebook
-```
-This will start the Jupyter server and open your browser to the Jupyter interface.
 
-### Install packages from within Jupyter
-You can install packages directly from a notebook cell:
-```python
-# Using % magic (recommended)
+# Install packages from notebook
 %pip install package_name
 
-# Or using shell command
-!pip install package_name
+# To use GPU in notebook
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+tensor = torch.rand(1000, 1000).to(device)  # Moves data to GPU if available
 ```
 
-### Switching kernels
-If you have multiple environments registered as Jupyter kernels:
-1. Open a notebook
-2. Click on "Kernel" in the top menu
-3. Select "Change kernel"
-4. Choose your environment from the list
+## Running Scripts
+
+```bash
+# Basic execution
+python script.py
+
+# Background execution
+nohup python train.py &  # Output to nohup.out
+
+# Using screen for detachable sessions
+screen -S training
+# Run script, then detach with Ctrl+A, D
+# Reattach with: screen -r training
+```
 
 ## Best Practices
 
-1. **Create dedicated environments for different projects** to avoid dependency conflicts
-2. **Document your dependencies** with `pip freeze > requirements.txt`
-3. **Name environments descriptively** (e.g., `django-web-app`, `ml-research`)
-4. **Clean up unused environments** to save disk space: `rm -rf environment_name`
-5. **Update pip** after creating a new environment: `pip install --upgrade pip`
+1. **Create dedicated environments** for different projects
+2. **Document dependencies**: `pip freeze > requirements.txt`
+3. **Update pip** after creating new environments
+4. **Use consistent environment naming**: `project-framework-purpose`
+5. **Script structure**:
+   ```python
+   if __name__ == "__main__":
+       # Entry point code here
+       main()
+   ```
+6. **Use argparse** for configurable scripts
+   ```python
+   import argparse
+   parser = argparse.ArgumentParser()
+   parser.add_argument('--epochs', type=int, default=10)
+   args = parser.parse_args()
+   ```
 
-## Common Issues and Solutions
-
-- **"Command not found" after installing a package**: You may need to restart your terminal or reinstall the package with the `--user` flag
-- **Conflicts between packages**: Create separate environments for conflicting packages
-- **Changes not taking effect in Jupyter**: Restart the kernel after installing new packages
+This concise guide should help you quickly set up and effectively work with PyTorch in Python virtual environments.
