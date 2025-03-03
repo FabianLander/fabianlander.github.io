@@ -46,39 +46,74 @@ hide_title: true
   <!-- Tabs Navigation -->
   <div class="tabs">
     <button class="tab-button" data-tab="about">About</button>
-    <button class="tab-button" data-tab="projects">Current Projects</button>
+    <button class="tab-button" data-tab="projects">Projects</button>
   </div>
 
   <!-- Tab Content -->
   <div id="about" class="tab-content">
     <div class="content-card">
-      <p>Hello! I'm a first-year PhD student in the Geometry, Groups and Dynamics division at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany. I work under the supervision of James Farre as part of Anna Wienhard's research group.</p>
-      
-      <p>My research focuses on straight line foliations on half-dilation surfaces on punctured spheres. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
-      
-      <div class="blackboard-image">
-        <picture>
-          <source srcset="assets/images/IMG_6794.webp" type="image/webp">
-          <img 
-            src="assets/images/IMG_6794.jpg" 
-            alt="Blackboard drawing of half-dilation surface" 
-            class="research-diagram"
-            width="800"
-            height="600"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-      </div>
-      
-      <p>Before starting my PhD, I worked on polygonal symplectic billiards, where we proved several theorems about their dynamics.</p>
+      <section class="content-section">
+        <h2>About Me</h2>
+        <p>Hello! I'm a PhD student in the Geometry, Groups and Dynamics division at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany. I work under the supervision of JProf. Dr. James Farre as part of Anna Wienhard's research group.</p>
+        
+        <p>My research focuses on affine measured foliations and dilation structures. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
+        
+        <div class="blackboard-image">
+          <picture>
+            <source srcset="assets/images/IMG_6794.webp" type="image/webp">
+            <img 
+              src="assets/images/IMG_6794.jpg" 
+              alt="Blackboard drawing of half-dilation surface" 
+              class="research-diagram"
+              width="600"
+              height="450"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </div>
+        
+        <p>Before starting my PhD in 2024, I completed my bachelor's (2017-2021) and master's (2021-2023) degrees in mathematics at Heidelberg University. My master's thesis on "Vertical Foliations of Triangulable Dilation Tori" was supervised by JProf. Dr. James Farre, while my bachelor's thesis on "Polygonal Symplectic Billiards" was supervised by Prof. Dr. Peter Albers.</p>
+        
+        <p>During my studies, I worked as a research assistant at Heidelberg University on visualization tools for flat surfaces and developing a symplectic billiard dynamics simulator. I also gained teaching experience as a teaching assistant for Analysis 1-3 courses, conducting tutorials for over 300 students.</p>
+      </section>
+
+      <section class="content-section">
+        <h2>Publications and Preprints</h2>
+        <p><strong>Symplectic billiards for pairs of polygons</strong>, with Peter Albers and Jannik M. Westermann, arXiv:2402.12244 (2024). 37 pages. Submitted.</p>
+      </section>
     </div>
   </div>
 
   <div id="projects" class="tab-content">
     <div class="content-card">
-      <h2>Current Projects</h2>
-      <p>[Under Construction]</p>
+      <section class="content-section">
+        <h2>Research</h2>
+        <p><strong>Current focus:</strong> My current research explores affine measured foliations and dilation structures, investigating their geometric and dynamic properties.</p>
+        
+        <p><strong>Previous work:</strong> My work on polygonal symplectic billiards investigated dynamical properties and theorems in symplectic dynamics in polygonal domains, leading to a published preprint.</p>
+      </section>
+      
+      <section class="content-section">
+        <h2>Work in Progress</h2>
+        <p>I'm currently working on several 3D modeling projects using Blender to visualize complex mathematical structures:</p>
+        <ul class="compact-list">
+          <li>Creating parametric models of half-dilation surfaces to better understand their geometric properties</li>
+          <li>Developing interactive visualizations of foliations that demonstrate dynamical behavior</li>
+          <li>Designing 3D printable models that make abstract mathematical concepts tangible for research and education</li>
+        </ul>
+        <p>These projects combine computational techniques with geometric intuition to create both digital and physical representations of mathematical objects.</p>
+      </section>
+      
+      <section class="content-section">
+        <h2>Software & Visualization</h2>
+        <p>I develop software tools to explore and visualize mathematical concepts:</p>
+        <ul class="compact-list">
+          <li><strong>Symplectic Billiards Simulator</strong> (C++/OpenGL) - High-performance research tool for dynamical systems analysis. <a href="https://github.com/SiegfriedFabian/Billiards" target="_blank">GitHub</a></li>
+          <li><strong>Raymarching Engine</strong> (JavaScript/WebGL) - Interactive visualization of locally flat surfaces. <a href="https://github.com/hegl-lab/Independent-SS22-Raymarching-Flat-Surfaces" target="_blank">GitHub</a></li>
+          <li>I also create 3D printed models of mathematical concepts to help visualize complex geometrical structures.</li>
+        </ul>
+      </section>
     </div>
   </div>
 </div>
@@ -191,8 +226,8 @@ hide_title: true
 }
 
 .blackboard-image {
-    max-width: 100%;
-    margin: 2rem 0;
+    max-width: 600px;
+    margin: 2rem auto;
     border-radius: 8px;
     overflow: hidden;
     content-visibility: auto;
@@ -203,7 +238,7 @@ hide_title: true
     width: 100%;
     height: auto;
     display: block;
-    max-width: 800px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
@@ -266,6 +301,34 @@ hide_title: true
     animation-delay: 0.6s;
 }
 
+.content-section {
+    margin-bottom: 2.5rem;
+}
+
+.content-section:last-child {
+    margin-bottom: 0;
+}
+
+.content-section h2 {
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.compact-list {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0 1rem;
+}
+
+.compact-list li {
+    margin-bottom: 0.75rem;
+}
+
+.compact-list li:last-child {
+    margin-bottom: 0;
+}
+
 @media (max-width: 900px) {
     .profile-layout {
         flex-direction: column;
@@ -275,8 +338,8 @@ hide_title: true
     }
 
     .profile-image {
-        width: 300px;
-        height: 300px;
+        width: 200px;
+        height: 200px;
     }
 
     .profile-info {
