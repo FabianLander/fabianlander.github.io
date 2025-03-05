@@ -217,12 +217,12 @@ It is very easy to build a translation surface with a segment out of an IET such
 
 ### Elementary Translation Surfaces
 
-Now that we understand the connection between translation surfaces and interval exchange transformations, let's explore some fundamental properties of translation surfaces, particularly the relationship between their topology and the singularities they contain.
+After exploring interval exchange transformations, let's examine some fundamental properties of translation surfaces and their singularities.
 
 <div class="thm">
 <div class="thm-title">Theorem 9.</div>
 <div class="thm-content">
-Let $\omega$ be a translation structure on a surface $M$, let $m_1, \ldots, m_k$ be the multiplicities of its singular points, and let $\chi$ be the Euler characteristic of $M$. Then
+For a translation structure $\omega$ on a surface $M$ with singular points of multiplicities $m_1, \ldots, m_k$ and Euler characteristic $\chi$:
 
 $$
 -\chi = \sum_{i=1}^{k}(m_i - 1).
@@ -231,60 +231,49 @@ $$
 </div>
 
 <div class="proof">
-Both parts of this formula do not change when singular points are added or deleted, so we may assume that $\omega$ has singular points.
+We may assume $\omega$ has singular points since the formula remains invariant when adding or removing singularities.
 
-First, we need the following lemma:
+Using triangulations with vertices at singular points (possible by Lemma 10), and applying Euler's formula with $v = k$ vertices, $e$ edges, and $f$ faces where $3f = 2e$, we get $-\chi = f/2 - k$.
 
-<div class="thm">
-<div class="thm-title">Lemma 10.</div>
-<div class="thm-content">
-If $\omega$ has singular points, then every set of pairwise non-intersecting (that is, without common interior points) saddle connections can be complemented to a triangulation of $M$ whose vertices are singular points, whose edges are saddle connections, and whose faces are triangles not containing singular points in their interior ($\omega$-triangles).
-</div>
+The sum of angles in all triangles equals $\pi f$, which also equals the sum of angles at singular points: $\sum_{i=1}^{k} 2\pi m_i$. Therefore $f/2 = \sum_{i=1}^{k} m_i$, giving us $-\chi = \sum_{i=1}^{k} (m_i - 1)$.
 </div>
 
-Let $v$, $e$, $f$ be the numbers of vertices, edges and faces of an arbitrary triangulation of $M$ as described in Lemma 10. Clearly, $v = k$ (the number of singular points) and $3f = 2e$ (since each face has 3 edges, and each edge belongs to 2 faces), so Euler's formula $\chi = v - e + f$ implies that $-\chi = f/2 - k$.
+This theorem gives us several immediate insights:
 
-The sum of all angles of all faces in the triangulation is equal to $\pi f$. On the other hand, it is equal to the sum of the full angles at the singular points of $\omega$, that is, $\sum_{i=1}^{k} 2\pi m_i$. Hence: $f/2 = \sum_{i=1}^{k} m_i$ and $-\chi = f/2 - k = \sum_{i=1}^{k} (m_i - 1)$, as required.
-</div>
+- No translation structures exist on spheres, as $\chi = 2$ would require negative values for $\sum(m_i - 1)$
+- On a torus ($\chi = 0$), only removable singularities (with $m_i = 1$) are possible
+- Surfaces with genus $g > 1$ must have at least one non-removable singularity
 
-This theorem has several interesting consequences:
-
-1. There do not exist translation structures on the sphere. This is because for a sphere, $\chi = 2$, which would require $\sum_{i=1}^{k}(m_i - 1) = -2$. Since $m_i \geq 1$ for all $i$ (as singularities must have multiplicity at least 1), this equation cannot be satisfied.
-
-2. Translation structures on a torus can have removable singularities only. For a torus, $\chi = 0$, so we need $\sum_{i=1}^{k}(m_i - 1) = 0$. This is only possible if all singularities have multiplicity exactly 1, making them removable.
-
-3. A translation structure on a surface of genus $g > 1$ must have at least one non-removable singularity, as $\chi = 2-2g < 0$ requires at least one $m_i > 1$.
-
-Let's explore a basic example: translation structures on a torus. Let $v_1, v_2$ be linearly independent vectors in $\RR^2$. By $\TT_{v_1, v_2}$ we denote the quotient space of $\RR^2$ by the subgroup $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$. Then $\TT_{v_1, v_2}$ is a torus, the canonical projection $\pi: \RR^2 \to \TT_{v_1, v_2}$ is a local homeomorphism, and the continuous maps from domains in $\TT_{v_1, v_2}$ into $\RR^2$ that are right inverse to $\pi$ define on $\TT_{v_1, v_2}$ a translation structure without singular points. This structure is called a *flat torus*. 
-
-It turns out that every translation structure on a torus can be obtained in this manner, which is formalized in the following proposition:
+The simplest non-trivial translation surfaces occur on tori. Let $v_1, v_2$ be linearly independent vectors in $\RR^2$. The quotient space $\TT_{v_1, v_2} = \RR^2/(\mathbb{Z}v_1 \oplus \mathbb{Z}v_2)$ naturally inherits a translation structure without singularities, creating what we call a *flat torus*.
 
 <div class="thm">
 <div class="thm-title">Proposition 11.</div>
 <div class="thm-content">
-An arbitrary translation structure on a torus is isomorphic to a planar torus to which are added finitely many removable singular points.
+Every translation structure on a torus is isomorphic to a flat torus possibly with finitely many added removable singular points.
 </div>
 </div>
 
 <div class="proof">
-By Theorem 9 it suffices to prove that a translation structure $\omega$ without singular points on a torus $M$ is isomorphic to a planar torus. We will first show that $\omega$ has a periodic trajectory.
+For a translation structure $\omega$ without singular points on a torus $M$, we'll construct a periodic trajectory.
 
-Let $A \in M$ and let $I$ be a geodesic interval starting at $A$ in an arbitrary direction $v_1$. The trajectory emitted from $A$ in a direction $v_2$ perpendicular to $v_1$ intersects $I$ at a point $A'$. We denote by $s_1$, $s_2$ the distances to be travelled along $I$ and along the trajectory, respectively, from $A$ to $A'$.
+Choose a point $p \in M$ and a geodesic segment $I$ starting at $p$ in some direction. Draw a perpendicular trajectory from $p$ that intersects $I$ at point $q$. Let $s_1$ and $s_2$ be the distances along $I$ and the perpendicular, respectively.
 
-As can be readily seen, the trajectory emitted from $A$ in a direction $e_1$ parallel to $-s_1v_1 + s_2v_2$ is periodic. By Proposition 7, the whole surface $M$ is a single pencil of periodic trajectories in the direction $e_1$, having the same length $l_1$.
+A trajectory from $p$ in direction $-s_1v_1 + s_2v_2$ is periodic. This creates a "pencil" of parallel periodic trajectories all with the same length $l_1$.
 
-We draw the geodesic interval $J$ in a direction $e_2$ perpendicular to $e_1$ whose length is the width $w_1$ of the pencil of periodic trajectories in the direction $e_1$. The end-points $A$ and $A''$ of this interval belong to the same trajectory of the pencil; all other trajectories intersect $J$ just once.
-
-Let $l_2$ be the distance from $A''$ to $A$ when moving along the direction $e_1$. Then the trajectories parallel to $v_2 = w_1e_2 + l_2e_1$ form a pencil of periodic trajectories of length $|v_2|$. The trajectories from the pencils parallel to $e_1$ and $v_2$ intersect one another just once. This implies that the translation structure $\omega$ is isomorphic to the planar torus $\TT_{l_1e_1, v_2}$.
+Drawing a perpendicular segment $J$ to this pencil with length equal to the pencil's width, and analyzing how trajectories intersect, we can construct a second direction of periodic flow. These two directions together establish an isomorphism between $\omega$ and a flat torus $\TT_{l_1e_1, v_2}$.
 </div>
 
-It is well known that the flows on $\TT_{v_1, v_2}$ in directions parallel to vectors in $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$ are periodic, while the flows in all other directions are strongly ergodic. Comparing this with our earlier results, we can conclude that this behavior represents the simplest kind for the geodesic flow on a surface with a translation structure.
+On flat tori, the geodesic flow behaves in a perfectly dichotomous manner:
+- In directions parallel to vectors in $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$, all trajectories are periodic
+- In all other directions, the flow is ergodic (every trajectory is dense)
+
+This clean dichotomy motivates the following definition:
 
 <div class="thm">
 <div class="thm-title">Definition 7.</div>
 <div class="thm-content">
-A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</em> if the flow on $M$ in an arbitrary direction is either strongly ergodic or has only periodic components. (Here, parallel periodic trajectories from distinct pencils can have incommensurate lengths, that is, the flow in such a direction cannot, in general, be periodic.)
+A translation structure is <em>elementary</em> if the flow in any direction is either completely ergodic or consists only of periodic components.
 </div>
 </div>
 
-This definition captures a key aspect of the Veech alternative that we're working toward—the striking dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
+This elementary property is the essence of the Veech alternative we're studying—the remarkable "all-or-nothing" behavior of geodesic flows on certain translation surfaces.
