@@ -60,9 +60,9 @@ hide_title: true
         
         <div class="blackboard-image">
           <picture>
-            <source srcset="assets/images/IMG_6794.webp" type="image/webp">
+            <source srcset="assets/images/IMG_6828.webp" type="image/webp">
             <img 
-              src="assets/images/IMG_6794.jpg" 
+              src="assets/images/IMG_6828.jpg" 
               alt="Blackboard drawing of half-dilation surface" 
               class="research-diagram"
               width="600"
@@ -87,6 +87,7 @@ hide_title: true
 
   <div id="projects" class="tab-content">
     <div class="content-card">
+    --Currently under construction--
       <!-- <section class="content-section">
         <h2>Work in Progress</h2>
         <p>I'm currently working on several 3D modeling projects using Blender to visualize complex mathematical structures:</p>
