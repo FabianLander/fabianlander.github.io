@@ -28,12 +28,12 @@ Ya. B. Vorobets, "Planar structures and billiards in rational polygons: the Veec
 The Veech alternative presents a remarkable dichotomy in the behavior of geodesic flows on certain translation surfaces: for any fixed direction, either all infinite trajectories are uniformly distributed, or all trajectories are periodic. 
 
 <div style="background-color: #f8f9fa; border-left: 4px solid #6c757d; padding: 15px; margin: 20px 0; border-radius: 4px;">
-<strong>Note:</strong> These notes reflect my understanding of our discussions – if it were a game of telephone, consider this the final whisper. All errors and bad phrasings are surely mine, all brilliant insights belong to the speakers and authors of the reference material.
+<strong>Note:</strong> These notes reflect my understanding of our discussions – if it were a game of telephone, consider this the final whisper. All errors and clunky phrasings are surely mine; all good ideas belong to the speakers and authors of the reference material.
 </div>
 
-## Session 1 (Held by ...), February 26th: Translation Structures and their connection to Billiards in Rational Polygons
+## <u>Session 1</u> (Jiajun Shi), February 26th: Translation Structures and their connection to Billiards in Rational Polygons
 
-## Session 2 (Fabian Lander), March 5th: Interval Exchange Transformations and Elementary Translation surfaces
+## <u>Session 2</u> (Fabian Lander), March 5th: Interval Exchange Transformations and Elementary Translation surfaces
 
 Last time we saw that the geodesic flow on the phase space $\Phi \subset M \times S^1$ preserves the measure $\mu \times \lambda$ where $\mu$ is the Lebesgue measure on $M$ (induced by the flat structure $\omega$) and $\lambda$ is the Lebesgue measure on $S^1$. In particular, if we fix a direction, we have a measure-preserving dynamical system on a full measure subset of $M$. For simplicity, we will continue to denote this subset as $M$.
 
@@ -43,7 +43,9 @@ Today we will connect this dynamical system to another closely related family of
 
 Given an interval $I = [a,b] \subset \RR$ and points $S= \\{x_1, \dots, x_m \\}$ where $a < x_1 < x_2 < \dots < x_m < b$, an *IET* is a map $T: I\setminus S \rightarrow I$ that acts as a translation (shift) on each of the components of $I\setminus S$.
 
-Various definitions appear in the literature. Some use half-open intervals (either left- or right-open) and require $T$ to be left- or right-continuous, meaning $T$ shifts the half-open "components." Regardless of these technical differences, the fundamental concept remains the same: We partition the interval into finitely many pieces and then rearrange them via translations.
+Various definitions appear in the literature. Some use half-open intervals (either left- or right-open) and require $T$ to be left- or right-continuous, meaning $T$ shifts the half-open "components". This makes $T$ a bijection on the half open interval. 
+
+Regardless of these technical differences, the fundamental concept remains the same: We partition the interval into finitely many pieces and then rearrange them via translations.
 
 <img src="/assets/svgs/veech_alternative/IETBasic.svg" alt="Illustration of an Interval Exchange Transformation" style="width: 60%; display: block; margin: 0 auto;">
 
@@ -57,7 +59,7 @@ $$
 C(T) = \{ x \in I \mid \exists n_1 > 0, \exists n_2 < 0 : T^{n_1}x, T^{n_2}x \in S \}
 $$
 
-This set is clearly finite, because the map is injective and a point that "connects" two break points is unique (and there are finitely many break points).
+This set is clearly finite, because any sequence $s_1, T(s_1), ..., T^n (s_1) = s_2$ that connect two break points $s_1, s_2$ is unique (here we view $T$ as a bijection on the half open interval) and there are only finitely many possible combinations of breakpoints.
 
 Another useful point of view is the following:
 This set is finite because of the connection between IETs and translation surfaces - specifically, points in $C(T)$ correspond to saddle connections in the suspension of the IET. Since a translation surface has finitely many saddle connections in any given direction, $C(T)$ must be finite as well.
@@ -112,13 +114,13 @@ Ingredients for an IET:
 
 We define $T$ as the first return map of the flow from $I$ in direction $v$. Before proving that this is indeed well-defined, let's examine a simple example:
 
-Consider a translation surface (e.g., a torus) together with a horizontal geodesic segment. The first return map is not defined if we flow into a singularity. So we take the "preimages" of all possible flow lines in direction $v$ emanating from singularities as well as the preimages of the boundary points of our segment:
+Consider a translation surface (e.g., a torus) together with a horizontal geodesic segment. The first return map is not defined if we flow into a singularity. So we take the "preimages" of all possible flow lines in direction $v$ emanating from singularities as well as the preimages of the boundary points of our segment (careful there is a mistake in the picture, however a posteriori the idea still works):
 
-<img src="/assets/svgs/veech_alternative/flatTorusFirstReturnExample.svg" alt="Illustration of a geodesic segment on a torus with preimages of singularities." style="width: 80%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/flatTorusFirstReturnExample.svg" alt="Illustration of a geodesic segment on a torus with preimages of singularities." style="width: 40%; display: block; margin: 0 auto;">
 
 Note that since we only have removable singularities in this example, there is only one preimage per singularity. In general, the number of preimages could be up to the sum of all multiplicities of singularities.  This partitions the segment into components which get mapped back to $I$ via translation:
 
-<img src="/assets/svgs/veech_alternative/flatTorusFirstReturnExample.svg" alt="Illustration of a geodesic segment on a torus with preimages of singularities." style="width: 80%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/flatTorusFirstReturnExampleIET.svg" alt="Illustration of a geodesic segment on a torus with preimages of singularities." style="width: 40%; display: block; margin: 0 auto;">
 
 Now we will state and prove a general result about the first return map on translation surfaces, which will formally establish that our map is indeed an IET (and in particular well-defined).
 
@@ -134,7 +136,7 @@ Let $ S = \\{ x_1, \dots, x_m \\}$ be all the points in $I$ such that their traj
 
 <img src="/assets/svgs/veech_alternative/FirstReturnSketch.svg" alt="A sketch on the partition of $I$." style="width: 40%; display: block; margin: 0 auto;">
 
-By Poincaré's recurrence theorem, this set will eventually return to $I$ (I will elaborate on this application below). So the first return map is well-defined. By construction, all of $J$ must return to the interior of $I$ at the same time (otherwise this would contradict the definition of $S$). Since our flow preserves the length of our segment, $J$ has to be mapped back to $I$ by a translation. 
+By Poincaré's recurrence theorem, this set will eventually return to $I$ (I will elaborate on this application below). So the first return map is well-defined. By construction, all of $J$ must return to the interior of $I$ at the same time (otherwise this would contradict the definition of $S$). Since our flow preserves the length and orientation of our segment, $J$ has to be mapped back to $I$ by a translation. 
 
 The trajectory of $J$ forms a rectangle which has area at most that of the whole surface. Therefore, the time until the first return (or equivalently, the distance traveled) is less than $\text{Area}(M)/|J|$.
 
@@ -146,12 +148,12 @@ The trajectory of $J$ forms a rectangle which has area at most that of the whole
 
 Poincaré's recurrence theorem is a fundamental result in measure-preserving dynamical systems. It states that for any measure-preserving transformation $T$ on a probability space $(X, \mathcal{B}, \mu)$ and any measurable set $A \in \mathcal{B}$, almost every point in $A$ returns to $A$ under iterations of $T$. More precisely, for almost every $x \in A$, there exists $n > 0$ such that $T^n(x) \in A$.
 
-<img src="/assets/svgs/veech_alternative/PoincareThickenedIntervall.svg" alt="Poincare recurrence on a thickened interval." style="width: 60%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/PoincareThickenedInterval.svg" alt="Poincare recurrence on a thickened interval." style="width: 60%; display: block; margin: 0 auto;">
 
 
 In our context of geodesic flows on translation surfaces, we can apply this theorem to the geodesic flow in a given direction (for a fixed time) because it preserves the Lebesgue measure on the translation surface $(M, \omega)$ and M has finite area.
 
-We can apply the theorem to our interval $I$ essentially because it has positive measure with respect to the cross-sectional measure. More concretely, we can thicken our Interval in direction $v$ into a rectangle. Since preserves rectangles, returning to our rectangle with base $J$ implies that $J$ returns to $J$ at some point in time.
+We can apply the theorem to our interval $I$ essentially because it has positive measure with respect to the cross-sectional measure. More concretely, we can thicken our Interval in direction $v$ into a rectangle. Since the geodesic flow preserves rectangles, returning to our initial rectangle with base $J$ implies that the interval $J$ has to return to itself at some point in time.
 Therefore, almost every point in our interval $J \subset I \setminus S$ must eventually return to $I$ under the geodesic flow in direction $v$.
 
 ### Saddle Connections and Minimal Components
@@ -214,6 +216,9 @@ If the flow on a translation surface in a given direction is aperiodic, then the
 It is very easy to build a translation surface with a segment out of an IET such that the vertical flow induces the same IET on the segment. This picture should tell the whole story:
 
 <img src="/assets/svgs/veech_alternative/IETSuspension.svg" alt="Suspension." style="width: 60%; display: block; margin: 0 auto;">
+
+## <u>Session 2.5</u> (Fabian Lander), March ?th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
+
 
 ### Elementary Translation Surfaces
 
