@@ -158,28 +158,28 @@ Therefore, almost every point in our interval $J \subset I \setminus S$ must eve
 
 ### Saddle Connections and Minimal Components
 
-A *saddle connection* of a translation surface is a geodesic segment joining two singular points which doesn't contain singular points in its interior. Note that in our previous construction of *IETs* on translation surfaces, saddle connections in the direction $v$ play the same role as the set $C(T)$.
+A *saddle connection* of a translation surface is a geodesic segment joining two singular points which doesn't contain singular points in its interior. Notice that in our previous construction of *IETs* on translation surfaces, saddle connections in the direction $v$ play precisely the same role as the set $C(T)$ we discussed earlier.
 
 <div class="thm">
 <div class="thm-title">Proposition 5.</div>
 <div class="thm-content">
-The flow in a direction $v$ on a translation surface $M$ can be represented as a special flow under an IET with return time that is constant on each of the exchange intervals.
+The flow in a direction $v$ on a translation surface $M$ can be represented as a flow under an IET with return time that is constant on each of the exchange intervals.
 </div>
 </div> 
 
-This proposition means that we can fully understand the geodesic flow on $M$ in direction $v$ by studying an appropriate IET on a transverse segment (or collection of segments).
+In essence, this means we can fully understand the geodesic flow on $M$ in any given direction $v$ by examining an appropriate IET on a transverse segment (or collection of segments). This powerful connection allows us to transfer our intuition between these two perspectives.
 
 <div class="proof">
-The surface $M$ has finitely many periodic domains, because each periodic orbit has a neighborhood of periodic orbits whose boundaries are saddle connections in direction $v$. Let's call these domains $D_1, \dots, D_m$. 
+The surface $M$ contains finitely many periodic domains, as each periodic orbit has a neighborhood of periodic orbits whose boundaries consist of saddle connections in direction $v$. Let's denote these domains as $D_1, \dots, D_m$. For each such periodic domain, we can naturally define geodesic segments orthogonal to $v$ whose induced IET captures the dynamics of the geodesic flow.
 
-If their closure doesn't cover $M$, we take a point in the complement and connect two domains by a segment orthogonal to $v$ (without singularities in its interior). This segment defines an IET. By continuing this process, we obtain finitely many segments with disjoint domains whose closure covers $M$.
+If the closure of these domains doesn't cover all of $M$, consider a geodesic segment $S$ in the complement. Its induced IET must be minimal (by Theorem 1). We claim that the closure of the image of $S$ under the geodesic flow is bounded by periodic orbits or (a concatenation of) saddle connections. To see this, if we slightly extend the segment (without intersecting a saddle connection), it must be contained in the image because the new IET would also be minimal and therefore the added segment will be mapped into the old one, establishing our claim.
 
-For each segment, the return time of points in the same exchange interval is constant, making this a "special flow" under the IET.
+If any portion of the complement remains empty, we simpl y repeat this argument. Since there are only finitely many periodic pencils and finitely many saddle connections in direction $v$, this process must eventually terminate.
 </div>
 
-An important insight: When we construct an IET from a geodesic flow, we can actually reconstruct the translation surface if we keep track of additional data - specifically, which segment neighbors which segment and how long each segment travels along its trajectory until it returns. This "suspension" of the IET recreates the original surface.
+Here's a key insight worth highlighting: When constructing an IET from a geodesic flow, we can actually reconstruct the original translation surface if we carefully track additional data—specifically, which segment neighbors which segment and how long each segment travels along its trajectory until it returns. This "suspension" of the IET effectively recreates the original surface geometry.
 
-Now that we can analyze the dynamical behavior of the geodesic flow in a given direction by looking at a suitable IET, we can reformulate our theorems in the context of translation surfaces.
+Now that we can analyze the dynamical behavior of the geodesic flow in any direction by examining a suitable IET, we can elegantly reformulate our earlier theorems in the context of translation surfaces.
 
 <div class="thm">
 <div class="thm-title">Proposition 6.</div>
@@ -189,10 +189,10 @@ Let $D_1, \dots, D_m$ be the invariant domains into which $M$ partitions. Then e
 </div> 
 
 <div class="proof">
-This is a direct application of Proposition 5 together with Theorem 1. The number of domains is bounded because the number of saddle connections in any direction is bounded by the sum of all multiplicities of all saddle connections. Therefore, combinatorially there is a finite number of possible segments that can connect domains and thus a bounded number of minimal and periodic components.
+This follows directly from Proposition 5 in conjunction with Theorem 1. The number of domains is bounded because the number of saddle connections in any direction is bounded by the sum of all multiplicities of all saddle connections. Therefore, combinatorially, there exists only a finite number of possible segments that can connect domains, yielding a bounded number of minimal and periodic components.
 </div>
  
-A direct consequence is the following theorem:
+A beautiful consequence of this analysis is the following theorem:
 
 <div class="thm">
 <div class="thm-title">Proposition 7.</div>
@@ -201,7 +201,7 @@ If a translation surface $(M,\omega)$ doesn't have saddle connections in a given
 </div>
 </div>  
 
-Lastly, we can adapt Theorem 3 to the setting of translation surfaces:
+Finally, we can adapt Theorem 3 to the setting of translation surfaces:
 
 <div class="thm">
 <div class="thm-title">Proposition 8.</div>
@@ -210,12 +210,11 @@ If the flow on a translation surface in a given direction is aperiodic, then the
 </div>
 </div>
 
+### Translation Surfaces out of IETs (Suspensions)
 
-### Translation surfaces out of IETs (suspensions)
+The reverse construction—building a translation surface from an IET—is remarkably straightforward. We can create a translation surface with a segment such that the vertical flow induces the same IET on that segment. The following illustration captures the essence of this construction:
 
-It is very easy to build a translation surface with a segment out of an IET such that the vertical flow induces the same IET on the segment. This picture should tell the whole story:
-
-<img src="/assets/svgs/veech_alternative/IETSuspension.svg" alt="Suspension." style="width: 60%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/IETSuspension.svg" alt="Suspension of an IET creating a translation surface." style="width: 60%; display: block; margin: 0 auto;">
 
 ## <u>Session 2.5</u> (Fabian Lander), March ?th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
 
@@ -260,7 +259,7 @@ This theorem has several interesting consequences:
 
 3. A translation structure on a surface of genus $g > 1$ must have at least one non-removable singularity, as $\chi = 2-2g < 0$ requires at least one $m_i > 1$.
 
-Let's explore a basic example: translation structures on a torus. Let $v_1, v_2$ be linearly independent vectors in $\RR^2$. By $\TT_{v_1, v_2}$ we denote the quotient space of $\RR^2$ by the subgroup $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$. Then $\TT_{v_1, v_2}$ is a torus, the canonical projection $\pi: \RR^2 \to \TT_{v_1, v_2}$ is a local homeomorphism, and the continuous maps from domains in $\TT_{v_1, v_2}$ into $\RR^2$ that are right inverse to $\pi$ define on $\TT_{v_1, v_2}$ a translation structure without singular points. This structure is called a *flat torus*. 
+Let's explore the second consequence in more detail. Let $v_1, v_2$ be linearly independent vectors in $\RR^2$. By $\TT_{v_1, v_2}$ we denote the quotient space of $\RR^2$ by the subgroup $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$. Then $\TT_{v_1, v_2}$ is a torus, the canonical projection $\pi: \RR^2 \to \TT_{v_1, v_2}$ is a local homeomorphism, and the continuous maps from domains in $\TT_{v_1, v_2}$ into $\RR^2$ that are right inverse to $\pi$ define on $\TT_{v_1, v_2}$ a translation structure without singular points. This structure is called a *flat torus*. 
 
 It turns out that every translation structure on a torus can be obtained in this manner, which is formalized in the following proposition:
 
@@ -274,16 +273,16 @@ An arbitrary translation structure on a torus is isomorphic to a planar torus to
 <div class="proof">
 By Theorem 9 it suffices to prove that a translation structure $\omega$ without singular points on a torus $M$ is isomorphic to a planar torus. We will first show that $\omega$ has a periodic trajectory.
 
-Let $A \in M$ and let $I$ be a geodesic interval starting at $A$ in an arbitrary direction $v_1$. The trajectory emitted from $A$ in a direction $v_2$ perpendicular to $v_1$ intersects $I$ at a point $A'$. We denote by $s_1$, $s_2$ the distances to be travelled along $I$ and along the trajectory, respectively, from $A$ to $A'$.
+Let $x \in M$ and let $I$ be a geodesic interval starting at $x$ in an arbitrary direction $v_1$. The trajectory emitted from $x$ in a direction $v_2$ perpendicular to $v_1$ intersects $I$ at a point $x'$. We denote by $s_1$, $s_2$ the distances to be travelled along $I$ and along the trajectory, respectively, from $x$ to $x'$.
 
-As can be readily seen, the trajectory emitted from $A$ in a direction $e_1$ parallel to $-s_1v_1 + s_2v_2$ is periodic. By Proposition 7, the whole surface $M$ is a single pencil of periodic trajectories in the direction $e_1$, having the same length $l_1$.
+As can be readily seen, the trajectory emitted from $x$ in a direction $e_1$ parallel to $-s_1v_1 + s_2v_2$ is periodic. By Proposition 7, the whole surface $M$ is a single pencil of periodic trajectories in the direction $e_1$, having the same length $l_1$.
 
-We draw the geodesic interval $J$ in a direction $e_2$ perpendicular to $e_1$ whose length is the width $w_1$ of the pencil of periodic trajectories in the direction $e_1$. The end-points $A$ and $A''$ of this interval belong to the same trajectory of the pencil; all other trajectories intersect $J$ just once.
+We draw the geodesic interval $J$ in a direction $e_2$ perpendicular to $e_1$ whose length is the width $w_1$ of the pencil of periodic trajectories in the direction $e_1$. The end-points $x$ and $x''$ of this interval belong to the same trajectory of the pencil; all other trajectories intersect $J$ just once.
 
-Let $l_2$ be the distance from $A''$ to $A$ when moving along the direction $e_1$. Then the trajectories parallel to $v_2 = w_1e_2 + l_2e_1$ form a pencil of periodic trajectories of length $|v_2|$. The trajectories from the pencils parallel to $e_1$ and $v_2$ intersect one another just once. This implies that the translation structure $\omega$ is isomorphic to the planar torus $\TT_{l_1e_1, v_2}$.
+Let $l_2$ be the distance from $x''$ to $x$ when moving along the direction $e_1$. Then the trajectories parallel to $v_2 = w_1e_2 + l_2e_1$ form a pencil of periodic trajectories of length $|v_2|$. The trajectories from the pencils parallel to $e_1$ and $v_2$ intersect one another just once. This implies that the translation structure $\omega$ is isomorphic to the planar torus $\TT_{l_1e_1, v_2}$.
 </div>
 
-It is well known that the flows on $\TT_{v_1, v_2}$ in directions parallel to vectors in $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$ are periodic, while the flows in all other directions are strongly ergodic. Comparing this with our earlier results, we can conclude that this behavior represents the simplest kind for the geodesic flow on a surface with a translation structure.
+It is well known that on $\TT_{v_1, v_2}$, flows parallel to vectors in $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$ are periodic, while flows in all other directions are strongly ergodic. This dichotomy represents the simplest possible dynamical behavior for geodesic flows on translation surfaces.
 
 <div class="thm">
 <div class="thm-title">Definition 7.</div>
