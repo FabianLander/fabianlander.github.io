@@ -172,7 +172,7 @@ In essence, this means we can fully understand the geodesic flow on $M$ in any g
 <div class="proof">
 The surface $M$ contains finitely many periodic domains, as each periodic orbit has a neighborhood of periodic orbits whose boundaries consist of saddle connections in direction $v$. Let's denote these domains as $D_1, \dots, D_m$. For each such periodic domain, we can naturally define geodesic segments orthogonal to $v$ whose induced IET captures the dynamics of the geodesic flow.
 
-If the closure of these domains doesn't cover all of $M$, consider a geodesic segment $S$ in the complement. Its induced IET must be minimal (by Theorem 1). We claim that the closure of the image of $S$ under the geodesic flow is bounded by periodic orbits or (a concatenation of) saddle connections. To see this, if we slightly extend the segment (without intersecting a saddle connection), it must be contained in the image because the new IET would also be minimal and therefore the added segment will be mapped into the old one, establishing our claim.
+If the closure of these domains doesn't cover all of $M$, consider a geodesic segment $S$ in the complement. Its induced IET must be minimal (by Theorem 1). We claim that the closure of the image of $S$ under the geodesic flow is bounded by periodic orbits or (a concatenation of) saddle connections. To see this, we slightly extend the segment (without intersecting a saddle connection). This extra segment must be contained in the image because the new IET on the extended segment is also minimal and therefore the added segment will be mapped into the old one. In particular we can simply extend the segment until we meet a saddle connection or one of the periodic pencils.
 
 If any portion of the complement remains empty, we simpl y repeat this argument. Since there are only finitely many periodic pencils and finitely many saddle connections in direction $v$, this process must eventually terminate.
 </div>
@@ -235,12 +235,12 @@ $$
 </div>
 
 <div class="proof">
-Both parts of this formula do not change when singular points are added or deleted, so we may assume that $\omega$ has singular points.
+Both parts of this formula do not change when (removable) singular points are added or deleted, so we may assume that $\omega$ has (potentialy removable) singular points.
 
 First, we need the following lemma:
 
 <div class="thm">
-<div class="thm-title">Lemma 10.</div>
+<div class="thm-title">Lemma 10. (Existence of geodesic triangulations with singular vertices.)</div>
 <div class="thm-content">
 If $\omega$ has singular points, then every set of pairwise non-intersecting (that is, without common interior points) saddle connections can be complemented to a triangulation of $M$ whose vertices are singular points, whose edges are saddle connections, and whose faces are triangles not containing singular points in their interior ($\omega$-triangles).
 </div>
@@ -275,6 +275,11 @@ By Theorem 9 it suffices to prove that a translation structure $\omega$ without 
 
 Let $x \in M$ and let $I$ be a geodesic interval starting at $x$ in an arbitrary direction $v_1$. The trajectory emitted from $x$ in a direction $v_2$ perpendicular to $v_1$ intersects $I$ at a point $x'$. We denote by $s_1$, $s_2$ the distances to be travelled along $I$ and along the trajectory, respectively, from $x$ to $x'$.
 
+  <br>
+  <br>
+<img src="/assets/svgs/veech_alternative/torusProofSketch.svg" alt="Suspension of an IET creating a translation surface." style="width: 60%; display: block; margin: 0 auto;">
+  <br>
+
 As can be readily seen, the trajectory emitted from $x$ in a direction $e_1$ parallel to $-s_1v_1 + s_2v_2$ is periodic. By Proposition 7, the whole surface $M$ is a single pencil of periodic trajectories in the direction $e_1$, having the same length $l_1$.
 
 We draw the geodesic interval $J$ in a direction $e_2$ perpendicular to $e_1$ whose length is the width $w_1$ of the pencil of periodic trajectories in the direction $e_1$. The end-points $x$ and $x''$ of this interval belong to the same trajectory of the pencil; all other trajectories intersect $J$ just once.
@@ -291,4 +296,5 @@ A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</
 </div>
 </div>
 
-This definition captures a key aspect of the Veech alternative that we're working toward—the striking dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
+This definition captures a key aspect of the Veech alternative that we're working toward—the dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
+
