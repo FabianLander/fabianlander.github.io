@@ -132,7 +132,7 @@ The map $T$ is an IET where the number of singularities is bounded by a constant
 </div> 
 
 <div class="proof">
-Let $ S = \\{ x_1, \dots, x_m \\}$ be all the points in $I$ such that their trajectory hits a saddle point or one of the two boundary points of $I$. Take a component $J$ of the partition $I\setminus{S}$. 
+Let $ S = \\{ x_1, \dots, x_m \\}$ be all the points in $I$ such that their trajectory hits a saddle point or one of the two boundary points of $I$ without intersecting the segment itself before. Equivalently, we can send $m_i$ - many rays in direction $v$ from every saddle point $s_i$ and collect the first hit with the segment (if there is one). Take a component $J$ of the partition $I\setminus{S}$. 
 
 <img src="/assets/svgs/veech_alternative/FirstReturnSketch.svg" alt="A sketch on the partition of $I$." style="width: 40%; display: block; margin: 0 auto;">
 
@@ -150,11 +150,19 @@ Poincaré's recurrence theorem is a fundamental result in measure-preserving dyn
 
 <img src="/assets/svgs/veech_alternative/PoincareThickenedInterval.svg" alt="Poincare recurrence on a thickened interval." style="width: 60%; display: block; margin: 0 auto;">
 
+In the context of geodesic flows on translation surfaces, we can apply this theorem because the geodesic flow in a fixed direction preserves the Lebesgue measure on the translation surface $(M, \omega)$, and $M$ has finite area.
 
-In our context of geodesic flows on translation surfaces, we can apply this theorem to the geodesic flow in a given direction (for a fixed time) because it preserves the Lebesgue measure on the translation surface $(M, \omega)$ and M has finite area.
+We can apply the theorem to our interval $I$ because it has positive measure with respect to the measure transverse to the flow direction $v$. More specifically, we can thicken our interval in direction $v$ to form a rectangle. Since the geodesic flow preserves rectangles, returning to our initial rectangle with base $J$ implies that the interval $J$ must return to itself at some point.
+Therefore, the whole component $J \subset I \setminus S$ returns to $I$ under flow.
+This leads us to the following important observation:
+<div class="thm">
+<div class="thm-title">Remark</div>
+<div class="thm-content">
+The first return map on a segment $I$ is defined for every point, except for the finitely many ones that map into saddle points before returning.
+</div>
+</div>
 
-We can apply the theorem to our interval $I$ essentially because it has positive measure with respect to the cross-sectional measure. More concretely, we can thicken our Interval in direction $v$ into a rectangle. Since the geodesic flow preserves rectangles, returning to our initial rectangle with base $J$ implies that the interval $J$ has to return to itself at some point in time.
-Therefore, almost every point in our interval $J \subset I \setminus S$ must eventually return to $I$ under the geodesic flow in direction $v$.
+Here's the full improved section as a single fragment:
 
 ### Saddle Connections and Minimal Components
 
@@ -172,14 +180,18 @@ In essence, this means we can fully understand the geodesic flow on $M$ in any g
 <div class="proof">
 The surface $M$ contains finitely many periodic domains, as each periodic orbit has a neighborhood of periodic orbits whose boundaries consist of saddle connections in direction $v$. Let's denote these domains as $D_1, \dots, D_m$. For each such periodic domain, we can naturally define geodesic segments orthogonal to $v$ whose induced IET captures the dynamics of the geodesic flow.
 
-If the closure of these domains doesn't cover all of $M$, consider a geodesic segment $S$ in the complement. Its induced IET must be minimal (by Theorem 1). We claim that the closure of the image of $S$ under the geodesic flow is bounded by periodic orbits or (a concatenation of) saddle connections. To see this, we slightly extend the segment (without intersecting a saddle connection). This extra segment must be contained in the image because the new IET on the extended segment is also minimal and therefore the added segment will be mapped into the old one. In particular we can simply extend the segment until we meet a saddle connection or one of the periodic pencils.
-
-If any portion of the complement remains empty, we simpl y repeat this argument. Since there are only finitely many periodic pencils and finitely many saddle connections in direction $v$, this process must eventually terminate.
+If the closure of these domains doesn't cover all of $M$, consider a geodesic segment $I$ in the complement. Its induced IET must be minimal (by Theorem 1). 
+<br>
+We claim that the closure of the image of $I$ under the geodesic flow is bounded by (a concatenation of) saddle connections. To prove this, consider the complement of the periodic domains after removing all saddle connections in direction $v$. We can cover this region with open rectangles whose heights are aligned with direction $v$ and whose bases are orthogonal to $v$.
+<br>
+The key insight is that flow lines originating from each rectangle have a dense image within that rectangle. Consequently, any two overlapping rectangles must have identical images under the geodesic flow. This implies that the boundary of each minimal component consists of (concatenations of) saddle connections.
+<br>
+Since there are only finitely many possible combinations of concatenated saddle connections in a given direction, we have only finitely many minimal components. We can now collect geodesic segments from each component (both periodic and minimal) and view them collectively as a single IET that fully characterizes the dynamics of the geodesic flow, as every flow line passes through one of these segments after a finite amount of time.
 </div>
 
-Here's a key insight worth highlighting: When constructing an IET from a geodesic flow, we can actually reconstruct the original translation surface if we carefully track additional data—specifically, which segment neighbors which segment and how long each segment travels along its trajectory until it returns. This "suspension" of the IET effectively recreates the original surface geometry.
+Here's a key insight worth highlighting: When constructing an IET from a geodesic flow, we can actually reconstruct the original translation surface if we carefully track additional data—specifically, which segment neighbors which segment after the first return (permutation data), how long each segment travels along its trajectory until it returns, and the distances between the saddle connections and the break points. This "suspension" of the IET effectively recreates the original surface geometry.
 
-Now that we can analyze the dynamical behavior of the geodesic flow in any direction by examining a suitable IET, we can elegantly reformulate our earlier theorems in the context of translation surfaces.
+Now that we can analyze the dynamical behavior of the geodesic flow in any direction by examining a suitable IET, we can reformulate our earlier theorems in the context of translation surfaces.
 
 <div class="thm">
 <div class="thm-title">Proposition 6.</div>
@@ -210,13 +222,14 @@ If the flow on a translation surface in a given direction is aperiodic, then the
 </div>
 </div>
 
+
 ### Translation Surfaces out of IETs (Suspensions)
 
 The reverse construction—building a translation surface from an IET—is remarkably straightforward. We can create a translation surface with a segment such that the vertical flow induces the same IET on that segment. The following illustration captures the essence of this construction:
 
 <img src="/assets/svgs/veech_alternative/IETSuspension.svg" alt="Suspension of an IET creating a translation surface." style="width: 60%; display: block; margin: 0 auto;">
 
-## <u>Session 2.5</u> (Fabian Lander), March ?th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
+## <u>Session 2.5</u> (Fabian Lander), March 12th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
 
 
 ### Elementary Translation Surfaces
@@ -298,3 +311,5 @@ A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</
 
 This definition captures a key aspect of the Veech alternative that we're working toward—the dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
 
+
+## <u>Session 3</u> (..), March 12th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
