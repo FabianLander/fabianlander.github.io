@@ -54,9 +54,9 @@ hide_title: true
     <div class="content-card">
       <section class="content-section">
         <h2>About Me</h2>
-        <p>Hello! I'm a PhD student in the Geometry, Groups and Dynamics division at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany. I work under the supervision of JProf. Dr. James Farre as part of Anna Wienhard's research group.</p>
+        <p>Hello! I'm a PhD student in the Geometry, Groups and Dynamics division at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany. I work under the supervision of James Farre as part of Anna Wienhard's research group.</p>
         
-        <p>My research focuses on affine measured foliations and dilation structures. Here's a typical picture I would draw on a blackboard if someone would ask me what I work on:</p>
+        <p>My research focuses on affine measured foliations and dilation structures. Here's a picture I would draw on a blackboard if someone would ask me what I work on:</p>
         
         <div class="blackboard-image">
           <picture>
