@@ -4,7 +4,7 @@ title: "Reading Seminar: Riemann surfaces and the Riemann-Roch Theorem"
 date: 2025-03-17 09:35:00 +0100
 categories: riemann-surfaces
 permalink: "Riemann-Roch"
-excerpt: "These are my notes for the reading seminar on Riemann surfaces with the goal of proving Riemann-Roch. We follow the book \"Lectures on Riemman Surfaces\" by Robert C. Gunning (from 1973)."
+excerpt: "These are my notes from our reading seminar at MPI MiS, where we are exploring Riemann surfaces and sheaf theory with the goal of proving the Riemann-Roch theorem. We follow the book \"Lectures on Riemman Surfaces\" by Robert C. Gunning (from 1973)."
 ---
 <style>
 .thm {
