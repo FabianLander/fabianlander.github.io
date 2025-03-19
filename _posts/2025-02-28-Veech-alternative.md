@@ -312,4 +312,4 @@ A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</
 This definition captures a key aspect of the Veech alternative that we're working toward—the dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
 
 
-## <u>Session 3</u> (..), March 12th: "Decomposing" a translation surfaces into IETs and defining elementary translation surfaces
+## <u>Session 3</u> (Magali Jay), March 19th: (...)
