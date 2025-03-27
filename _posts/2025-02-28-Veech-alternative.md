@@ -303,13 +303,117 @@ Let $l_2$ be the distance from $x''$ to $x$ when moving along the direction $e_1
 It is well known that on $\TT_{v_1, v_2}$, flows parallel to vectors in $\mathbb{Z}v_1 \oplus \mathbb{Z}v_2$ are periodic, while flows in all other directions are strongly ergodic. This dichotomy represents the simplest possible dynamical behavior for geodesic flows on translation surfaces.
 
 <div class="thm">
-<div class="thm-title">Definition 7.</div>
+<div class="thm-title">Definition.</div>
 <div class="thm-content">
-A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</em> if the flow on $M$ in an arbitrary direction is either strongly ergodic or has only periodic components. (Here, parallel periodic trajectories from distinct pencils can have incommensurate lengths, that is, the flow in such a direction cannot, in general, be periodic.)
+A translation structure $\omega$ on a surface $M$ is said to be <em>elementary</em> if the flow on $M$ in an arbitrary direction is either strongly ergodic or has only periodic components.
 </div>
 </div>
 
-This definition captures a key aspect of the Veech alternative that we're working toward—the dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no intermediate behavior.
+This definition captures a key aspect of the Veech alternative that we're working toward—the dichotomy in the behavior of geodesic flows, where for any given direction, the flow is either completely periodic or completely ergodic with no "intermediate" behavior.
 
 
-## <u>Session 3</u> (Magali Jay), March 19th: (...)
+## <u>Session 3</u> (Magali Jay), March 19th: The Stabilizer of a Planar Structure
+
+Let $\omega$ be a translation surface. Given an element $a\in \SL(2,\RR)$ we define $a\omega$ as the translation surface obtained by post-composing charts $(U_\alpha, f_\alpha)$ of $\omega$ with $a$, i.e. $(U_\alpha, a\circ f_\alpha)$. This defines an action on the space of translation structures and we denote by $\Gamma(\omega)$ the stabilizer subgroup of $\omega$, i.e.,
+
+$$\Gamma(\omega) = \{a\in \SL(2,\RR) \, \vert \, a\omega \text{ is isomorphic to } \omega\}.$$
+
+The goal for this talk is to prove:
+
+<div class="thm">
+<div class="thm-title">Proposition 12.</div>
+<div class="thm-content">
+$\Gamma(\omega)$ is a discrete non-uniform subgroup of $\SL(2,\RR)$.
+</div>
+</div>
+
+Given a saddle connection, we can cover its interior with a single chart. The image of the saddle connection will be a straight (open) line segment. A *development* of a saddle connection is a vector $v\in\RR^2$ that corresponds to the difference of endpoints of the oriented line segment. So every saddle connection has two developments: $v$ and $-v$. We define $SC(\omega)$ to be the multiset containing all developments of all saddle connections. (A multiset is a set where we also remember how often an element occurs. This can be encoded using a map from the set into the positive integers.)
+
+<div class="thm">
+<div class="thm-title">Proposition 13.</div>
+<div class="thm-content">
+The set of directions of $SC(\omega)$ is everywhere dense in the unit circle $\SS^1$. However, $SC(\omega) \subset \RR^2$ has no limit points.
+</div>
+</div> 
+
+<div class="proof">
+Take $v\in \SS^1$ and let $\epsilon >0$. Consider a singularity $A$ and a segment of length $s>0$ going from $A$ in a direction orthogonal to $v$. We call the endpoint $A'$ and denote the segment by $I$. We can send a ray in direction $v$ from $A$. We assume that this ray never hits a singularity (otherwise we would be done since $v$ would be the direction of a saddle connection). In particular, we can record the length of the trajectory until the first return to $I$ (see the Remark in the last session). The first return time from any point on $I$ has a lower bound $L$. So if we look at the $n$-th return of $A$, which we denote by $A_n$, the distance $l_n$ travelled by $A$ is at least $nL$. 
+
+<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch of all the elements involved." style="width: 40%; display: block; margin: 0 auto;">
+
+Now imagine dragging the point $A_n$ to $A$. This results in a saddle connection from $A$ to itself in a direction that differs from $v$ at most by $\theta = \arctan (\frac{s}{nL})$ which is arbitrarily small for large $n\in\NN$. Note that if we would encounter a saddle point $B$ somewhere on the segments whilst sliding, this would give us a saddle connection between $A$ and $B$ which will have a direction even closer to $v$. 
+
+<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch directions close to v." style="width: 40%; display: block; margin: 0 auto;">
+
+This proves the first claim.
+
+For the second claim, we first note that $0 \in \RR^2$ is not an accumulation point of $SC(\omega)$ because the length of saddle connections of $\omega$ is bounded from below. Now let $v\in SC(\omega)$. We draw a segment in direction $v$ of length $|v|$ from every saddle point. Since there are only finitely many saddle points, the flow in an orthogonal direction $v^\perp$ needs time at least $t>0$ to go from one segment to another one (in forward or backward time). This gives us the existence of a neighborhood $U$ of the union of all the segments that doesn't contain any saddle points other than the ones already contained in the segments themselves. This in turn implies that a development $u$ that is close to $v$ from a saddle point is contained in this neighborhood. This concludes the proof.
+</div>
+
+We denote the minimal length of saddle connections in a translaiton structure $\omega$ by $m(\omega)$. For fixed $\omega$, we define the map 
+
+$$
+\begin{align*}
+d: \GL(2,\RR) &\longrightarrow \RR \\
+a &\longmapsto m(a\omega)
+\end{align*}
+$$
+
+
+<div class="thm">
+<div class="thm-title">Proposition 14.</div>
+The map $d$ is coninuous and bounded on $\SL(2,\RR)$.
+<div class="thm-content">
+</div>
+</div> 
+
+<div class="proof">
+Let $v\in\RR^2$ be a development of the shortest saddle connection of $a\omega$, so $|v| = d(a)$. Then for $b\in \GL(2,\RR)$ we have 
+
+$$
+(ba\inv)v \in SC(b\omega)
+$$
+
+and 
+
+$$
+d(b) \le |ba\inv v| \le \Vert ba\inv \Vert \cdot d(a),
+$$
+
+where $\Vert \cdot \Vert$ denotes the operator norm on $\GL(2,\RR)$. Exchanging the roles of $a$ and $b$, we get
+
+$$
+\Vert ab\inv \Vert\inv \cdot d(a) \le d(b) \le \Vert ba\inv \Vert \cdot d(a).
+$$
+
+So if $a\rightarrow b$ then $\Vert ab\inv  \Vert \rightarrow 1$ and $d(b) \rightarrow d(a)$ which proves the continuity of $d$. Acting on $\omega$ by an element of $\SL(2,\RR)$ doesn't change the area $S$ of $\omega$. To show that $d$ is bounded on $\SL(2,\RR)$, we will prove that $m(a\omega) \le \sqrt{2\text{Area}(a\omega)} = \sqrt{2\text{Area}(\omega)}$. For this, take a segment $I$ of length $\sqrt{S}$ in an arbitrary direction, and starting in some singular point $A$. We assume that this segment doesn't contain a saddle point besides $A$. Drawing another segment of length $\sqrt{S}$ orthogonal to $I$, also with no other singularities, gives rise to a rectangle of area $S$. We are going to assume that this rectangle contains no singularity since otherwise we would have a saddle connection of length at most $\sqrt{S}$. Now consider a maximal segment $J$ in $I$ on which the first return time of the flow orthogonal to $I$ is constant. This return time is at most $\sqrt{S}$. The boundary of $J$ maps back to $I$. 
+
+<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch directions close to v." style="width: 40%; display: block; margin: 0 auto;">
+
+Since by assumption $I$ doesn't contain another singularity, the "leftmost" point of $J$ has to be mapped to $A$ which give a saddle connection from $A$ to $A$ of length less than $\sqrt{S}$. 
+</div>
+
+
+<div class="thm">
+<div class="thm-title">Proposition 15.</div>
+$\Gamma(\omega)$ is a non-uniform discrete subgroup of $\SL(2,\RR)$.
+<div class="thm-content">
+</div>
+</div> 
+
+By non-uniform we mean that the quotient $\SL(2,\RR)/\Gamma(\omega)$ is non-compact.
+
+<div class = "proof">
+To show discreteness, assume that there is a sequence $a_n \in \Gamma(\omega)$ that converges to $a$. Then the shortest saddle connection of $a_n\omega$ accumulates on the shortest saddle connection of $a\omega$. However this is not possible since $SC(a\omega) = SC(\omega)$ for all $a\in \Gamma(\omega)$ and $SC(\omega)$ is discrete. 
+
+To show that $\Gamma(\omega)\\SL(2,\RR)$ is non-compact, let $v\in SC(\omega)$ and $a\in\SL(2,\RR)$ such that $|av| \le \frac{1}{2}|v|$. Then
+
+$$
+| a^nv| \le  \frac{1}{2^n}|v| \rightarrow 0,
+$$
+
+i.e. $d(a^n) \rightarrow 0$.
+If $\SL(2,\RR)/\Gamma(\omega)$ were compact, we could find a sequence $\gamma_n \in \Gamma(\omega)$ such that $a^n\gamma_n \rightarrow b$. 
+</div>
+
+## <u>Session 4</u> (Jiajun Shi), March 24th:(...)
