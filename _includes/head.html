@@ -60,7 +60,7 @@
         macros: {
         // Basic number sets
         "R": "\\mathbb{R}",
-        "N": "\\mathbb{N}",
+        "NN": "\\mathbb{N}",
         "KK": "\\mathbb{K}",
         "RR": "\\mathbb{R}",
         "CC": "\\mathbb{C}",
@@ -74,13 +74,17 @@
         "Aut": ["\\operatorname{Aut}"],
         "Hom": ["\\operatorname{Hom}"],
         "PSL": ["\\operatorname{PSL}"],
+        "SL": ["\\operatorname{SL}"],
         "PMod": ["\\operatorname{PMod}"],
 
 
         // Common notations
         "norm": ["\\left\\lVert#1\\right\\rVert", 1],
         "abs": ["\\left|#1\\right|", 1],
-        "inv": "^{-1}"
+        "inv": "^{-1}",
+
+        // Restrictions of functions
+        "restr": ["\\left.\\kern-0.25em #1 \\right|_{#2}", 2]
         }
       }
     };
