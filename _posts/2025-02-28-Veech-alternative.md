@@ -339,15 +339,17 @@ The set of directions of $SC(\omega)$ is everywhere dense in the unit circle $\S
 <div class="proof">
 Take $v\in \SS^1$ and let $\epsilon >0$. Consider a singularity $A$ and a segment of length $s>0$ going from $A$ in a direction orthogonal to $v$. We call the endpoint $A'$ and denote the segment by $I$. We can send a ray in direction $v$ from $A$. We assume that this ray never hits a singularity (otherwise we would be done since $v$ would be the direction of a saddle connection). In particular, we can record the length of the trajectory until the first return to $I$ (see the Remark in the last session). The first return time from any point on $I$ has a lower bound $L$. So if we look at the $n$-th return of $A$, which we denote by $A_n$, the distance $l_n$ travelled by $A$ is at least $nL$. 
 
-<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch of all the elements involved." style="width: 40%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/denseDirections.svg" alt="Sketch of all the elements involved." style="width: 90%; display: block; margin: 0 auto;">
 
 Now imagine dragging the point $A_n$ to $A$. This results in a saddle connection from $A$ to itself in a direction that differs from $v$ at most by $\theta = \arctan (\frac{s}{nL})$ which is arbitrarily small for large $n\in\NN$. Note that if we would encounter a saddle point $B$ somewhere on the segments whilst sliding, this would give us a saddle connection between $A$ and $B$ which will have a direction even closer to $v$. 
 
-<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch directions close to v." style="width: 40%; display: block; margin: 0 auto;">
-
 This proves the first claim.
 
-For the second claim, we first note that $0 \in \RR^2$ is not an accumulation point of $SC(\omega)$ because the length of saddle connections of $\omega$ is bounded from below. Now let $v\in SC(\omega)$. We draw a segment in direction $v$ of length $|v|$ from every saddle point. Since there are only finitely many saddle points, the flow in an orthogonal direction $v^\perp$ needs time at least $t>0$ to go from one segment to another one (in forward or backward time). This gives us the existence of a neighborhood $U$ of the union of all the segments that doesn't contain any saddle points other than the ones already contained in the segments themselves. This in turn implies that a development $u$ that is close to $v$ from a saddle point is contained in this neighborhood. This concludes the proof.
+For the second claim, we first note that $0 \in \RR^2$ is not an accumulation point of $SC(\omega)$ because the length of saddle connections of $\omega$ is bounded from below. Now let $v\in SC(\omega)$. We draw a segment in direction $v$ of length $|v|$ from every saddle point. Since there are only finitely many saddle points, the flow in an orthogonal direction $v^\perp$ needs time at least $t>0$ to go from one segment to another one (in forward or backward time). This gives us the existence of a neighborhood $U$ of the union of all the segments that doesn't contain any saddle points other than the ones already contained in the segments themselves. 
+
+<img src="/assets/svgs/veech_alternative/epsilonNbhdShortestSaddleConnection.svg" alt="Sketch of all the elements involved." style="width: 70%; display: block; margin: 0 auto;">
+
+This in turn implies that a development $u$ that is close to $v$ from a saddle point is contained in this neighborhood. This concludes the proof.
 </div>
 
 We denote the minimal length of saddle connections in a translaiton structure $\omega$ by $m(\omega)$. For fixed $\omega$, we define the map 
@@ -388,7 +390,7 @@ $$
 
 So if $a\rightarrow b$ then $\Vert ab\inv  \Vert \rightarrow 1$ and $d(b) \rightarrow d(a)$ which proves the continuity of $d$. Acting on $\omega$ by an element of $\SL(2,\RR)$ doesn't change the area $S$ of $\omega$. To show that $d$ is bounded on $\SL(2,\RR)$, we will prove that $m(a\omega) \le \sqrt{2\text{Area}(a\omega)} = \sqrt{2\text{Area}(\omega)}$. For this, take a segment $I$ of length $\sqrt{S}$ in an arbitrary direction, and starting in some singular point $A$. We assume that this segment doesn't contain a saddle point besides $A$. Drawing another segment of length $\sqrt{S}$ orthogonal to $I$, also with no other singularities, gives rise to a rectangle of area $S$. We are going to assume that this rectangle contains no singularity since otherwise we would have a saddle connection of length at most $\sqrt{S}$. Now consider a maximal segment $J$ in $I$ on which the first return time of the flow orthogonal to $I$ is constant. This return time is at most $\sqrt{S}$. The boundary of $J$ maps back to $I$. 
 
-<img src="/assets/svgs/veech_alternative/img.svg" alt="Sketch directions close to v." style="width: 40%; display: block; margin: 0 auto;">
+<img src="/assets/svgs/veech_alternative/wholeSurfaceRectangle.svg" alt="Sketch directions close to v." style="width: 50%; display: block; margin: 0 auto;">
 
 Since by assumption $I$ doesn't contain another singularity, the "leftmost" point of $J$ has to be mapped to $A$ which give a saddle connection from $A$ to $A$ of length less than $\sqrt{S}$. 
 </div>
