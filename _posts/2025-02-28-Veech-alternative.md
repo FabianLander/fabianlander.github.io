@@ -418,4 +418,55 @@ i.e. $d(a^n) \rightarrow 0$.
 If $\SL(2,\RR)/\Gamma(\omega)$ were compact, we could find a sequence $\gamma_n \in \Gamma(\omega)$ such that $a^n\gamma_n \rightarrow b$. 
 </div>
 
-## <u>Session 4</u> (Jiajun Shi), March 24th:(...)
+<!-- ## <u>Session 4</u> (Jiajun Shi), March 24th: Veech's Theorem
+
+We will assume that the translation structure $\omega$ has singular points (see the discussion in the section about Elementary translation surfaces after Theorem 9). The goal is to prove the following theorem:
+
+<div class="thm">
+<div class="thm-title">Theorem (the Veech alternative).</div>
+<div class="thm-content">
+If $\Gamma(\omega)$ is a lattice in $\SL(2,\RR)$, then $\omega$ is elementary. Furthermore, the following are equivalent:
+<div style="padding-left: 1.5em; margin-top: 0.5em;">
+  <div style="margin-bottom: 0.3em;">(i) trajectories in direction $v$ are periodic</div>
+  <div style="margin-bottom: 0.3em;">(ii) there exists an $a\in\Gamma(\omega)$ such that $av=v$</div>
+  <div style="margin-bottom: 0.3em;">(iii) there exists a saddle connection parallel to $v$</div>
+</div>
+</div>
+</div>
+
+To prove this theorem, we will need the following key lemma from Masur's work, as cited in Vorobets:
+
+<div class="thm">
+<div class="thm-title">Lemma 3.5 (Masur 1992).</div>
+<div class="thm-content">
+Suppose that the planar structure $\omega$ has singular points and is such that $m(g^t\omega) \to 0$ as $t \to +\infty$, where
+$$g^t = \begin{pmatrix} e^{t/2} & 0 \\ 0 & e^{-t/2} \end{pmatrix} \in \SL(2, \RR).$$
+Then the flow in the vertical direction is strongly ergodic.
+</div>
+</div>
+
+<div style="font-size: 0.7em; margin-top: 1em; margin-bottom: 1em; padding-left: 1.5em;">
+This is Theorem 1.1 in: H. Masur, "Hausdorff dimension of the set of nonergodic foliations of a quadratic differential", <i>Duke Math. J.</i> 66 (1992), 387-442.
+</div>
+
+
+## <u>Session 5</u> (Fabian Lander), March (?): Masur's Lemma
+
+Let $T$ be an IET on $I = [a,b]$ and $a_0 = a, a_1, \dots, a_k = b$ be the break points of $T$. Denote by $\varepsilon (T)$ the length of the shortest interval(s) of this partition. For each $n\in \NN$ we write $\varepsilon_n(T) = \varepsilon(T^n)$.
+
+<div class="thm">
+<div class="thm-title">Theorem.</div>
+<div class="thm-content">
+If $n\varepsilon_n(T)$ does not converge to 0 as $n\rightarrow \infty$ and $T$ is minimal, then $T$ is strongly ergodic.
+</div>
+</div>
+
+For a proof we refer to :
+
+W. A. Veech, "Boshernitzan's criterion for unique ergodicity of an interval exchange
+transformation", Ergodic Theory Dynamical Systems 7 (1987), 149-153.
+
+and 
+
+M. D. Boshernitzan, "Rank two interval exchange transformations", Ergodic Theory
+Dynamical Systems 8 (1988), 379-394. -->
