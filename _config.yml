@@ -15,6 +15,10 @@ paginate_path: "/page:num/"
 markdown: kramdown
 highlighter: rouge
 
+include:
+  - dist
+
+
 # Plugins
 plugins:
   - jekyll-paginate
