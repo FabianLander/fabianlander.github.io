@@ -1,0 +1,60 @@
+{
+    "id": "square_mirror",
+    "name": "Square Room with Mirrors",
+    "description": "A simple square room with mirrors on edges",
+    "vertices": [
+      [2.0, 2.0],
+      [-2.0, 2.0],
+      [-2.0, -2.0],
+      [2.0, -2.0],
+      [2.0, 2.0]
+    ],
+    "edges": [
+      {
+        "type": "mirror",
+        "normal": [0.0, 0.0, 1.0]
+      },
+      {
+        "type": "mirror",
+        "normal": [-1.0, 0.0, 0.0]
+      },
+      {
+        "type": "mirror",
+        "normal": [0.0, 0.0, -1.0]
+      },
+      {
+        "type": "mirror",
+        "normal": [1.0, 0.0, 0.0]
+      }
+    ],
+    "normals":[
+      [0.0, 1.0],
+      [-1.0, 0.0],
+      [0.0, -1.0],
+      [1.0, 0.0]
+    ],
+    "initialPosition": [0.0, 1.0, 0.0],
+    "wallHeight": 2.0,
+    "teleportThreshold": 0.1,
+    "gluing": [0,1,2,3],
+    "teleportHeightRange": [0.0, 2.0],
+    "decorations": [
+      {
+        "type": "hollow_cube",
+        "position": [0.0, 0.0, 0.0],
+        "radius": 0.13,
+        "inner_ratio": 0.77
+      },
+      {
+        "type": "sphere",
+        "position": [1.618, 0.0, 0.0],
+        "radius": 0.07,
+        "animation": {
+          "enabled": true,
+          "type": "circular",
+          "speed": 1.5,
+          "radius": 1.0
+        }
+      }
+    ]
+  }

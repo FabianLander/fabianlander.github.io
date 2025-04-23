@@ -1,0 +1,48 @@
+{
+    "vertices": [
+        [0.0, 0.0],
+        [3.03934274, 0.0],
+        [1.51967137, 2.63214803],
+        [0.0, 0.0]
+    ],
+    "edges": [
+      {
+        "type": "mirror"
+      },
+      {
+        "type": "mirror"
+      },
+      {
+        "type": "mirror"
+      }
+    ],
+    "normals": [
+      [0.0,-1.0],
+      [0.8660254, 0.5 ],
+      [-0.8660254,  0.5]
+    ],
+    "initialPosition": [0.0, 0.0, 0.0],
+    "wallHeight": 10.0,
+    "gluing": [0,1,2],
+    "teleportThreshold": 0.1,
+    "teleportHeightRange": [0.0, 2.0],
+    "decorations": [
+      {
+        "type": "hollow_cube",
+        "position": [1.51967137, -10.0, 0.87738268],
+        "radius": 0.13,
+        "inner_ratio": 0.77
+      },
+      {
+        "type": "sphere",
+        "position": [1.51967137, 0.0, 0.87738268],
+        "radius": 0.07,
+        "animation": {
+          "enabled": true,
+          "type": "circular",
+          "speed": 1.5,
+          "radius": 1.0
+        }
+      }
+    ]
+  }

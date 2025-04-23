@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ray Marching Renderer</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #333;
+      font-family: monospace;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .canvas-container {
+      position: relative;
+      margin: 20px auto;
+      border: 2px solid #555;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      resize: both; /* This makes the container resizable */
+      min-width: 320px;
+      min-height: 240px;
+      max-width: 90vw;
+      max-height: 80vh;
+      width: 800px;
+      height: 600px;
+    }
+    
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .info {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 100;
+      font-size: 0.9em;
+    }
+    
+    #error {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: red;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 5px;
+      display: none;
+      z-index: 100;
+    }
+    
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .control-btn {
+      background-color: #444;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .control-btn:hover {
+      background-color: #555;
+    }
+    
+    .resolution-display {
+      margin-top: 5px;
+      font-size: 14px;
+      color: #ccc;
+    }
+    
+    .geometry-selector {
+      margin: 15px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .geometry-selector select {
+      background-color: #444;
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      font-family: monospace;
+      min-width: 200px;
+    }
+    
+    .geometry-info {
+      font-size: 14px;
+      color: #aaa;
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #444;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: #5a8;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    
+    .toggle-label {
+      font-size: 14px;
+      color: #ddd;
+    }
+  </style>
+  <script type="module" crossorigin src="/RayMarchingFlatSurfaces/assets/index-DyyUg_m3.js"></script>
+</head>
+<body>
+  <h1>Ray Marching Renderer</h1>
+  
+  <div class="geometry-selector">
+    <label for="geometry-select">Select Geometry:</label>
+    <select id="geometry-select">
+      <option value="square">Square Room</option>
+      <option value="L_shape">L-Shaped Room</option>
+      <option value="pentagon">Pentagon Translation</option>
+      <option value="pentagon_mirror">Pentagon Mirror</option>
+    </select>
+    <div id="geometry-description" class="geometry-info">A simple square room with teleportation on edges</div>
+  </div>
+  
+  <div class="toggle-container">
+    <label class="toggle-switch">
+      <input type="checkbox" id="teleport-toggle" checked>
+      <span class="toggle-slider"></span>
+    </label>
+    <div class="toggle-label">Enable Teleportation</div>
+  </div>
+  
+  <div class="resolution-display">Resolution: <span id="resolution">800×600</span> (<span id="actual-resolution">800×600</span> pixels, Pixel Ratio: <span id="pixel-ratio">1</span>)</div>
+  
+  <div class="canvas-container">
+    <div class="info">
+      WASD - Move<br>
+      Mouse - Look<br>
+      E/Q - Up/Down<br>
+      Click on canvas to lock cursor
+    </div>
+    <div id="teleport-status" style="position: absolute; top: 10px; right: 80px; background-color: rgba(0, 0, 0, 0.5); color: #5a8; padding: 5px; border-radius: 4px; font-size: 12px;">
+      Teleport: ON
+    </div>
+    <div id="error"></div>
+    <!-- Canvas will be inserted here by Three.js -->
+  </div>
+  
+  <div class="controls">
+    <button class="control-btn" id="fullscreen">Fullscreen</button>
+    <button class="control-btn" id="reset-size">Reset Size</button>
+    <button class="control-btn" id="download-render">Download Render</button>
+  </div>
+  
+</body>
+</html>
