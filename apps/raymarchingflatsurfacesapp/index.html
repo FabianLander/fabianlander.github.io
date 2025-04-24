@@ -172,11 +172,37 @@
       font-size: 14px;
       color: #ddd;
     }
+    
+    .browser-compatibility {
+      margin: 15px 0;
+      padding: 10px 15px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      font-size: 14px;
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    
+    .browser-compatibility .compatible {
+      color: #5a8;
+    }
+    
+    .browser-compatibility .incompatible {
+      color: #e55;
+    }
   </style>
   <script type="module" crossorigin src="/apps/raymarchingflatsurfacesapp/assets/index-5XRpWACy.js"></script>
 </head>
 <body>
   <h1>Ray Marching Renderer</h1>
+  
+  <div class="browser-compatibility">
+    <strong>Browser Compatibility:</strong><br>
+    <span class="compatible">✓ Chrome</span> • 
+    <span class="compatible">✓ Firefox</span> • 
+    <span class="incompatible">✗ Safari</span> (Performance issues - GPU may not be properly utilized)
+  </div>
   
   <div class="geometry-selector">
     <label for="geometry-select">Select Geometry:</label>
