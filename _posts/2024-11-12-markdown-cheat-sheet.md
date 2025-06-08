@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Markdown Cheatsheet"
+title: "Markdown and Key Binding Cheatsheet"
 date: 2024-11-12
 categories: [tutorials, markdown]
 tags: [markdown, writing, documentation]
@@ -159,4 +159,68 @@ date: 2024-11-19
 categories: [tutorials, markdown]
 tags: [markdown, writing]
 ---
+```
+
+## VSCode Vim Keybindings
+
+Below are custom keybindings defined in `keybindings.json`, organized by category for clarity. These enhance productivity when using the Vim plugin in VSCode.
+
+### Navigation
+- `Ctrl + h/j/k/l` — Move focus to the left/down/up/right editor group
+- `s h` — Split editor horizontally
+- `s v` — Split editor vertically
+- `space ,` — Show tab picker for all open editors
+- `space e` — Toggle sidebar (and focus file explorer if hidden)
+- `tab` / `shift + tab` — Cycle through tabs in the current group
+
+### File/Buffer Management
+- `space space` — Quick file picker (fuzzy search)
+- `space b d` — Close current editor (buffer)
+- `space b o` — Close all other editors
+
+### Coding and Refactoring
+- `space c a` — Code actions (e.g. quick fixes, refactors)
+- `space c r` — Rename symbol under cursor
+- `space c s` — Go to symbol in current file
+- `shift + k/j` (VisualLine mode) — Move selected lines up/down
+- `shift + k` (Normal mode) — Show hover information
+- `ctrl + n` — Multi-cursor: select next occurrence
+
+### Search and Navigation
+- `space g d` — Go to definition
+- `space g r` — Find references
+- `space g i` — Go to implementation
+- `space s g` — Global search (find in files)
+
+### Git Integration
+- `space g g` — Open and focus Git panel
+
+### Copilot (AI Suggestions)
+- `ctrl + y` — Accept full inline suggestion
+- `cmd + →` — Accept next word
+- `cmd + shift + →` — Accept next line
+- `alt + ] / alt + [` — Show next/previous suggestion
+- `escape` — Dismiss suggestion
+
+### File Explorer (Focus on Sidebar)
+- `a` — Create new file
+- `r` — Rename file/folder
+- `c` / `x` / `p` — Copy / Cut / Paste file or folder
+- `d` — Delete file/folder
+- `s` — Open file in split pane
+- `shift + s` — Open in vertical split below and close others
+- `enter` — Open file or toggle folder (depending on selection)
+
+### Debugging
+- `space d a` — Select and start debug config
+- `space d t` — Stop debugging
+- `space d o` — Step over
+- `space d c` — Continue execution
+- `space d b` — Toggle breakpoint
+- `space d e` — Show debug hover
+
+### Miscellaneous
+- `space c c` — Toggle VS Code chat (AI chat interface)
+
+All shortcuts are active in Normal mode unless stated otherwise.
 ```
