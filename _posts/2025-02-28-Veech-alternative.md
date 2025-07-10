@@ -162,8 +162,6 @@ The first return map on a segment $I$ is defined for every point, except for the
 </div>
 </div>
 
-Here's the full improved section as a single fragment:
-
 ### Saddle Connections and Minimal Components
 
 A *saddle connection* of a translation surface is a geodesic segment joining two singular points which doesn't contain singular points in its interior. Notice that in our previous construction of *IETs* on translation surfaces, saddle connections in the direction $v$ play precisely the same role as the set $C(T)$ we discussed earlier.
