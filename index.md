@@ -80,6 +80,7 @@ hide_title: true
 
       <section class="content-section">
         <h2>Publications and Preprints</h2>
+        <p><strong>Immersive Visualization of Flat Surfaces Using Ray Marching</strong>, with Diaaeldin Taha, <em>Proceedings of Bridges 2025: Mathematics and the Arts</em>, pages 191-198 (2025). <a href="http://archive.bridgesmathart.org/2025/bridges2025-191.html" target="_blank">Link</a></p>
         <p><strong>Symplectic billiards for pairs of polygons</strong>, with Peter Albers and Jannik M. Westermann, arXiv:2402.12244 (2024). 37 pages. Submitted.</p>
       </section>
     </div>
