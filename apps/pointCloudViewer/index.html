@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal Projective Point Cloud Viewer</title>
+    <style>
+      html, body, #app { height: 100%; margin: 0; background:#0b0d10; color:#e6e6e6; }
+      #overlay { position: absolute; left: 12px; top: 12px; z-index: 10; display: flex; gap: 8px; align-items: center; }
+      #overlay button { background:#151922; color:#fff; border:1px solid #2c3342; border-radius:8px; padding:8px 10px; cursor:pointer; }
+      #overlay button:hover { background:#1b2130; }
+      #overlay .stat { padding: 6px 10px; background:#0f1320; border:1px solid #2c3342; border-radius: 8px; }
+      canvas { display:block; }
+      .credit { position: absolute; right: 12px; bottom: 12px; opacity: .6; }
+    </style>
+    <script type="module" crossorigin src="/assets/index-RnIlDbiY.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <div id="overlay">
+      <button id="loadBtn">Load JSON (.json)</button>
+      <button id="clearBtn" title="Remove loaded points">Clear</button>
+      <div class="stat" id="stat">0 pts</div>
+    </div>
+    <div class="credit">Three.js minimal viewer · projective coords</div>
+  </body>
+</html>
