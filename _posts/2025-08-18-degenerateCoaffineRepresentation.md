@@ -7,4 +7,6 @@ categories: threejs
 
 This is a visualization of the degenerate coaffine representation from the work of James Farre and Marit Bobb.
 
-[Visit the viewer](https://fabianlander.github.io/apps/degenerateCoaffineRepresentation/)
+<!-- [Visit the viewer](https://fabianlander.github.io/apps/degenerateCoaffineRepresentation/) -->
+
+[Visit the viewer](https://fabianlander.github.io/apps/pointCloudViewer/)
