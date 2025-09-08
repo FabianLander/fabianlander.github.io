@@ -9,4 +9,3 @@ Gemfile.lock
 _drafts/
 Quicknotes.txt
 
-apps/pointCloudViewer/data/*.json
