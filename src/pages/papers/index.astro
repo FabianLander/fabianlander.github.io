@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/pages/papers.css';
+
+const allPapers = await getCollection('papers');
+
+const papers = allPapers.sort((a, b) => {
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+function paperUrl(p: typeof papers[0]): string | null {
+  if (p.data.url) return p.data.url;
+  if (p.data.arxiv) return `https://arxiv.org/abs/${p.data.arxiv}`;
+  return null;
+}
+---
+
+<Layout title="Papers — Fabian Lander" description="Research papers by Fabian Lander">
+  <main class="papers-page">
+    <header class="papers-header">
+      <h1>Papers</h1>
+    </header>
+
+    <ol class="papers-list">
+      {papers.map((p) => {
+        const href = paperUrl(p);
+        return (
+          <li class="papers-item">
+            <div class="papers-entry">
+              <div class="papers-title-row">
+                {href ? (
+                  <a href={href} class="papers-title">{p.data.title}</a>
+                ) : (
+                  <span class="papers-title">{p.data.title}</span>
+                )}
+                <span class={`papers-status papers-status--${p.data.status}`}>
+                  {p.data.status}
+                </span>
+              </div>
+
+              {p.data.authors.length > 0 && (
+                <div class="papers-authors">{p.data.authors.join(', ')}</div>
+              )}
+
+              <div class="papers-venue-row">
+                <span class="papers-venue">
+                  {p.data.venueUrl ? (
+                    <a href={p.data.venueUrl}>{p.data.venue}</a>
+                  ) : (
+                    p.data.venue
+                  )}
+                </span>
+                <span class="papers-year">
+                  {new Date(p.data.date).getFullYear()}
+                </span>
+                {p.data.arxiv && (
+                  <a href={`https://arxiv.org/abs/${p.data.arxiv}`} class="papers-arxiv">
+                    arXiv:{p.data.arxiv}
+                  </a>
+                )}
+              </div>
+
+              {p.data.abstract && (
+                <details class="papers-abstract-toggle">
+                  <summary>Abstract</summary>
+                  <p class="papers-abstract">{p.data.abstract}</p>
+                </details>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </main>
+</Layout>

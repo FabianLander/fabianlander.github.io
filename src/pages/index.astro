@@ -1,0 +1,401 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import { resolveEntryImage, type GlobResult } from '../utils/images';
+import profilePic from '../assets/ProfilePic.png';
+import '../styles/pages/home.css';
+import allCourses from '../data/courses.json';
+import allTrips from '../data/trips.json';
+
+// ---- Projects ----
+const projectImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/projects/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
+const allProjectsRaw = await getCollection('projects');
+const allProjects = await Promise.all(
+  allProjectsRaw.map(async (p) => {
+    const image = p.data.image
+      ? await resolveEntryImage(p.id, p.data.image, 'projects', projectImages, 200)
+      : null;
+    return { ...p, resolvedImage: image };
+  }),
+);
+
+// ---- Software ----
+const allSoftware = await getCollection('software');
+
+// ---- Blog ----
+const allBlog = await getCollection('blog');
+const recentBlog = allBlog
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 5);
+
+// ---- Papers ----
+const allPapers = await getCollection('papers');
+const recentPapers = allPapers
+  .sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
+  .slice(0, 5);
+
+// ---- Talks ----
+const allTalks = await getCollection('talks');
+const recentTalks = allTalks
+  .filter((t) => t.data.venues.length > 0)
+  .map((t) => {
+    const latestVenue = t.data.venues.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    )[0];
+    return { ...t, latestVenue };
+  })
+  .sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    return new Date(b.latestVenue.date).getTime() - new Date(a.latestVenue.date).getTime();
+  })
+  .slice(0, 5);
+
+// ---- Courses: current vs past ----
+const now = new Date();
+const currentTerm = `${now.getMonth() < 6 ? 'Spring' : 'Fall'} ${now.getFullYear()}`;
+const currentCourses = allCourses.filter((c) => c.term === currentTerm);
+const pastCourses = allCourses.filter((c) => c.term !== currentTerm);
+
+// ---- Trips: upcoming vs past (use endDate so ongoing trips stay "upcoming") ----
+const today = now.toISOString().slice(0, 10);
+const upcoming = allTrips
+  .filter((t) => (t.endDate ?? t.date) >= today)
+  .sort((a, b) => a.date.localeCompare(b.date));
+const pastTrips = allTrips
+  .filter((t) => (t.endDate ?? t.date) < today)
+  .sort((a, b) => b.date.localeCompare(a.date));
+
+function formatDateRange(start: string, end?: string): string {
+  const s = new Date(start + 'T00:00:00');
+  if (!end) return s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const e = new Date(end + 'T00:00:00');
+  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear();
+  if (sameMonth) {
+    return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}–${e.getDate()}`;
+  }
+  return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+}
+
+// ---- Demos: 8 most recent ----
+const demoImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/demos/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
+const allDemos = await getCollection('demos');
+const sortedDemos = allDemos
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 8);
+
+const recentDemos = await Promise.all(
+  sortedDemos.map(async (d) => {
+    const image = d.data.image
+      ? await resolveEntryImage(d.id, d.data.image, 'demos', demoImages)
+      : null;
+    return { ...d, resolvedImage: image };
+  }),
+);
+
+// ---- Graphics: 8 most recent ----
+const graphicsImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/graphics/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
+const allGraphics = await getCollection('graphics');
+const sortedGraphics = allGraphics
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 8);
+
+const recentGraphics = await Promise.all(
+  sortedGraphics.map(async (g) => {
+    const image = await resolveEntryImage(g.id, g.data.image, 'graphics', graphicsImages);
+    return { ...g, resolvedImage: image };
+  }),
+);
+---
+
+<Layout title="Fabian Lander">
+  <main class="home-main">
+    <section class="hero">
+      <Image
+        src={profilePic}
+        alt="Fabian Lander"
+        width={360}
+        class="hero-photo"
+      />
+      <div class="hero-text">
+        <h1>Fabian Lander</h1>
+        <p>
+          Hello! I'm a PhD student in geometry, groups and dynamics at the
+          Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany.
+          This site collects my <a href="#illustration">illustration</a>,
+          <a href="#code">code</a>, and
+          <a href="#writing">writing</a>.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Illustration ===== -->
+    <section id="illustration" class="home-section">
+      <div class="home-section-label">Illustration</div>
+      <h2><a href="/graphics" class="home-heading-link">Graphics</a></h2>
+
+      <div class="thumb-grid">
+        {recentGraphics.map((g) => (
+          <a href="/graphics" class="thumb-cell">
+            {g.resolvedImage ? (
+              <img src={g.resolvedImage.src} alt={g.data.title} loading="lazy" />
+            ) : (
+              <div class="placeholder"></div>
+            )}
+          </a>
+        ))}
+      </div>
+
+      <a href="/graphics" class="see-more-bar">
+        <span class="see-more-count">Showing {recentGraphics.length} of {allGraphics.length} graphics</span>
+        <span class="see-more-link">Browse all <span class="see-more-arrow">&rarr;</span></span>
+      </a>
+    </section>
+
+    <!-- ===== Code ===== -->
+    <section id="code" class="home-section">
+      <div class="home-section-label">Code</div>
+      <h2><a href="/demos" class="home-heading-link">Demos</a></h2>
+
+      <div class="thumb-grid">
+        {recentDemos.map((d) => (
+          <a href={d.data.url} class="thumb-cell" target="_blank" rel="noopener">
+            {d.resolvedImage ? (
+              <img src={d.resolvedImage.src} alt={d.data.title} loading="lazy" />
+            ) : (
+              <div class="placeholder"></div>
+            )}
+          </a>
+        ))}
+      </div>
+
+      <a href="/demos" class="see-more-bar">
+        <span class="see-more-count">Showing {recentDemos.length} of {allDemos.length} demos</span>
+        <span class="see-more-link">Browse all <span class="see-more-arrow">&rarr;</span></span>
+      </a>
+
+      <h2><a href="/software" class="home-heading-link">Software</a></h2>
+
+      <div class="software-list">
+        {allSoftware.map((s) => (
+          <div class="software-item">
+            <h3><a href={s.data.github || `/software/${s.id}`}>{s.data.title}</a></h3>
+            <p class="software-desc">{s.data.description}</p>
+            <div class="software-meta">{s.data.tech}{s.data.github && <> · <a href={s.data.github}>GitHub</a></>}</div>
+          </div>
+        ))}
+      </div>
+
+      <a href="/software" class="see-more-bar">
+        <span class="see-more-count">{allSoftware.length} software projects</span>
+        <span class="see-more-link">Details & documentation <span class="see-more-arrow">&rarr;</span></span>
+      </a>
+    </section>
+
+    <!-- ===== Writing ===== -->
+    <section id="writing" class="home-section">
+      <div class="home-section-label">Writing</div>
+      <h2><a href="/blog" class="home-heading-link">Blog</a></h2>
+
+      <ul class="blog-list">
+        {recentBlog.map((post) => (
+          <li class="blog-item">
+            <a href={`/blog/${post.id.replace(/(\/index)?\.md$/, '')}/`} class="blog-title">{post.data.title}</a>
+            <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a href="/blog" class="see-more-bar">
+        <span class="see-more-count">Showing {recentBlog.length} of {allBlog.filter((p) => !p.data.draft).length} posts</span>
+        <span class="see-more-link">All posts <span class="see-more-arrow">&rarr;</span></span>
+      </a>
+
+    </section>
+
+    <!-- ===== Project Websites ===== -->
+    <section class="home-section">
+      <h2>Websites</h2>
+
+      <div class="project-list">
+        {allProjects.map((p) => (
+          <div class={`project-item ${p.resolvedImage ? 'has-image' : ''}`}>
+            {p.resolvedImage && (
+              <a href={p.data.url} class="project-thumb">
+                <img src={p.resolvedImage.src} alt={p.data.title} loading="lazy" />
+              </a>
+            )}
+            <div class="project-text">
+              <div class="project-url">{new URL(p.data.url).hostname}</div>
+              <h3><a href={p.data.url}>{p.data.title}</a></h3>
+              {p.data.collaborators.length > 0 && (
+                <div class="project-meta">with {p.data.collaborators.sort().join(', ')}</div>
+              )}
+              {p.data.description && <p class="project-desc">{p.data.description}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ===== Academic ===== -->
+    <section class="home-section">
+      <div class="home-section-label">Academic</div>
+
+      <p class="teaching-prose">
+        {currentCourses.length > 0 ? (
+          <>
+            This semester ({currentTerm}) I am teaching{' '}
+            {currentCourses.map((c, i) => (
+              <>
+                {i > 0 && (i === currentCourses.length - 1 ? ' and ' : ', ')}
+                <strong>{c.course}</strong> ({c.number}){c.sections > 1 && ` (${c.sections} sections)`}
+              </>
+            ))}
+            {pastCourses.length > 0 && (
+              <> (<a href="#past-courses" class="inline-toggle" data-target="past-courses">previous semesters</a>)</>
+            )}.{' '}
+          </>
+        ) : (
+          <>
+            I'm currently focused on my PhD research.{' '}
+            {pastCourses.length > 0 && (
+              <>(<a href="#past-courses" class="inline-toggle" data-target="past-courses">previous teaching</a>){' '}</>
+            )}
+          </>
+        )}
+      </p>
+
+      {pastCourses.length > 0 && (
+        <div class="past-inline" id="past-courses" hidden>
+          <ul class="past-courses-list">
+            {pastCourses.map((c) => (
+              <li>
+                <span class="past-course-term">{c.term}</span>
+                <span class="past-course-name">
+                  {c.course} ({c.number}){c.sections > 1 && ` — ${c.sections} sections`}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <p class="teaching-prose">
+        I'm occasionally on the road for math — where to find me{pastTrips.length > 0 && (
+          <>, and <a href="#past-appearances" class="inline-toggle" data-target="past-appearances">where I've recently been</a></>
+        )}.
+      </p>
+
+      <div class="upcoming-inline" id="upcoming-trips">
+        {upcoming.length > 0 ? (
+          <ul class="appearances-list">
+            {upcoming.map((a) => (
+              <li>
+                <span class="appearance-date">{formatDateRange(a.date, a.endDate)}</span>
+                <span class="appearance-info">
+                  {a.url ? (
+                    <a href={a.url} class="appearance-event">{a.event}</a>
+                  ) : (
+                    <span class="appearance-event">{a.event}</span>
+                  )}
+                  {a.description && <span class="appearance-desc">{a.description}</span>}
+                </span>
+                <span class="appearance-location">{a.location}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p class="teaching-prose">Nothing on the calendar yet — check back soon.</p>
+        )}
+      </div>
+
+      {pastTrips.length > 0 && (
+        <div class="past-inline" id="past-appearances" hidden>
+          <div class="past-appearances-label">Recent</div>
+          <ul class="appearances-list">
+            {pastTrips.map((a) => (
+              <li>
+                <span class="appearance-date">{formatDateRange(a.date, a.endDate)}</span>
+                <span class="appearance-info">
+                  {a.url ? (
+                    <a href={a.url} class="appearance-event">{a.event}</a>
+                  ) : (
+                    <span class="appearance-event">{a.event}</span>
+                  )}
+                  {a.description && <span class="appearance-desc">{a.description}</span>}
+                </span>
+                <span class="appearance-location">{a.location}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="academic-grid">
+        <div class="academic-col">
+          <h3><a href="/papers" class="home-heading-link">Recent Papers</a></h3>
+          <ul class="paper-list">
+            {recentPapers.map((p) => (
+              <li>
+                {p.data.url || p.data.arxiv ? (
+                  <a href={p.data.url || `https://arxiv.org/abs/${p.data.arxiv}`} class="paper-title">{p.data.title}</a>
+                ) : (
+                  <span class="paper-title">{p.data.title}</span>
+                )}
+                <div class="paper-venue">{p.data.venue}, {new Date(p.data.date).getFullYear()}</div>
+              </li>
+            ))}
+          </ul>
+          <a href="/papers" class="section-link">All papers &rarr;</a>
+        </div>
+
+        <div class="academic-col">
+          <h3><a href="/talks" class="home-heading-link">Recent Talks</a></h3>
+          <ul class="talk-list">
+            {recentTalks.map((t) => (
+              <li>
+                <a href={`/talks/${t.id.replace(/(\/index)?\.md$/, '')}/`} class="talk-title">{t.data.title}</a>
+                <div class="talk-venue">{t.latestVenue.name}, {new Date(t.latestVenue.date).getFullYear()}</div>
+              </li>
+            ))}
+          </ul>
+          <a href="/talks" class="section-link">All talks &rarr;</a>
+        </div>
+      </div>
+
+      <a href="#" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.inline-toggle').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = (link as HTMLElement).dataset.target;
+        if (!targetId) return;
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const isHidden = target.hidden;
+        target.hidden = !isHidden;
+        link.classList.toggle('expanded', isHidden);
+      });
+    });
+  </script>
+</Layout>

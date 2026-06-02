@@ -1,0 +1,177 @@
+---
+import { resolve } from 'node:path';
+import Layout from '../../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { getEntryImages, type GlobResult } from '../../../utils/images';
+import { getAllTrips, getNavData } from '../../../utils/photos';
+import exifr from 'exifr';
+import '../../../styles/pages/photos.css';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/photos/**/*.{png,jpg,jpeg,webp}',
+  { eager: true },
+) as GlobResult;
+
+const allTrips = await getAllTrips();
+const { years, yearCounts, tags, tagCounts } = getNavData(allTrips);
+
+function dmsToDecimal(dms: number[] | number, ref: string): number {
+  if (typeof dms === 'number') {
+    return ref === 'S' || ref === 'W' ? -dms : dms;
+  }
+  if (!Array.isArray(dms) || dms.length !== 3) return 0;
+  const [degrees, minutes, seconds] = dms;
+  let decimal = degrees + minutes / 60 + seconds / 3600;
+  if (ref === 'S' || ref === 'W') decimal = -decimal;
+  return decimal;
+}
+
+// Extract GPS data from all photos across all trips
+type MapMarker = {
+  lat: number;
+  lng: number;
+  thumbnail: string;
+  tripTitle: string;
+  year: string;
+};
+
+const markers: MapMarker[] = [];
+
+for (const trip of allTrips) {
+  const thumbs = await getEntryImages(trip.id, 'photos', allImages, trip.data.cover, 200);
+
+  // Get file paths for EXIF extraction
+  const entryDir = trip.id.endsWith('.md')
+    ? trip.id.replace(/\/[^/]+\.md$|[^/]+\.md$/, '')
+    : trip.id;
+  const prefix = `/src/content/photos/${entryDir ? entryDir + '/' : ''}`;
+  const filePaths = Object.keys(allImages).filter((p) => p.startsWith(prefix));
+
+  for (let i = 0; i < filePaths.length; i++) {
+    const path = filePaths[i];
+    try {
+      const filePath = resolve(process.cwd(), path.slice(1));
+      const exifData = await exifr.parse(filePath, {
+        pick: [
+          'GPSLatitude',
+          'GPSLongitude',
+          'GPSLatitudeRef',
+          'GPSLongitudeRef',
+        ],
+      });
+
+      if (!exifData?.GPSLatitude || !exifData?.GPSLongitude) continue;
+
+      const lat = dmsToDecimal(
+        exifData.GPSLatitude,
+        exifData.GPSLatitudeRef || 'N',
+      );
+      const lng = dmsToDecimal(
+        exifData.GPSLongitude,
+        exifData.GPSLongitudeRef || 'E',
+      );
+
+      if (lat === 0 && lng === 0) continue;
+
+      // Round to ~1km for privacy
+      const roundedLat = Math.round(lat * 100) / 100;
+      const roundedLng = Math.round(lng * 100) / 100;
+
+      // Find matching thumbnail (by index in the sorted list)
+      const thumb = thumbs[i]?.src ?? thumbs[0]?.src;
+
+      markers.push({
+        lat: roundedLat,
+        lng: roundedLng,
+        thumbnail: thumb,
+        tripTitle: trip.data.title,
+        year: trip.data.date.slice(0, 4),
+      });
+    } catch {
+      // No EXIF or can't parse — skip
+    }
+  }
+}
+---
+
+<Layout title="Photo Map — Fabian Lander">
+  <main class="photos-page">
+    <h1>Photos</h1>
+    <p class="photos-intro">Places I've been, things I've seen.</p>
+    <p class="photos-count">{markers.length} geotagged photos from {allTrips.length} trips</p>
+
+    {/* Year tabs */}
+    <nav class="photos-year-tabs">
+      {years.map((year) => (
+        <a href={`/photos/${year}/`} class="photos-year-tab">
+          {year}
+          <span class="photos-year-tab-count">{yearCounts[year]}</span>
+        </a>
+      ))}
+      <a href="/photos/map/" class="photos-year-tab active">
+        Map
+        <span class="photos-year-tab-count">{markers.length}</span>
+      </a>
+    </nav>
+
+    {/* Tag pills */}
+    <div class="photos-tag-pills">
+      {tags.map((tag) => (
+        <a href={`/photos/${tag}/`} class="photos-tag-pill">
+          {tag.length <= 3 ? tag.toUpperCase() : tag.charAt(0).toUpperCase() + tag.slice(1).replace(/-/g, ' ')}
+        </a>
+      ))}
+    </div>
+
+    <div id="photo-map" class="photo-map"></div>
+  </main>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script define:vars={{ markers }}>
+    const map = L.map('photo-map').setView([30, 0], 2);
+
+    L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxZoom: 19,
+      },
+    ).addTo(map);
+
+    const leafletMarkers = [];
+
+    for (const m of markers) {
+      const marker = L.marker([m.lat, m.lng]).addTo(map);
+
+      marker.bindPopup(
+        `<div style="text-align:center;min-width:120px">` +
+          `<img src="${m.thumbnail}" style="width:150px;border-radius:4px;margin-bottom:4px" />` +
+          `<div style="font-weight:600;font-size:0.85rem">${m.tripTitle}</div>` +
+          `</div>`,
+        { maxWidth: 200 },
+      );
+
+      leafletMarkers.push(marker);
+    }
+
+    if (leafletMarkers.length > 0) {
+      const group = L.featureGroup(leafletMarkers);
+      map.fitBounds(group.getBounds().pad(0.1));
+    }
+  </script>
+</Layout>
+
+<style>
+  .photo-map {
+    width: 100%;
+    height: 70vh;
+    border-radius: 8px;
+    min-height: 400px;
+  }
+</style>

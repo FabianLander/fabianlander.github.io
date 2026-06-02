@@ -1,0 +1,166 @@
+---
+import type { PhotoItem, LightboxEntry } from '../utils/photos';
+import { formatDate } from '../utils/photos';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  years: number[];
+  yearCounts: Record<number, number>;
+  tags: string[];
+  activeYear?: string;
+  activeTag?: string;
+  galleryItems: PhotoItem[];
+  lightboxData: LightboxEntry[];
+}
+
+const {
+  title,
+  subtitle,
+  years,
+  yearCounts,
+  tags,
+  activeYear,
+  activeTag,
+  galleryItems,
+  lightboxData,
+} = Astro.props;
+---
+
+<main class="photos-page">
+  <h1>{title}</h1>
+  <p class="photos-intro">Places I've been, things I've seen.</p>
+  <p class="photos-count">{subtitle}</p>
+
+  {/* Year tabs */}
+  <nav class="photos-year-tabs">
+    {years.map((year) => (
+      <a
+        href={`/photos/${year}/`}
+        class:list={['photos-year-tab', { active: activeYear === String(year) }]}
+      >
+        {year}
+        <span class="photos-year-tab-count">{yearCounts[year]}</span>
+      </a>
+    ))}
+    <a href="/photos/map/" class="photos-year-tab">
+      Map
+    </a>
+  </nav>
+
+  {/* Tag pills */}
+  <div class="photos-tag-pills">
+    {tags.map((tag) => (
+      <a
+        href={`/photos/${tag}/`}
+        class:list={['photos-tag-pill', { active: activeTag === tag }]}
+      >
+        {tag.length <= 3 ? tag.toUpperCase() : tag.charAt(0).toUpperCase() + tag.slice(1).replace(/-/g, ' ')}
+      </a>
+    ))}
+  </div>
+
+  {galleryItems.length === 0 ? (
+    <p class="photos-empty">No photos found.</p>
+  ) : (
+    <div class="photos-masonry">
+      {galleryItems.map((item) => {
+        if (item.type === 'header') {
+          return (
+            <div class="photos-trip-header">
+              <h2 class="photos-trip-header-title">{item.title}</h2>
+            </div>
+          );
+        }
+        return (
+          <button
+            class="photos-item"
+            data-index={item.globalIndex}
+            aria-label={`View photo from ${item.tripTitle}`}
+          >
+            <img
+              src={item.thumbnail}
+              alt={item.tripTitle}
+              loading="lazy"
+              style={`aspect-ratio: ${item.width} / ${item.height}`}
+            />
+            <div class="photos-item-overlay">
+              <span class="photos-overlay-title">{item.tripTitle}</span>
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  )}
+
+  <dialog class="photos-lightbox" id="photos-lightbox">
+    <button class="photos-lightbox-close" aria-label="Close">&times;</button>
+    <button class="photos-lightbox-nav photos-lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="photos-lightbox-nav photos-lightbox-next" aria-label="Next">&#8250;</button>
+    <div class="photos-lightbox-content">
+      <img src="" alt="" id="photos-lightbox-img" />
+      <div class="photos-lightbox-info">
+        <p class="photos-lightbox-title" id="photos-lightbox-title"></p>
+        <p class="photos-lightbox-date" id="photos-lightbox-date"></p>
+      </div>
+    </div>
+  </dialog>
+</main>
+
+<script define:vars={{ lightboxData }}>
+  let currentIndex = 0;
+  const items = lightboxData;
+  const lightbox = document.getElementById('photos-lightbox');
+  const lbImg = document.getElementById('photos-lightbox-img');
+  const lbTitle = document.getElementById('photos-lightbox-title');
+  const lbDate = document.getElementById('photos-lightbox-date');
+
+  function fmtDate(ym) {
+    const [year, month] = ym.split('-');
+    const d = new Date(Number(year), Number(month) - 1);
+    return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  function update() {
+    const d = items[currentIndex];
+    lbImg.src = d.fullSize;
+    lbImg.alt = d.tripTitle;
+    lbTitle.textContent = d.tripTitle;
+    lbDate.textContent = fmtDate(d.date);
+  }
+
+  document.querySelectorAll('.photos-item').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentIndex = Number(btn.dataset.index);
+      update();
+      lightbox.showModal();
+    });
+  });
+
+  document.querySelector('.photos-lightbox-close').addEventListener('click', () => lightbox.close());
+  document.querySelector('.photos-lightbox-prev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + items.length) % items.length;
+    update();
+  });
+  document.querySelector('.photos-lightbox-next').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % items.length;
+    update();
+  });
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) lightbox.close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.open) return;
+    if (e.key === 'Escape') lightbox.close();
+    if (e.key === 'ArrowRight') {
+      currentIndex = (currentIndex + 1) % items.length;
+      update();
+    }
+    if (e.key === 'ArrowLeft') {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      update();
+    }
+  });
+</script>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  url: string;
+  title: string;
+  technique?: string;
+  description?: string;
+  image: { src: string } | null;
+  featured?: boolean;
+  subjects: string[];
+}
+
+const { url, title, technique, description, image, featured = false, subjects } = Astro.props;
+---
+
+<a href={url} class="demo-card" data-subjects={subjects.join(',')}>
+  <div class="demo-screenshot">
+    {image ? (
+      <img src={image.src} alt={title} loading="lazy" />
+    ) : (
+      <div class="placeholder"></div>
+    )}
+    {featured && <span class="demo-badge">Featured</span>}
+  </div>
+  <div class="demo-info">
+    <h3>{title}</h3>
+    {technique && <div class="demo-technique">{technique}</div>}
+    {description && <p class="demo-description">{description}</p>}
+  </div>
+</a>

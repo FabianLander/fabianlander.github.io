@@ -1,0 +1,98 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import '../../styles/prose.css';
+import '../../styles/pages/blog-post.css';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  const sorted = allPosts.sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  );
+
+  const slug = (id: string) => id.replace(/(\/index)?\.md$/, '') + '/';
+
+  return sorted.map((post, index) => {
+    const prev = index > 0 ? sorted[index - 1] : null;
+    const next = index < sorted.length - 1 ? sorted[index + 1] : null;
+
+    return {
+      params: { slug: slug(post.id) },
+      props: {
+        post,
+        prevPost: prev ? { slug: slug(prev.id), title: prev.data.title } : null,
+        nextPost: next ? { slug: slug(next.id), title: next.data.title } : null,
+      },
+    };
+  });
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+
+const formattedDate = new Date(data.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const isDraft = data.draft;
+const isDev = import.meta.env.DEV;
+---
+
+<Layout
+  title={`${data.title} — Fabian Lander`}
+  description={data.description || 'Blog post by Fabian Lander'}
+>
+  <article class="blog-post">
+    {isDraft && isDev && (
+      <div class="draft-banner">Draft</div>
+    )}
+
+    <header class="blog-post-header">
+      <h1>{data.title}</h1>
+      <div class="blog-post-meta">
+        <time class="blog-post-date" datetime={data.date.toISOString()}>
+          {formattedDate}
+        </time>
+        {data.subject.length > 0 && (
+          <div class="blog-post-subjects">
+            {data.subject.map((s: string) => (
+              <span class="blog-post-subject">{s}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="prose">
+      {data.description && (
+        <p class="lead">{data.description}</p>
+      )}
+      <Content />
+    </div>
+
+    <nav class="blog-post-nav">
+      {prevPost ? (
+        <a href={`/blog/${prevPost.slug}`} class="blog-post-nav-link blog-post-nav-link--prev">
+          <span class="blog-post-nav-label">&larr; Previous</span>
+          <span class="blog-post-nav-title">{prevPost.title}</span>
+        </a>
+      ) : <div />}
+      {nextPost ? (
+        <a href={`/blog/${nextPost.slug}`} class="blog-post-nav-link blog-post-nav-link--next">
+          <span class="blog-post-nav-label">Next &rarr;</span>
+          <span class="blog-post-nav-title">{nextPost.title}</span>
+        </a>
+      ) : <div />}
+    </nav>
+
+    <a href="/blog" class="blog-post-back">&larr; All posts</a>
+  </article>
+
+</Layout>

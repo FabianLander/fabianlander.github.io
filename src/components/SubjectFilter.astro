@@ -1,0 +1,71 @@
+---
+interface Props {
+  subjects: string[];
+}
+
+const { subjects } = Astro.props;
+---
+
+{subjects.length > 0 && (
+  <div class="subject-filter">
+    <button class="subject-chip active" data-subject="all">All</button>
+    {subjects.map((s) => (
+      <button class="subject-chip" data-subject={s}>{s}</button>
+    ))}
+  </div>
+)}
+
+<style>
+  .subject-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .subject-chip {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .subject-chip:hover {
+    border-color: var(--border);
+    color: var(--text-heading);
+  }
+
+  .subject-chip.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+</style>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.subject-chip');
+  const items = document.querySelectorAll<HTMLElement>('[data-subjects]');
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const subject = chip.dataset.subject;
+
+      chips.forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      items.forEach((item) => {
+        if (subject === 'all') {
+          item.classList.remove('filtered');
+        } else {
+          const itemSubjects = (item.dataset.subjects || '').split(',');
+          item.classList.toggle('filtered', !itemSubjects.includes(subject!));
+        }
+      });
+    });
+  });
+</script>
