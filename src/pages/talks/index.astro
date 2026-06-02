@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/pages/talks.css';
+
+const allTalks = await getCollection('talks');
+
+const talks = allTalks
+  .map((t) => {
+    const sorted = [...t.data.venues].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+    return {
+      ...t,
+      latestVenue: sorted[0] ?? null,
+      slug: t.id.replace(/(\/index)?\.md$/, '') + '/',
+    };
+  })
+  .sort((a, b) => {
+    if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+    const aTime = a.latestVenue ? new Date(a.latestVenue.date).getTime() : 0;
+    const bTime = b.latestVenue ? new Date(b.latestVenue.date).getTime() : 0;
+    return bTime - aTime;
+  });
+---
+
+<Layout title="Talks — Fabian Lander" description="Talks and lectures by Fabian Lander">
+  <main class="talks-page">
+    <header class="talks-header">
+      <h1>Talks</h1>
+    </header>
+
+    <ul class="talks-list">
+      {talks.map((t) => (
+        <li class="talks-item">
+          <a href={`/talks/${t.slug}`} class="talks-title">{t.data.title}</a>
+          <div class="talks-meta">
+            {t.latestVenue && (
+              <span class="talks-venue">{t.latestVenue.name}</span>
+            )}
+            {t.latestVenue && (
+              <span class="talks-date">
+                {new Date(t.latestVenue.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  timeZone: 'UTC',
+                })}
+              </span>
+            )}
+            {t.data.venues.length > 1 && (
+              <span class="talks-count">+ {t.data.venues.length - 1} more</span>
+            )}
+          </div>
+          {t.data.subject.length > 0 && (
+            <div class="talks-subjects">
+              {t.data.subject.map((s: string) => (
+                <span class="talks-subject">{s}</span>
+              ))}
+            </div>
+          )}
+          {t.data.abstract && (
+            <details class="talks-abstract-toggle">
+              <summary>Abstract</summary>
+              <p class="talks-abstract">{t.data.abstract}</p>
+            </details>
+          )}
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>

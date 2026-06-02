@@ -1,0 +1,27 @@
+---
+const { src, title, height = "500px" } = Astro.props;
+---
+
+<figure class="experiment-embed">
+  <iframe
+    src={src}
+    title={title}
+    style={`width: 100%; height: ${height}; border: none; border-radius: 8px;`}
+    loading="lazy"
+    allow="fullscreen"
+  />
+  <figcaption>
+    <a href={src} target="_blank" rel="noopener">Open in new tab ↗</a>
+  </figcaption>
+</figure>
+
+<style>
+  .experiment-embed {
+    margin: 2rem 0;
+  }
+  figcaption {
+    text-align: right;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+</style>

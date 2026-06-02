@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PhotoGallery from '../../components/PhotoGallery.astro';
+import { getAllTrips, getNavData, buildGallery } from '../../utils/photos';
+import { type GlobResult } from '../../utils/images';
+import '../../styles/pages/photos.css';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/photos/**/*.{png,jpg,jpeg,webp}',
+  { eager: true },
+) as GlobResult;
+
+export async function getStaticPaths() {
+  const allTrips = await getAllTrips();
+  const nav = getNavData(allTrips);
+
+  const byYear: Record<number, typeof allTrips> = {};
+  for (const trip of allTrips) {
+    const year = Number(trip.data.date.slice(0, 4));
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(trip);
+  }
+
+  return Object.entries(byYear).map(([year, trips]) => ({
+    params: { year },
+    props: { year: Number(year), trips, ...nav },
+  }));
+}
+
+const { year, trips, years, yearCounts, tags, tagCounts } = Astro.props;
+const { galleryItems, lightboxData } = await buildGallery(trips, allImages);
+---
+
+<Layout title={`Photos ${year} — Fabian Lander`}>
+  <PhotoGallery
+    title="Photos"
+    subtitle={`${lightboxData.length} photos from ${trips.length} trips in ${year}`}
+    years={years}
+    yearCounts={yearCounts}
+    tags={tags}
+    tagCounts={tagCounts}
+    activeYear={String(year)}
+    galleryItems={galleryItems}
+    lightboxData={lightboxData}
+  />
+</Layout>

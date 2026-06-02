@@ -1,0 +1,64 @@
+---
+interface Props {
+  basePath: string;
+  years: number[];
+  featuredCount: number;
+  yearCounts: Record<number, number>;
+  activeTab: string;
+}
+
+const { basePath, years, featuredCount, yearCounts, activeTab } = Astro.props;
+---
+
+<nav class="year-tabs">
+  <a href={basePath} class:list={['year-tab', { active: activeTab === 'featured' }]}>
+    Featured
+    <span class="year-tab-count">{featuredCount}</span>
+  </a>
+  {years.map((year) => (
+    <a
+      href={`${basePath}${year}/`}
+      class:list={['year-tab', { active: activeTab === String(year) }]}
+    >
+      {year}
+      <span class="year-tab-count">{yearCounts[year]}</span>
+    </a>
+  ))}
+</nav>
+
+<style>
+  .year-tabs {
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border-subtle);
+    overflow-x: auto;
+  }
+
+  .year-tab {
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .year-tab:hover {
+    color: var(--text-heading);
+  }
+
+  .year-tab.active {
+    color: var(--text-heading);
+    border-bottom-color: var(--accent);
+  }
+
+  .year-tab-count {
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    margin-left: 0.25rem;
+  }
+</style>

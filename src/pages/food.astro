@@ -1,0 +1,153 @@
+---
+import { resolve } from 'node:path';
+import Layout from '../layouts/Layout.astro';
+import { getImage } from 'astro:assets';
+import exifr from 'exifr';
+import '../styles/pages/food.css';
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/food/**/*.{png,jpg,jpeg,webp}',
+  { eager: true },
+);
+
+const dishesWithMeta = await Promise.all(
+  Object.entries(images).map(async ([path, image]) => {
+    const filename = path.split('/').pop()?.replace(/\.(png|jpg|jpeg|webp)$/i, '') || '';
+    const title = filename
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+
+    const thumbnail = await getImage({
+      src: image.default,
+      width: 400,
+      height: 400,
+      format: 'webp',
+      quality: 80,
+    });
+
+    const fullSize = await getImage({
+      src: image.default,
+      width: 900,
+      height: 900,
+      format: 'webp',
+      quality: 85,
+    });
+
+    let date: Date | null = null;
+    try {
+      const filePath = resolve(process.cwd(), path.slice(1));
+      const exifData = await exifr.parse(filePath, {
+        pick: ['DateTimeOriginal', 'CreateDate', 'ModifyDate'],
+      });
+      const dateVal = exifData?.DateTimeOriginal || exifData?.CreateDate || exifData?.ModifyDate;
+      if (dateVal) date = new Date(dateVal);
+    } catch {
+      // No EXIF date — that's fine
+    }
+
+    return {
+      thumbnail: thumbnail.src,
+      fullSize: fullSize.src,
+      title,
+      date,
+      sortDate: date || new Date(0),
+    };
+  }),
+);
+
+const dishes = dishesWithMeta.sort(
+  (a, b) => b.sortDate.getTime() - a.sortDate.getTime(),
+);
+
+// Slim data for the lightbox script — only what it needs
+const lightboxData = dishes.map((d) => ({
+  fullSize: d.fullSize,
+  title: d.title,
+}));
+---
+
+<Layout title="Food — Fabian Lander">
+  <main class="food-page">
+    <h1>From the Kitchen</h1>
+    <p class="food-intro">Things I've cooked that looked nice enough to photograph.</p>
+    <p class="food-count">{dishes.length} dishes</p>
+
+    {dishes.length === 0 ? (
+      <p class="food-empty">No dishes yet — check back after dinner.</p>
+    ) : (
+      <div class="food-grid">
+        {dishes.map((dish, i) => (
+          <button class="food-item" data-index={i} aria-label={`View ${dish.title}`}>
+            <img src={dish.thumbnail} alt={dish.title} loading="lazy" />
+            <div class="food-overlay">
+              <span class="food-overlay-title">{dish.title}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+    )}
+
+    <dialog class="food-lightbox" id="food-lightbox">
+      <button class="food-lightbox-close" aria-label="Close">&times;</button>
+      <button class="food-lightbox-nav food-lightbox-prev" aria-label="Previous">&#8249;</button>
+      <button class="food-lightbox-nav food-lightbox-next" aria-label="Next">&#8250;</button>
+      <div class="food-lightbox-content">
+        <img src="" alt="" id="food-lightbox-img" />
+        <div class="food-lightbox-info">
+          <p class="food-lightbox-title" id="food-lightbox-title"></p>
+        </div>
+      </div>
+    </dialog>
+  </main>
+
+  <script define:vars={{ lightboxData }}>
+    let currentIndex = 0;
+    const items = lightboxData;
+    const lightbox = document.getElementById('food-lightbox');
+    const lbImg = document.getElementById('food-lightbox-img');
+    const lbTitle = document.getElementById('food-lightbox-title');
+
+    function update() {
+      const d = items[currentIndex];
+      lbImg.src = d.fullSize;
+      lbImg.alt = d.title;
+      lbTitle.textContent = d.title;
+    }
+
+    document.querySelectorAll('.food-item').forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        currentIndex = i;
+        update();
+        lightbox.showModal();
+      });
+    });
+
+    document.querySelector('.food-lightbox-close').addEventListener('click', () => lightbox.close());
+    document.querySelector('.food-lightbox-prev').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + items.length) % items.length;
+      update();
+    });
+    document.querySelector('.food-lightbox-next').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % items.length;
+      update();
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) lightbox.close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.open) return;
+      if (e.key === 'Escape') lightbox.close();
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+        update();
+      }
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        update();
+      }
+    });
+  </script>
+</Layout>

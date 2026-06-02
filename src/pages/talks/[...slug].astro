@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+import '../../styles/prose.css';
+import '../../styles/pages/talk.css';
+
+export async function getStaticPaths() {
+  const allTalks = await getCollection('talks');
+
+  const withLatest = allTalks
+    .filter((t) => t.data.venues.length > 0)
+    .map((t) => {
+      const sorted = [...t.data.venues].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+      return { ...t, latestDate: sorted[0].date };
+    })
+    .sort((a, b) => new Date(b.latestDate).getTime() - new Date(a.latestDate).getTime());
+
+  // Include talks with no venues at the end
+  const noVenues = allTalks.filter((t) => t.data.venues.length === 0);
+  const sorted = [...withLatest, ...noVenues.map((t) => ({ ...t, latestDate: new Date(0) }))];
+
+  const slug = (id: string) => id.replace(/(\/index)?\.md$/, '') + '/';
+
+  return sorted.map((talk, index) => {
+    const prev = index > 0 ? sorted[index - 1] : null;
+    const next = index < sorted.length - 1 ? sorted[index + 1] : null;
+
+    return {
+      params: { slug: slug(talk.id) },
+      props: {
+        talk,
+        prevTalk: prev ? { slug: slug(prev.id), title: prev.data.title } : null,
+        nextTalk: next ? { slug: slug(next.id), title: next.data.title } : null,
+      },
+    };
+  });
+}
+
+const { talk, prevTalk, nextTalk } = Astro.props;
+const { data } = talk;
+const { Content } = await render(talk);
+
+const sortedVenues = [...data.venues].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+);
+
+function formatVenueDate(date: Date): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    timeZone: 'UTC',
+  });
+}
+---
+
+<Layout
+  title={`${data.title} — Fabian Lander`}
+  description={data.abstract || `Talk by Fabian Lander: ${data.title}`}
+>
+  <article class="talk-page">
+    <header class="talk-header">
+      <div class="talk-label">Talk</div>
+      <h1>{data.title}</h1>
+
+      {data.subject.length > 0 && (
+        <div class="talk-subjects">
+          {data.subject.map((s: string) => (
+            <span class="talk-subject">{s}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    {data.abstract && (
+      <blockquote class="talk-abstract">
+        <p>{data.abstract}</p>
+      </blockquote>
+    )}
+
+    {(data.slides || data.video) && (
+      <div class="talk-links">
+        {data.slides && (
+          <a href={data.slides} class="talk-link">Slides</a>
+        )}
+        {data.video && (
+          <a href={data.video} class="talk-link">Video</a>
+        )}
+      </div>
+    )}
+
+    {sortedVenues.length > 0 && (
+      <section class="talk-venues">
+        <h2 class="talk-venues-heading">Presentations</h2>
+        <ul class="talk-venue-list">
+          {sortedVenues.map((v) => (
+            <li class="talk-venue-item">
+              <span class="talk-venue-date">{formatVenueDate(v.date)}</span>
+              <span class="talk-venue-name">
+                {v.url ? (
+                  <a href={v.url}>{v.name}</a>
+                ) : (
+                  v.name
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <div class="prose talk-body">
+      <Content />
+    </div>
+
+    <nav class="talk-nav">
+      {prevTalk ? (
+        <a href={`/talks/${prevTalk.slug}`} class="talk-nav-link talk-nav-link--prev">
+          <span class="talk-nav-label">&larr; Previous</span>
+          <span class="talk-nav-title">{prevTalk.title}</span>
+        </a>
+      ) : <div />}
+      {nextTalk ? (
+        <a href={`/talks/${nextTalk.slug}`} class="talk-nav-link talk-nav-link--next">
+          <span class="talk-nav-label">Next &rarr;</span>
+          <span class="talk-nav-title">{nextTalk.title}</span>
+        </a>
+      ) : <div />}
+    </nav>
+
+    <a href="/talks" class="talk-back">&larr; All talks</a>
+  </article>
+</Layout>

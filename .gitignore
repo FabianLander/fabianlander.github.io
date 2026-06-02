@@ -1,11 +1,40 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.bundle/
-vendor/
-Gemfile.lock
-.DS_Store
-_drafts/
-Quicknotes.txt
+# build output
+dist/
 
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# macOS-specific files
+.DS_Store
+Thumbs.db
+
+# editor folders
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# netlify
+.netlify/
+
+# claude code
+.claude/
+
+# personal design notes
+design-notes/
+
+# old Jekyll site, kept locally as migration source only (has its own .git, ~536MB)
+FabianLanderWeb/

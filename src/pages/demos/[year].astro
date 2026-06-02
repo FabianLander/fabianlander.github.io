@@ -1,0 +1,94 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { resolveEntryImage, type GlobResult } from '../../utils/images';
+import YearTabs from '../../components/YearTabs.astro';
+import SubjectFilter from '../../components/SubjectFilter.astro';
+import DemoCard from '../../components/DemoCard.astro';
+import '../../styles/pages/demos.css';
+
+const demoImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/demos/**/*.{png,jpg,jpeg,webp}',
+  { eager: true },
+) as GlobResult;
+
+export async function getStaticPaths() {
+  const allDemos = await getCollection('demos');
+  const featuredCount = allDemos.filter((d) => d.data.featured).length;
+
+  // Group ALL demos by year (featured appear in both tabs)
+  const byYear: Record<string, typeof allDemos> = {};
+  for (const d of allDemos) {
+    const year = String(new Date(d.data.date).getFullYear());
+    if (!byYear[year]) byYear[year] = [];
+    byYear[year].push(d);
+  }
+
+  // Compute tab data once
+  const yearCounts: Record<number, number> = {};
+  for (const [y, demos] of Object.entries(byYear)) {
+    yearCounts[Number(y)] = demos.length;
+  }
+  const years = Object.keys(yearCounts).map(Number).sort((a, b) => b - a);
+
+  return Object.entries(byYear).map(([year, demos]) => ({
+    params: { year },
+    props: {
+      year: Number(year),
+      demos,
+      years,
+      yearCounts,
+      featuredCount,
+    },
+  }));
+}
+
+const { year, demos, years, yearCounts, featuredCount } = Astro.props;
+
+// Resolve images for this year's demos
+const withImages = await Promise.all(
+  (demos as any[]).map(async (d) => {
+    const image = d.data.image
+      ? await resolveEntryImage(d.id, d.data.image, 'demos', demoImages)
+      : null;
+    return { ...d, resolvedImage: image };
+  }),
+);
+
+// Sort by date descending
+withImages.sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+
+// Subjects from this year's demos for filtering
+const subjects = [...new Set(withImages.flatMap((d) => d.data.subject as string[]))].sort();
+---
+
+<Layout title={`Demos ${year} — Fabian Lander`}>
+  <main class="demos-page">
+    <h1>Demos</h1>
+
+    <YearTabs
+      basePath="/demos/"
+      years={years}
+      featuredCount={featuredCount}
+      yearCounts={yearCounts}
+      activeTab={String(year)}
+    />
+    <SubjectFilter subjects={subjects} />
+
+    <div class="demos-grid">
+      {withImages.map((d) => (
+        <DemoCard
+          url={d.data.url}
+          title={d.data.title}
+          technique={d.data.technique}
+          description={d.data.description}
+          image={d.resolvedImage}
+          featured={d.data.featured}
+          subjects={d.data.subject}
+        />
+      ))}
+    </div>
+  </main>
+</Layout>

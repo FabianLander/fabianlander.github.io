@@ -1,0 +1,322 @@
+/* ===================================================
+   Photos page — masonry gallery with year/tag routes
+   =================================================== */
+
+.photos-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-md) var(--space-xl);
+}
+
+.photos-page > h1 {
+  margin-bottom: 0.25rem;
+}
+
+.photos-intro {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.photos-count {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+}
+
+/* ---- Navigation: year tabs ---- */
+.photos-year-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+
+.photos-year-tab {
+  padding: 0.5rem 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.photos-year-tab:hover {
+  color: var(--text-heading);
+}
+
+.photos-year-tab.active {
+  color: var(--text-heading);
+  border-bottom-color: var(--accent);
+}
+
+.photos-year-tab-count {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  margin-left: 0.25rem;
+}
+
+/* ---- Navigation: tag pills ---- */
+.photos-tag-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: var(--space-md);
+}
+
+.photos-tag-pill {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: none;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.photos-tag-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.photos-tag-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---- Continuous masonry ---- */
+.photos-masonry {
+  columns: 4;
+  column-gap: 0.75rem;
+}
+
+/* ---- Trip header card (inline in masonry) ---- */
+.photos-trip-header {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1rem;
+  background: #2a2a2a;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.photos-trip-header-title {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.photos-trip-header-location {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.15rem;
+}
+
+/* ---- Individual photo ---- */
+.photos-item {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: var(--bg-subtle);
+}
+
+.photos-item img {
+  width: 100%;
+  display: block;
+}
+
+/* Hover overlay */
+.photos-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0.75rem;
+}
+
+.photos-item:hover .photos-item-overlay {
+  opacity: 1;
+}
+
+.photos-overlay-title {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.photos-overlay-location {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.75);
+}
+
+/* ---- Lightbox ---- */
+.photos-lightbox {
+  position: fixed;
+  inset: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+}
+
+.photos-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.photos-lightbox[open] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photos-lightbox-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.photos-lightbox-close:hover {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.photos-lightbox-nav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.photos-lightbox-nav:hover {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.photos-lightbox-prev {
+  left: 1rem;
+}
+
+.photos-lightbox-next {
+  right: 1rem;
+}
+
+.photos-lightbox-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.photos-lightbox-content img {
+  max-width: 90vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.photos-lightbox-info {
+  text-align: center;
+}
+
+.photos-lightbox-title {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.photos-lightbox-location {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0;
+}
+
+.photos-lightbox-date {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0;
+}
+
+/* ---- Empty state ---- */
+.photos-empty {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  padding: var(--space-lg) 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1200px) {
+  .photos-masonry {
+    columns: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .photos-masonry {
+    columns: 2;
+  }
+}
+
+@media (max-width: 480px) {
+  .photos-masonry {
+    columns: 1;
+  }
+}

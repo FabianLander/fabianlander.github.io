@@ -1,0 +1,248 @@
+/* ===================================================
+   Talk detail page — book-like aesthetic
+   =================================================== */
+
+.talk-page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+/* ---- Label ---- */
+.talk-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-xs);
+}
+
+/* ---- Header ---- */
+.talk-header {
+  margin-bottom: var(--space-lg);
+}
+
+.talk-header h1 {
+  font-size: 2.2rem;
+  line-height: var(--heading-lh);
+  margin-bottom: 0.75rem;
+}
+
+.talk-subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.talk-subject {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  background: var(--bg-subtle);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+/* ---- Abstract ---- */
+.talk-abstract {
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  border-left: 3px solid var(--border);
+  padding-left: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.talk-abstract p {
+  margin: 0;
+}
+
+/* ---- Slides / Video links ---- */
+.talk-links {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: var(--space-md);
+}
+
+.talk-link {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 0.4rem 1rem;
+  border-radius: 3px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.talk-link:hover {
+  background: var(--bg-subtle);
+  border-color: var(--accent);
+}
+
+/* ---- Venues / Presentations ---- */
+.talk-venues {
+  margin-bottom: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.talk-venues-heading {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-sm);
+}
+
+.talk-venue-list {
+  list-style: none;
+  padding: 0;
+}
+
+.talk-venue-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  align-items: baseline;
+}
+
+.talk-venue-item:last-child {
+  border-bottom: none;
+}
+
+.talk-venue-date {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  min-width: 8rem;
+}
+
+.talk-venue-name {
+  font-size: 1rem;
+}
+
+.talk-venue-name a {
+  color: var(--text);
+  text-decoration-color: var(--border);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.talk-venue-name a:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* ---- Body (markdown content) ---- */
+.talk-body:empty {
+  display: none;
+}
+
+.talk-body {
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ---- Prev / Next navigation ---- */
+.talk-nav {
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.talk-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+  max-width: 45%;
+}
+
+.talk-nav-link--next {
+  text-align: right;
+  margin-left: auto;
+}
+
+.talk-nav-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+}
+
+.talk-nav-title {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: color 0.2s ease;
+}
+
+.talk-nav-link:hover .talk-nav-title {
+  color: var(--accent);
+}
+
+/* ---- Back link ---- */
+.talk-back {
+  display: block;
+  margin-top: var(--space-md);
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.talk-back:hover {
+  color: var(--accent);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  .talk-header h1 {
+    font-size: 1.7rem;
+  }
+
+  .talk-venue-item {
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .talk-venue-date {
+    min-width: auto;
+  }
+
+  .talk-nav {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .talk-nav-link {
+    max-width: 100%;
+  }
+
+  .talk-nav-link--next {
+    text-align: left;
+    margin-left: 0;
+  }
+}

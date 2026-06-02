@@ -1,0 +1,85 @@
+/* ===================================================
+   Notes / Books listing page
+   =================================================== */
+
+.books-page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md) var(--space-xl);
+}
+
+.books-header {
+  margin-bottom: var(--space-lg);
+}
+
+.books-header h1 {
+  font-size: 2.2rem;
+  line-height: var(--heading-lh);
+}
+
+/* ---- List ---- */
+.books-list {
+  list-style: none;
+  padding: 0;
+}
+
+.books-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.books-item:first-child {
+  padding-top: 0;
+}
+
+.books-item:last-child {
+  border-bottom: none;
+}
+
+/* ---- Type label ---- */
+.books-type {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  background: var(--bg-subtle);
+  padding: 0.15rem: 0.45rem;
+  border-radius: 3px;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+}
+
+/* ---- Title ---- */
+.books-title {
+  font-size: 1.3rem;
+  line-height: var(--heading-lh);
+  margin-bottom: 0;
+}
+
+.books-title a {
+  color: var(--text-heading);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.books-title a:hover {
+  color: var(--accent);
+}
+
+/* ---- Description ---- */
+.books-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: 0.4rem;
+  line-height: 1.6;
+}
+
+/* ---- Collaborators ---- */
+.books-collaborators {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  margin-top: 0.3rem;
+}

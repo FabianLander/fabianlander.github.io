@@ -1,0 +1,233 @@
+/* ===================================================
+   Navigation bar
+   Frosted-glass sticky bar: name left, 6 section
+   links right, theme toggle far right.
+   Mobile: hamburger replaces links.
+   =================================================== */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 8px var(--shadow);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Translucent backgrounds per theme */
+[data-theme="light"] .nav {
+  background-color: rgba(247, 245, 240, 0.85);
+}
+
+[data-theme="dark"] .nav {
+  background-color: rgba(30, 29, 27, 0.85);
+}
+
+.nav-inner {
+  max-width: var(--wide-width);
+  margin: 0 auto;
+  padding: 0.875rem var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---- Site name (left) ---- */
+.nav-name {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-heading);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.nav-name:hover {
+  color: var(--accent);
+}
+
+/* ---- Section links (right) ---- */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text);
+}
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-left: 1.75rem;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Sun icon hidden in light mode, moon hidden in dark */
+[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+/* ---- Hamburger button (mobile only) ---- */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-left: 0.75rem;
+}
+
+.nav-hamburger:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.nav-hamburger svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- Mobile overlay ---- */
+.nav-mobile-overlay {
+  display: none;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+  }
+
+  /* Mobile menu overlay */
+  .nav-mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  [data-theme="light"] .nav-mobile-overlay {
+    background-color: rgba(247, 245, 240, 0.95);
+  }
+
+  [data-theme="dark"] .nav-mobile-overlay {
+    background-color: rgba(30, 29, 27, 0.95);
+  }
+
+  .nav-mobile-overlay.is-open {
+    display: block;
+  }
+
+  .nav-mobile-close {
+    position: absolute;
+    top: 1rem;
+    right: var(--space-md);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1.25rem;
+    font-family: var(--font-sans);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .nav-mobile-close:hover {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .nav-mobile-group {
+    margin-bottom: var(--space-md);
+  }
+
+  .nav-mobile-label {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-xs);
+  }
+
+  .nav-mobile-group ul {
+    list-style: none;
+  }
+
+  .nav-mobile-group a {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    padding: 0.4rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .nav-mobile-group a:hover {
+    color: var(--accent);
+  }
+}

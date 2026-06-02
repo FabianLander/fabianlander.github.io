@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PhotoGallery from '../../components/PhotoGallery.astro';
+import { getAllTrips, getNavData, buildGallery } from '../../utils/photos';
+import { type GlobResult } from '../../utils/images';
+import '../../styles/pages/photos.css';
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/photos/**/*.{png,jpg,jpeg,webp}',
+  { eager: true },
+) as GlobResult;
+
+const allTrips = await getAllTrips();
+const { years, yearCounts, tags, tagCounts } = getNavData(allTrips);
+
+// Default: show most recent year
+const latestYear = years[0];
+const tripsForYear = allTrips.filter(
+  (t) => Number(t.data.date.slice(0, 4)) === latestYear,
+);
+
+const { galleryItems, lightboxData } = await buildGallery(tripsForYear, allImages);
+const totalPhotos = allTrips.reduce((sum, t) => sum + 1, 0); // trip count for subtitle
+---
+
+<Layout title="Photos — Fabian Lander">
+  <PhotoGallery
+    title="Photos"
+    subtitle={`${lightboxData.length} photos from ${tripsForYear.length} trips in ${latestYear}`}
+    years={years}
+    yearCounts={yearCounts}
+    tags={tags}
+    tagCounts={tagCounts}
+    activeYear={String(latestYear)}
+    galleryItems={galleryItems}
+    lightboxData={lightboxData}
+  />
+</Layout>

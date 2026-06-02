@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+const entries = await getCollection('now');
+const entry = entries[0];
+if (!entry) throw new Error('Missing src/content/now/index.md');
+
+const { Content } = await render(entry);
+const updated = entry.data.updated.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<Layout
+  title="Now — Fabian Lander"
+  description="What I'm currently working on, reading, and chewing on."
+>
+  <main class="now-page">
+    <h1>Now</h1>
+    <p class="updated">Updated {updated}</p>
+    <div class="now-content">
+      <Content />
+    </div>
+    <p class="now-explainer">
+      Inspired by <a href="https://nownownow.com/about" rel="noopener" target="_blank">Derek Sivers' /now movement</a>.
+      Updated weekly.
+    </p>
+  </main>
+</Layout>
+
+<style>
+  .now-page {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .now-page h1 {
+    margin-bottom: var(--space-xs);
+  }
+
+  .updated {
+    color: var(--text-tertiary);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    margin: 0 0 var(--space-lg);
+  }
+
+  .now-content :global(h2) {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-xs);
+    font-weight: 500;
+  }
+
+  .now-content :global(p) {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+  }
+
+  .now-explainer {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+    color: var(--text-tertiary);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+  }
+</style>

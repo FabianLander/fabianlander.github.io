@@ -1,35 +1,46 @@
-# Academic Website - Fabian Lander
+# Astro Starter Kit: Basics
 
-Personal website of Fabian Lander, PhD Student in Geometry, Groups and Dynamics at the Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany.
+```sh
+npm create astro@latest -- --template basics
+```
 
-## Research Focus
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-- **Primary Area**: Straight line flows on half-dilation surfaces on punctured spheres
-- **Previous Work**: Polygonal symplectic billiards and their discrete dynamics
-- **Research Group**: Member of Anna Wienhard's research group, working under the supervision of James Farre
+## 🚀 Project Structure
 
-## About This Repository
+Inside of your Astro project, you'll see the following folders and files:
 
-This repository hosts my academic website (accessible at [fabian-lander.github.io](https://fabianlander.github.io)), featuring:
-- Research overview and current projects
-- Mathematical visualizations and diagrams
-- Academic background and publications
-- Contact information
+```text
+/
+├── public/
+│   └── favicon.svg
+├── src
+│   ├── assets
+│   │   └── astro.svg
+│   ├── components
+│   │   └── Welcome.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       └── index.astro
+└── package.json
+```
 
-## Technical Stack
+To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
 
-Built with:
-- Jekyll static site generator
-- GitHub Pages
-- Responsive design principles
-- Custom SVG graphics
+## 🧞 Commands
 
-## Contact
+All commands are run from the root of the project, from a terminal:
 
-- **Academic Email**: [Contact through MPI](https://www.mis.mpg.de)
-- **Professional Links**: [LinkedIn](https://www.linkedin.com/in/fabian-lander-b88286339)
-- **Location**: Max Planck Institute for Mathematics in the Sciences, Leipzig, Germany
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:4321`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## License
+## 👀 Want to learn more?
 
-© 2025 Fabian Lander. All rights reserved.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

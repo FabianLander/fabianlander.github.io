@@ -1,0 +1,272 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import {
+  GRAPHICS_RANGE_TABS,
+  type GraphicsRangeTab,
+  filterEntriesForGraphicsRange,
+  getGraphicsRangeCounts,
+} from '../../utils/graphics-ranges';
+import {
+  buildGraphicsEntries,
+  getAllEntryMetas,
+  getGraphicsSubjects,
+  groupGraphicsByYear,
+} from '../../utils/graphics';
+import { type GlobResult } from '../../utils/images';
+import SubjectFilter from '../../components/SubjectFilter.astro';
+import '../../styles/pages/graphics.css';
+
+export function getStaticPaths() {
+  return GRAPHICS_RANGE_TABS.map((tab) => ({
+    params: { range: tab.slug },
+    props: { range: tab },
+  }));
+}
+
+const { range } = Astro.props as { range: GraphicsRangeTab };
+
+const graphicsImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/graphics/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
+const allGraphics = await getCollection('graphics');
+const rangeGraphics = filterEntriesForGraphicsRange(allGraphics, range);
+const rangeCounts = getGraphicsRangeCounts(allGraphics);
+
+const entries = buildGraphicsEntries(rangeGraphics, graphicsImages);
+const { byYear, years } = groupGraphicsByYear(entries);
+const subjects = getGraphicsSubjects(entries);
+
+const lightboxData = Object.fromEntries(
+  entries.map((g) => {
+    const allMetas = getAllEntryMetas(g, graphicsImages);
+    return [
+      g.id,
+      {
+        title: g.data.title,
+        technique: g.data.technique ?? '',
+        description: g.data.description ?? '',
+        collaborators: g.data.collaborators ?? [],
+        images: allMetas.map((m) => m.src),
+      },
+    ];
+  }),
+);
+---
+
+<Layout title={`Graphics ${range.label} — Fabian Lander`}>
+  <main class="graphics-page">
+    <h1>Graphics</h1>
+    <div class="graphics-range-tabs">
+      {GRAPHICS_RANGE_TABS.map((tab) => (
+        <a
+          href={`/graphics/${tab.slug}`}
+          class:list={['graphics-range-tab', { active: tab.slug === range.slug }]}
+        >
+          {tab.label}
+          <span class="graphics-range-tab-count">{rangeCounts[tab.slug]}</span>
+        </a>
+      ))}
+    </div>
+
+    <SubjectFilter subjects={subjects} />
+
+    {years.map((year) => (
+      <section class="graphics-section">
+        <h2 class="graphics-section-heading">{year}</h2>
+        <div class="graphics-grid">
+          {byYear.get(year)!.map((g) => (
+            <div
+              class:list={['graphics-cell', { featured: g.data.featured }]}
+              data-subjects={g.data.subject.join(',')}
+              data-lightbox-id={g.id}
+            >
+              <div class="graphics-frame">
+                {g.coverMeta ? (
+                  <Image
+                    class="graphics-main-image"
+                    src={g.coverMeta}
+                    alt={g.data.title}
+                    width={400}
+                    format="webp"
+                    quality={70}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="placeholder"></div>
+                )}
+
+                {g.extraMetas.length > 0 && (
+                  <div class="graphics-insets" aria-hidden="true">
+                    {g.extraMetas.map((meta, idx) => (
+                      <Image
+                        class="graphics-inset"
+                        style={`--inset-index: ${idx};`}
+                        src={meta}
+                        alt=""
+                        width={60}
+                        height={60}
+                        format="webp"
+                        quality={50}
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                )}
+
+                <div class="graphics-overlay">
+                  <span class="graphics-overlay-title">{g.data.title}</span>
+                  {g.data.technique && (
+                    <span class="graphics-overlay-technique">{g.data.technique}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <dialog class="graphics-lightbox" id="graphics-lightbox">
+    <button class="graphics-lightbox-close" aria-label="Close">&times;</button>
+    <button class="graphics-lightbox-nav graphics-lightbox-prev" aria-label="Previous image">&#8249;</button>
+    <button class="graphics-lightbox-nav graphics-lightbox-next" aria-label="Next image">&#8250;</button>
+
+    <div class="graphics-lightbox-shell">
+      <div class="graphics-lightbox-header">
+        <h3 class="graphics-lightbox-title" id="graphics-lightbox-title"></h3>
+        <p class="graphics-lightbox-technique" id="graphics-lightbox-technique"></p>
+      </div>
+
+      <div class="graphics-lightbox-track" id="graphics-lightbox-track"></div>
+      <p class="graphics-lightbox-counter" id="graphics-lightbox-counter"></p>
+      <p class="graphics-lightbox-hint" id="graphics-lightbox-hint"></p>
+      <div class="graphics-lightbox-dots" id="graphics-lightbox-dots" aria-hidden="true"></div>
+
+      <div class="graphics-lightbox-meta">
+        <p class="graphics-lightbox-description" id="graphics-lightbox-description"></p>
+        <p class="graphics-lightbox-collaborators" id="graphics-lightbox-collaborators"></p>
+      </div>
+    </div>
+  </dialog>
+</Layout>
+
+<script define:vars={{ lightboxData }}>
+  const lightbox = document.getElementById('graphics-lightbox');
+  const lightboxTrack = document.getElementById('graphics-lightbox-track');
+  const lightboxTitle = document.getElementById('graphics-lightbox-title');
+  const lightboxTechnique = document.getElementById('graphics-lightbox-technique');
+  const lightboxDescription = document.getElementById('graphics-lightbox-description');
+  const lightboxCollaborators = document.getElementById('graphics-lightbox-collaborators');
+  const lightboxCounter = document.getElementById('graphics-lightbox-counter');
+  const lightboxHint = document.getElementById('graphics-lightbox-hint');
+  const lightboxDots = document.getElementById('graphics-lightbox-dots');
+  const closeBtn = document.querySelector('.graphics-lightbox-close');
+  const prevBtn = document.querySelector('.graphics-lightbox-prev');
+  const nextBtn = document.querySelector('.graphics-lightbox-next');
+
+  let activeImages = [];
+
+  function getVisibleSlideIndex(track) {
+    const full = Math.max(track.clientWidth, 1);
+    return Math.round(track.scrollLeft / full);
+  }
+
+  function updateLightboxCounter() {
+    if (!lightboxTrack || !lightboxCounter || activeImages.length === 0) return;
+    const current = getVisibleSlideIndex(lightboxTrack) + 1;
+    const active = Math.min(current, activeImages.length);
+    lightboxCounter.textContent = `${active} / ${activeImages.length}`;
+    if (lightboxHint) {
+      lightboxHint.textContent = activeImages.length > 1 ? 'Use arrows or swipe/scroll for more' : '';
+    }
+    if (lightboxDots) {
+      lightboxDots.innerHTML = activeImages
+        .map((_, idx) => `<span class="graphics-lightbox-dot${idx + 1 === active ? ' active' : ''}"></span>`)
+        .join('');
+    }
+  }
+
+  function buildLightboxSlides(images) {
+    if (!lightboxTrack) return;
+    lightboxTrack.innerHTML = '';
+    images.forEach((src) => {
+      const figure = document.createElement('figure');
+      figure.className = 'graphics-lightbox-slide';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.loading = 'eager';
+      figure.appendChild(img);
+      lightboxTrack.appendChild(figure);
+    });
+    lightboxTrack.scrollLeft = 0;
+    updateLightboxCounter();
+  }
+
+  function openGraphicsLightbox(entryId) {
+    if (!lightbox) return;
+    const entry = lightboxData[entryId];
+    if (!entry || entry.images.length === 0) return;
+
+    activeImages = entry.images;
+    if (lightboxTitle) lightboxTitle.textContent = entry.title;
+    if (lightboxTechnique) {
+      lightboxTechnique.textContent = entry.technique || '';
+      lightboxTechnique.style.display = entry.technique ? 'block' : 'none';
+    }
+    if (lightboxDescription) {
+      lightboxDescription.textContent = entry.description || '';
+      lightboxDescription.style.display = entry.description ? 'block' : 'none';
+    }
+    if (lightboxCollaborators) {
+      lightboxCollaborators.textContent = entry.collaborators.length > 0
+        ? `Collaborators: ${entry.collaborators.join(', ')}`
+        : '';
+      lightboxCollaborators.style.display = entry.collaborators.length > 0 ? 'block' : 'none';
+    }
+
+    buildLightboxSlides(entry.images);
+    lightbox.showModal();
+  }
+
+  document.querySelectorAll('.graphics-cell').forEach((cell) => {
+    cell.addEventListener('click', (event) => {
+      const entryId = cell.dataset.lightboxId;
+      if (entryId) openGraphicsLightbox(entryId);
+    });
+  });
+
+  lightboxTrack?.addEventListener('scroll', updateLightboxCounter, { passive: true });
+
+  prevBtn?.addEventListener('click', () => {
+    if (!lightboxTrack) return;
+    lightboxTrack.scrollBy({ left: -lightboxTrack.clientWidth, behavior: 'smooth' });
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    if (!lightboxTrack) return;
+    lightboxTrack.scrollBy({ left: lightboxTrack.clientWidth, behavior: 'smooth' });
+  });
+
+  closeBtn?.addEventListener('click', () => lightbox?.close());
+
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) lightbox.close();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!lightbox?.open) return;
+    if (event.key === 'Escape') lightbox.close();
+    if (event.key === 'ArrowRight') {
+      lightboxTrack?.scrollBy({ left: lightboxTrack.clientWidth, behavior: 'smooth' });
+    }
+    if (event.key === 'ArrowLeft') {
+      lightboxTrack?.scrollBy({ left: -lightboxTrack.clientWidth, behavior: 'smooth' });
+    }
+  });
+</script>
