@@ -9,7 +9,7 @@ interface Props {
   subjects: string[];
 }
 
-const { url, title, technique, description, image, featured = false, subjects } = Astro.props;
+const { url, title, technique, description, image, subjects } = Astro.props;
 ---
 
 <a href={url} class="demo-card" data-subjects={subjects.join(',')}>
@@ -19,7 +19,6 @@ const { url, title, technique, description, image, featured = false, subjects } 
     ) : (
       <div class="placeholder"></div>
     )}
-    {featured && <span class="demo-badge">Featured</span>}
   </div>
   <div class="demo-info">
     <h3>{title}</h3>

@@ -2,8 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { resolveEntryImage, type GlobResult } from '../../utils/images';
-import YearTabs from '../../components/YearTabs.astro';
-import SubjectFilter from '../../components/SubjectFilter.astro';
 import DemoCard from '../../components/DemoCard.astro';
 import '../../styles/pages/demos.css';
 
@@ -12,63 +10,41 @@ const demoImages = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 ) as GlobResult;
 
-const allDemos = await getCollection('demos');
+// Show all demos, most recent first.
+const allDemos = (await getCollection('demos')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
 
-// Separate featured from the rest
-const featuredDemos = allDemos.filter((d) => d.data.featured);
-const nonFeatured = allDemos.filter((d) => !d.data.featured);
-
-// Resolve images for featured demos
-const featured = await Promise.all(
-  featuredDemos.map(async (d) => {
+const demos = await Promise.all(
+  allDemos.map(async (d) => {
     const image = d.data.image
       ? await resolveEntryImage(d.id, d.data.image, 'demos', demoImages)
       : null;
     return { ...d, resolvedImage: image };
   }),
 );
-
-// Tab data — year counts from ALL demos (featured appear in both tabs)
-const yearCounts: Record<number, number> = {};
-for (const d of allDemos) {
-  const year = new Date(d.data.date).getFullYear();
-  yearCounts[year] = (yearCounts[year] || 0) + 1;
-}
-const years = Object.keys(yearCounts).map(Number).sort((a, b) => b - a);
-
-// Subjects from featured demos for filtering
-const subjects = [...new Set(featured.flatMap((d) => d.data.subject))].sort();
 ---
 
-<Layout title="Demos — Fabian Lander">
+<Layout title="Online Demos — Fabian Lander">
   <main class="demos-page">
-    <h1>Demos</h1>
-
-    <YearTabs
-      basePath="/demos/"
-      years={years}
-      featuredCount={featured.length}
-      yearCounts={yearCounts}
-      activeTab="featured"
-    />
-    <SubjectFilter subjects={subjects} />
+    <h1>Online Demos</h1>
 
     <div class="demos-grid">
-      {featured.map((d) => (
+      {demos.map((d) => (
         <DemoCard
           url={d.data.url}
           title={d.data.title}
           technique={d.data.technique}
           description={d.data.description}
           image={d.resolvedImage}
-          featured={true}
+          featured={d.data.featured}
           subjects={d.data.subject}
         />
       ))}
     </div>
 
-    {featured.length === 0 && (
-      <p class="demos-empty">No featured demos yet.</p>
+    {demos.length === 0 && (
+      <p class="demos-empty">No demos yet.</p>
     )}
   </main>
 </Layout>
