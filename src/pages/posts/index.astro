@@ -1,0 +1,83 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { resolveEntryImage, type GlobResult } from '../../utils/images';
+import '../../styles/pages/blog.css';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? !data.draft : true;
+});
+
+const blogImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/blog/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
+const postsSorted = allPosts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+
+const posts = await Promise.all(
+  postsSorted.map(async (p) => {
+    const image = p.data.image
+      ? await resolveEntryImage(p.id, p.data.image, 'blog', blogImages, 240)
+      : null;
+    return { ...p, resolvedImage: image };
+  }),
+);
+
+const slug = (id: string) => id.replace(/(\/index)?\.md$/, '') + '/';
+---
+
+<Layout title="Posts — Fabian Lander" description="Posts by Fabian Lander">
+  <main class="blog-page">
+    <header class="blog-page-header">
+      <h1>Posts</h1>
+    </header>
+
+    <ul class="blog-page-list">
+      {posts.map((post) => (
+        <li class="blog-page-item">
+          <a href={`/posts/${slug(post.id)}`} class="blog-page-thumb-link">
+            {post.resolvedImage ? (
+              <img
+                src={post.resolvedImage.src}
+                alt={post.data.title}
+                loading="lazy"
+                class="blog-page-thumb"
+              />
+            ) : (
+              <div class="blog-page-thumb blog-page-thumb-placeholder" aria-hidden="true"></div>
+            )}
+          </a>
+          <div class="blog-page-body">
+            <a href={`/posts/${slug(post.id)}`} class="blog-page-title">{post.data.title}</a>
+            <div class="blog-page-meta">
+              <time class="blog-page-date" datetime={post.data.date.toISOString()}>
+                {new Date(post.data.date).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  timeZone: 'UTC',
+                })}
+              </time>
+              {post.data.subject.length > 0 && (
+                <div class="blog-page-subjects">
+                  {post.data.subject.map((s: string) => (
+                    <span class="blog-page-subject">{s}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            {post.data.description && (
+              <p class="blog-page-desc">{post.data.description}</p>
+            )}
+            {post.data.draft && (
+              <span class="blog-page-draft">Draft</span>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>

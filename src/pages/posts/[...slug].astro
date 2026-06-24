@@ -79,20 +79,20 @@ const isDev = import.meta.env.DEV;
 
     <nav class="blog-post-nav">
       {prevPost ? (
-        <a href={`/blog/${prevPost.slug}`} class="blog-post-nav-link blog-post-nav-link--prev">
+        <a href={`/posts/${prevPost.slug}`} class="blog-post-nav-link blog-post-nav-link--prev">
           <span class="blog-post-nav-label">&larr; Previous</span>
           <span class="blog-post-nav-title">{prevPost.title}</span>
         </a>
       ) : <div />}
       {nextPost ? (
-        <a href={`/blog/${nextPost.slug}`} class="blog-post-nav-link blog-post-nav-link--next">
+        <a href={`/posts/${nextPost.slug}`} class="blog-post-nav-link blog-post-nav-link--next">
           <span class="blog-post-nav-label">Next &rarr;</span>
           <span class="blog-post-nav-title">{nextPost.title}</span>
         </a>
       ) : <div />}
     </nav>
 
-    <a href="/blog" class="blog-post-back">&larr; All posts</a>
+    <a href="/posts" class="blog-post-back">&larr; All posts</a>
   </article>
 
 </Layout>
