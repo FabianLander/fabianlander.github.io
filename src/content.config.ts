@@ -46,21 +46,6 @@ const writing = defineCollection({
   }),
 });
 
-const projects = defineCollection({
-  loader: glob({ pattern: '*.yaml', base: './src/content/projects' }),
-  schema: z.object({
-    title: z.string(),
-    url: z.string(),
-    description: z.string(),
-    image: z.string().optional(),
-    date: z.coerce.date().optional(),
-    subject: z.array(z.string()).default([]),
-    tags: z.array(z.string()).default([]),
-    featured: z.boolean().default(false),
-    collaborators: z.array(z.string()).default([]),
-  }),
-});
-
 /* ===== Content collections (markdown body, colocated assets) ===== */
 
 const graphics = defineCollection({
@@ -82,11 +67,12 @@ const software = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/software' }),
   schema: z.object({
     title: z.string(),
-    description: z.string(),
-    tech: z.string(),
+    description: optionalStr,
+    tech: optionalStr,
     github: z.string().optional(),
     license: z.string().optional(),
     status: z.enum(['active', 'archived']).optional(),
+    seeAlso: z.object({ label: z.string(), url: z.string() }).optional(),
     subject: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
@@ -102,7 +88,7 @@ const demos = defineCollection({
     description: optionalStr,
     technique: optionalStr,
     url: z.string(),
-    image: z.string(),
+    image: optionalStr,
     subject: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
@@ -167,7 +153,6 @@ export const collections = {
   papers,
   demos,
   writing,
-  projects,
   graphics,
   software,
   blog,
