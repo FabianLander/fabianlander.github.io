@@ -1,5 +1,8 @@
 ---
 import '../styles/components/nav.css';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
 
 <nav class="nav">
@@ -7,11 +10,11 @@ import '../styles/components/nav.css';
     <a href="/" class="nav-name">Fabian Lander</a>
 
     <ul class="nav-links">
-      <li><a href="/graphics">Graphics</a></li>
-      <li><a href="/software">Software</a></li>
-      <li><a href="/demos">Demos</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/now">Now</a></li>
+      {/* Hidden until populated: Graphics, Software */}
+      <li><a href="/demos" class={isActive('/demos') ? 'active' : undefined}>Online Demos</a></li>
+      <li><a href="/posts" class={isActive('/posts') ? 'active' : undefined}>Posts</a></li>
+      {/* Hidden until ready: Now page — re-enable this link when the Now page is filled in */}
+      {/* <li><a href="/now" class={isActive('/now') ? 'active' : undefined}>Now</a></li> */}
     </ul>
 
     <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
@@ -45,28 +48,29 @@ import '../styles/components/nav.css';
 <div class="nav-mobile-overlay" id="nav-mobile-overlay">
   <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">&times;</button>
 
+  {/* Hidden until populated: Graphics, Software */}
   <div class="nav-mobile-group">
     <div class="nav-mobile-label">Visual</div>
     <ul>
-      <li><a href="/graphics">Graphics</a></li>
-      <li><a href="/demos">Demos</a></li>
+      <li><a href="/demos">Online Demos</a></li>
     </ul>
   </div>
 
   <div class="nav-mobile-group">
     <div class="nav-mobile-label">Writing</div>
     <ul>
-      <li><a href="/software">Software</a></li>
-      <li><a href="/blog">Blog</a></li>
+      <li><a href="/posts">Posts</a></li>
     </ul>
   </div>
 
+  {/* Hidden until ready: Now page — re-enable when filled in
   <div class="nav-mobile-group">
     <div class="nav-mobile-label">Status</div>
     <ul>
       <li><a href="/now">Now</a></li>
     </ul>
   </div>
+  */}
 </div>
 
 <script>

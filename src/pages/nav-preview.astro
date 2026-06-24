@@ -1,0 +1,188 @@
+---
+// TEMPORARY top-bar comparison page — delete once a direction is chosen.
+// View at /nav-preview on the dev server.
+const variants = [
+  { id: 'float',    name: 'A · Floating pill bar' },
+  { id: 'pills',    name: 'B · Active pills + monogram' },
+  { id: 'solid',    name: 'C · Solid color band' },
+  { id: 'eyebrow',  name: 'D · Monogram + eyebrow links' },
+];
+const themes = [
+  { cls: 'theme-light', label: 'Light' },
+  { cls: 'theme-dark',  label: 'Dark' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top-bar Preview — Fabian Lander</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'IBM Plex Sans', sans-serif; background: #2a2a2a; color: #ddd; padding: 2rem; }
+    .page-head { max-width: 60rem; margin: 0 auto 2rem; }
+    .page-head h1 { font-size: 1.6rem; margin-bottom: .4rem; }
+    .page-head p { color: #999; font-size: .95rem; }
+
+    .variant { max-width: 60rem; margin: 0 auto 2.5rem; }
+    .variant > h2 { font-size: 1.05rem; margin-bottom: .8rem; color: #eee; }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .theme-tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em;
+      color: #888; margin-bottom: .4rem; }
+
+    /* palette scopes */
+    .theme-light {
+      --bg:#FBF8F2; --surface:#EFEADE; --text:#1F2E2E; --heading:#16201F;
+      --accent:#2F6E6A; --accent-hover:#235451; --secondary:#D08A6E;
+      --border:#E0D9CB; --text-secondary:#5A6664; --band:#2F6E6A; --band-text:#FBF8F2;
+    }
+    .theme-dark {
+      --bg:#1B2625; --surface:#26302E; --text:#D7D2C6; --heading:#ECE6D8;
+      --accent:#D88A6E; --accent-hover:#E6A488; --secondary:#9DBA94;
+      --border:#34403D; --text-secondary:#9AA39C; --band:#16201F; --band-text:#ECE6D8;
+    }
+
+    /* faux page frame */
+    .frame {
+      background: var(--bg); color: var(--text);
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      min-height: 230px; position: relative;
+    }
+    .faux { padding: 2rem 1.4rem; }
+    .faux h3 { font-family: 'Source Serif 4', serif; color: var(--heading);
+      font-size: 1.5rem; font-weight: 600; margin-bottom: .6rem; letter-spacing: -.02em; }
+    .faux p { font-family:'Source Serif 4', serif; color: var(--text-secondary);
+      font-size: .95rem; line-height: 1.6; max-width: 32ch; }
+
+    /* ---------- shared bar internals ---------- */
+    .bar-inner { display:flex; align-items:center; gap:1rem; padding:.8rem 1.2rem; }
+    .bar-name { font-weight:600; color:var(--heading); font-size:.95rem; letter-spacing:-.01em; }
+    .bar-links { display:flex; gap:1.4rem; margin-left:auto; align-items:center; }
+    .bar-links a { font-size:.85rem; color:var(--text-secondary); text-decoration:none; cursor:pointer; }
+    .toggle { width:1.9rem; height:1.9rem; border:1px solid var(--border); border-radius:6px;
+      display:flex; align-items:center; justify-content:center; color:var(--text-secondary);
+      font-size:.9rem; }
+    .mono { width:1.9rem; height:1.9rem; border-radius:7px; background:var(--accent);
+      color:var(--bg); display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-size:.8rem; letter-spacing:.02em; }
+
+    /* ---------- A · floating pill ---------- */
+    .nav-float {
+      margin:1rem 1.2rem 0; border:2px solid var(--accent); border-radius:14px;
+      background:var(--bg); box-shadow:6px 6px 0 var(--secondary);
+    }
+    .nav-float .bar-links a.active { color:var(--accent); font-weight:600; }
+    .nav-float .bar-links a:hover { color:var(--accent); }
+
+    /* ---------- B · active pills + monogram ---------- */
+    .nav-pills { border-bottom:1px solid var(--border); box-shadow:0 1px 8px rgba(0,0,0,.05); }
+    .nav-pills .bar-name { display:flex; align-items:center; gap:.5rem; }
+    .nav-pills .bar-links a.active {
+      background:var(--accent); color:var(--bg); font-weight:600;
+      padding:.3rem .7rem; border-radius:99px;
+    }
+    .nav-pills .bar-links a:hover { color:var(--accent); }
+    .nav-pills .bar-links a.active:hover { color:var(--bg); }
+
+    /* ---------- C · solid band ---------- */
+    .nav-solid { background:var(--band); }
+    .nav-solid .bar-name { color:var(--band-text); }
+    .nav-solid .bar-links a { color:var(--band-text); opacity:.85; padding-bottom:2px; }
+    .nav-solid .bar-links a.active {
+      opacity:1; border-bottom:2px solid var(--secondary); font-weight:600;
+    }
+    .nav-solid .toggle { border-color:rgba(255,255,255,.3); color:var(--band-text); }
+
+    /* ---------- D · monogram + eyebrow links ---------- */
+    .nav-eyebrow { border-bottom:1px solid var(--border); }
+    .nav-eyebrow .bar-name { display:flex; align-items:center; gap:.5rem; }
+    .nav-eyebrow .bar-links a {
+      text-transform:uppercase; letter-spacing:.1em; font-size:.72rem;
+      font-weight:700; color:var(--secondary);
+    }
+    .nav-eyebrow .bar-links a.active { color:var(--accent); }
+    .nav-eyebrow .bar-links a:hover { color:var(--accent); }
+
+    @media (max-width:760px){ .pair{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>Top-bar comparison</h1>
+    <p>Four directions, each rendered in light and dark over a faux page. The middle link ("Posts") is shown as the active page. Pick one and I'll wire it into the real nav, then delete this page.</p>
+  </div>
+
+  {variants.map((v) => (
+    <div class="variant">
+      <h2>{v.name}</h2>
+      <div class="pair">
+        {themes.map((t) => (
+          <div>
+            <div class="theme-tag">{t.label}</div>
+            <div class={`frame ${t.cls}`}>
+              {/* ---- A floating ---- */}
+              {v.id === 'float' && (
+                <div class="nav-float">
+                  <div class="bar-inner">
+                    <span class="bar-name">Fabian Lander</span>
+                    <span class="bar-links">
+                      <a>Demos</a><a class="active">Posts</a><a>Now</a>
+                      <span class="toggle">☾</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+              {/* ---- B pills ---- */}
+              {v.id === 'pills' && (
+                <div class="nav-pills">
+                  <div class="bar-inner">
+                    <span class="bar-name"><span class="mono">FL</span> Fabian Lander</span>
+                    <span class="bar-links">
+                      <a>Demos</a><a class="active">Posts</a><a>Now</a>
+                      <span class="toggle">☾</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+              {/* ---- C solid ---- */}
+              {v.id === 'solid' && (
+                <div class="nav-solid">
+                  <div class="bar-inner">
+                    <span class="bar-name">Fabian Lander</span>
+                    <span class="bar-links">
+                      <a>Demos</a><a class="active">Posts</a><a>Now</a>
+                      <span class="toggle">☾</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+              {/* ---- D eyebrow ---- */}
+              {v.id === 'eyebrow' && (
+                <div class="nav-eyebrow">
+                  <div class="bar-inner">
+                    <span class="bar-name"><span class="mono">FL</span></span>
+                    <span class="bar-links">
+                      <a>Demos</a><a class="active">Posts</a><a>Now</a>
+                      <span class="toggle">☾</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <div class="faux">
+                <h3>Fabian Lander</h3>
+                <p>PhD student in geometry, groups and dynamics. Some of my code and writing lives here.</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+</body>
+</html>

@@ -9,28 +9,36 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 1px 8px var(--shadow);
-  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  /* transparent track; float gap above + sides */
+  padding: 0.75rem var(--space-md) 0;
+  background: transparent;
 }
 
-/* Translucent backgrounds per theme */
-[data-theme="light"] .nav {
-  background-color: rgba(247, 245, 240, 0.85);
-}
-
-[data-theme="dark"] .nav {
-  background-color: rgba(30, 29, 27, 0.85);
-}
-
+/* The floating pill */
 .nav-inner {
   max-width: var(--wide-width);
   margin: 0 auto;
-  padding: 0.875rem var(--space-md);
+  padding: 0.55rem 1.1rem 0.55rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: translateY(-5px);
+  box-shadow: var(--lift-shadow);
+  animation: lift-in 0.8s cubic-bezier(0.2, 0.7, 0.25, 1) 0.85s both;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Translucent frosted fill per theme */
+[data-theme="light"] .nav-inner {
+  background-color: rgba(251, 248, 242, 0.85);
+}
+
+[data-theme="dark"] .nav-inner {
+  background-color: rgba(27, 38, 37, 0.85);
 }
 
 /* ---- Site name (left) ---- */
@@ -66,7 +74,21 @@
 }
 
 .nav-links a:hover {
-  color: var(--text);
+  color: var(--accent);
+}
+
+.nav-links a.active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Honor reduced-motion: skip the lift animation, stay in resting lifted state */
+@media (prefers-reduced-motion: reduce) {
+  .nav-inner {
+    animation: none;
+    transform: none;
+    box-shadow: var(--lift-shadow);
+  }
 }
 
 /* ---- Theme toggle ---- */
@@ -163,11 +185,11 @@
   }
 
   [data-theme="light"] .nav-mobile-overlay {
-    background-color: rgba(247, 245, 240, 0.95);
+    background-color: rgba(251, 248, 242, 0.95);
   }
 
   [data-theme="dark"] .nav-mobile-overlay {
-    background-color: rgba(30, 29, 27, 0.95);
+    background-color: rgba(27, 38, 37, 0.95);
   }
 
   .nav-mobile-overlay.is-open {

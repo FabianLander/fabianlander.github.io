@@ -5,34 +5,31 @@ import { getCollection } from 'astro:content';
 import { resolveEntryImage, type GlobResult } from '../utils/images';
 import profilePic from '../assets/ProfilePic.png';
 import '../styles/pages/home.css';
-import allCourses from '../data/courses.json';
 import allTrips from '../data/trips.json';
-
-// ---- Projects ----
-const projectImages = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/content/projects/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
-  { eager: true },
-) as GlobResult;
-
-const allProjectsRaw = await getCollection('projects');
-const allProjects = await Promise.all(
-  allProjectsRaw.map(async (p) => {
-    const image = p.data.image
-      ? await resolveEntryImage(p.id, p.data.image, 'projects', projectImages, 200)
-      : null;
-    return { ...p, resolvedImage: image };
-  }),
-);
 
 // ---- Software ----
 const allSoftware = await getCollection('software');
 
 // ---- Blog ----
+const blogImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/blog/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
+
 const allBlog = await getCollection('blog');
-const recentBlog = allBlog
+const recentBlogRaw = allBlog
   .filter((p) => !p.data.draft)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 5);
+
+const recentBlog = await Promise.all(
+  recentBlogRaw.map(async (p) => {
+    const image = p.data.image
+      ? await resolveEntryImage(p.id, p.data.image, 'blog', blogImages, 200)
+      : null;
+    return { ...p, resolvedImage: image };
+  }),
+);
 
 // ---- Papers ----
 const allPapers = await getCollection('papers');
@@ -59,13 +56,8 @@ const recentTalks = allTalks
   })
   .slice(0, 5);
 
-// ---- Courses: current vs past ----
-const now = new Date();
-const currentTerm = `${now.getMonth() < 6 ? 'Spring' : 'Fall'} ${now.getFullYear()}`;
-const currentCourses = allCourses.filter((c) => c.term === currentTerm);
-const pastCourses = allCourses.filter((c) => c.term !== currentTerm);
-
 // ---- Trips: upcoming vs past (use endDate so ongoing trips stay "upcoming") ----
+const now = new Date();
 const today = now.toISOString().slice(0, 10);
 const upcoming = allTrips
   .filter((t) => (t.endDate ?? t.date) >= today)
@@ -127,25 +119,25 @@ const recentGraphics = await Promise.all(
 <Layout title="Fabian Lander">
   <main class="home-main">
     <section class="hero">
-      <Image
-        src={profilePic}
-        alt="Fabian Lander"
-        width={360}
-        class="hero-photo"
-      />
       <div class="hero-text">
         <h1>Fabian Lander</h1>
+        <p class="hero-pronouns">he/him</p>
         <p>
           Hello! I'm a PhD student in geometry, groups and dynamics at the
           Max Planck Institute for Mathematics in the Sciences in Leipzig, Germany.
-          This site collects my <a href="#illustration">illustration</a>,
-          <a href="#code">code</a>, and
-          <a href="#writing">writing</a>.
+          This site contains some of my <a href="#code">code</a> and
+          <a href="#writing">writing</a>. The rest is stuck in drafts.
         </p>
       </div>
+      <Image
+        src={profilePic}
+        alt="Fabian Lander"
+        width={480}
+        class="hero-photo"
+      />
     </section>
 
-    <!-- ===== Illustration ===== -->
+    {/* Hidden until populated: Illustration / Graphics section
     <section id="illustration" class="home-section">
       <div class="home-section-label">Illustration</div>
       <h2><a href="/graphics" class="home-heading-link">Graphics</a></h2>
@@ -167,11 +159,12 @@ const recentGraphics = await Promise.all(
         <span class="see-more-link">Browse all <span class="see-more-arrow">&rarr;</span></span>
       </a>
     </section>
+    */}
 
     <!-- ===== Code ===== -->
-    <section id="code" class="home-section">
-      <div class="home-section-label">Code</div>
-      <h2><a href="/demos" class="home-heading-link">Demos</a></h2>
+    <section id="code" class="home-section fade-in">
+      <p class="section-eyebrow">Interactive</p>
+      <h2><a href="/demos" class="home-heading-link">Online Demos</a></h2>
 
       <div class="thumb-grid">
         {recentDemos.map((d) => (
@@ -185,118 +178,92 @@ const recentGraphics = await Promise.all(
         ))}
       </div>
 
-      <a href="/demos" class="see-more-bar">
-        <span class="see-more-count">Showing {recentDemos.length} of {allDemos.length} demos</span>
-        <span class="see-more-link">Browse all <span class="see-more-arrow">&rarr;</span></span>
-      </a>
+    </section>
 
-      <h2><a href="/software" class="home-heading-link">Software</a></h2>
+    <!-- ===== Software ===== -->
+    <section id="software" class="home-section fade-in">
+      <p class="section-eyebrow">Code</p>
+      <h2>Software</h2>
 
       <div class="software-list">
         {allSoftware.map((s) => (
           <div class="software-item">
-            <h3><a href={s.data.github || `/software/${s.id}`}>{s.data.title}</a></h3>
-            <p class="software-desc">{s.data.description}</p>
-            <div class="software-meta">{s.data.tech}{s.data.github && <> · <a href={s.data.github}>GitHub</a></>}</div>
+            <h3>{s.data.github
+              ? <a href={s.data.github} target="_blank" rel="noopener">{s.data.title}</a>
+              : s.data.title}</h3>
+            {s.data.description && <p class="software-desc">{s.data.description}</p>}
+            <div class="software-meta">
+              {s.data.tech}
+              {s.data.tech && s.data.github && ' · '}
+              {s.data.github && <a href={s.data.github} target="_blank" rel="noopener">GitHub</a>}
+            </div>
+            {s.data.seeAlso && (
+              <p class="software-seealso">
+                → <a href={s.data.seeAlso.url} target="_blank" rel="noopener">{s.data.seeAlso.label}</a>
+              </p>
+            )}
           </div>
         ))}
       </div>
-
-      <a href="/software" class="see-more-bar">
-        <span class="see-more-count">{allSoftware.length} software projects</span>
-        <span class="see-more-link">Details & documentation <span class="see-more-arrow">&rarr;</span></span>
-      </a>
     </section>
 
     <!-- ===== Writing ===== -->
-    <section id="writing" class="home-section">
-      <div class="home-section-label">Writing</div>
-      <h2><a href="/blog" class="home-heading-link">Blog</a></h2>
+    <section id="writing" class="home-section fade-in">
+      <p class="section-eyebrow">Writing</p>
+      <h2><a href="/posts" class="home-heading-link">Posts</a></h2>
 
       <ul class="blog-list">
-        {recentBlog.map((post) => (
-          <li class="blog-item">
-            <a href={`/blog/${post.id.replace(/(\/index)?\.md$/, '')}/`} class="blog-title">{post.data.title}</a>
-            <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-          </li>
-        ))}
+        {recentBlog.map((post) => {
+          const href = `/posts/${post.id.replace(/(\/index)?\.md$/, '')}/`;
+          return (
+            <li class="blog-item">
+              <a href={href} class="blog-thumb-link">
+                {post.resolvedImage ? (
+                  <img
+                    src={post.resolvedImage.src}
+                    alt={post.data.title}
+                    loading="lazy"
+                    class="blog-thumb"
+                  />
+                ) : (
+                  <div class="blog-thumb blog-thumb-placeholder" aria-hidden="true"></div>
+                )}
+              </a>
+              <div class="blog-body">
+                <a href={href} class="blog-title">{post.data.title}</a>
+                <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
-      <a href="/blog" class="see-more-bar">
-        <span class="see-more-count">Showing {recentBlog.length} of {allBlog.filter((p) => !p.data.draft).length} posts</span>
-        <span class="see-more-link">All posts <span class="see-more-arrow">&rarr;</span></span>
-      </a>
-
-    </section>
-
-    <!-- ===== Project Websites ===== -->
-    <section class="home-section">
-      <h2>Websites</h2>
-
-      <div class="project-list">
-        {allProjects.map((p) => (
-          <div class={`project-item ${p.resolvedImage ? 'has-image' : ''}`}>
-            {p.resolvedImage && (
-              <a href={p.data.url} class="project-thumb">
-                <img src={p.resolvedImage.src} alt={p.data.title} loading="lazy" />
-              </a>
-            )}
-            <div class="project-text">
-              <div class="project-url">{new URL(p.data.url).hostname}</div>
-              <h3><a href={p.data.url}>{p.data.title}</a></h3>
-              {p.data.collaborators.length > 0 && (
-                <div class="project-meta">with {p.data.collaborators.sort().join(', ')}</div>
-              )}
-              {p.data.description && <p class="project-desc">{p.data.description}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
     </section>
 
     <!-- ===== Academic ===== -->
-    <section class="home-section">
-      <div class="home-section-label">Academic</div>
-
+    <section class="home-section fade-in">
+      <p class="section-eyebrow">Research</p>
       <p class="teaching-prose">
-        {currentCourses.length > 0 ? (
-          <>
-            This semester ({currentTerm}) I am teaching{' '}
-            {currentCourses.map((c, i) => (
-              <>
-                {i > 0 && (i === currentCourses.length - 1 ? ' and ' : ', ')}
-                <strong>{c.course}</strong> ({c.number}){c.sections > 1 && ` (${c.sections} sections)`}
-              </>
-            ))}
-            {pastCourses.length > 0 && (
-              <> (<a href="#past-courses" class="inline-toggle" data-target="past-courses">previous semesters</a>)</>
-            )}.{' '}
-          </>
-        ) : (
-          <>
-            I'm currently focused on my PhD research.{' '}
-            {pastCourses.length > 0 && (
-              <>(<a href="#past-courses" class="inline-toggle" data-target="past-courses">previous teaching</a>){' '}</>
-            )}
-          </>
-        )}
+        I'm a PhD student of <strong><a href="https://sites.google.com/site/jamesfarremath/">James Farre</a></strong>, in the
+        <a href="https://www.mis.mpg.de/de/geometry-groups-dynamics">Geometry, Groups, and Dynamics</a>
+        research group (led by Anna Wienhard) and a member of the
+        <a href="https://www.mis.mpg.de/lab">Mathematics Lab</a> at the
+        <a href="https://www.mis.mpg.de/">MPI MiS in Leipzig</a>.
       </p>
 
-      {pastCourses.length > 0 && (
-        <div class="past-inline" id="past-courses" hidden>
-          <ul class="past-courses-list">
-            {pastCourses.map((c) => (
-              <li>
-                <span class="past-course-term">{c.term}</span>
-                <span class="past-course-name">
-                  {c.course} ({c.number}){c.sections > 1 && ` — ${c.sections} sections`}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <p class="teaching-prose">
+        The main thread of my research is moduli spaces of dilation structures on spheres, and the dynamics of their straight-line foliations. Here are other things I do:
+      </p>
 
+      <ul class="research-list">
+        <li>with <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong>: classification of surfaces of revolution in homogeneous 3-manifolds.</li>
+        <li>with <strong><a href="https://charles-daly-math.github.io/">Charles Daly</a></strong>: symplectic tiling billiards on complete rational tori.</li>
+        <li>as part of a team in the <a href="https://www.mis.mpg.de/lab">lab</a>: visualizing a class of aperiodic tilings of the hyperbolic plane, and developing an optimization library for (pseudo-)Riemannian geometry.</li>
+        <li>with <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong> and <strong><a href="https://sites.google.com/view/marit-bobbs-homepage">Marit Bobb</a></strong>: machine learning to study the space of embedded flat 8-vertex tori in ℝ³.</li>
+        <li>computational rendering of polygonal representatives of dilation structures arising from meromorphic twisted 1-forms on low-complexity Riemann surfaces.</li>
+      </ul>
+
+      {/* Hidden until ready: travel / appearances block
       <p class="teaching-prose">
         I'm occasionally on the road for math — where to find me{pastTrips.length > 0 && (
           <>, and <a href="#past-appearances" class="inline-toggle" data-target="past-appearances">where I've recently been</a></>
@@ -347,7 +314,9 @@ const recentGraphics = await Promise.all(
           </ul>
         </div>
       )}
+      */}
 
+      {/* Hidden until ready: Recent Papers + Recent Talks grid and CV link
       <div class="academic-grid">
         <div class="academic-col">
           <h3><a href="/papers" class="home-heading-link">Recent Papers</a></h3>
@@ -381,6 +350,7 @@ const recentGraphics = await Promise.all(
       </div>
 
       <a href="#" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
+      */}
     </section>
   </main>
 
@@ -397,5 +367,23 @@ const recentGraphics = await Promise.all(
         link.classList.toggle('expanded', isHidden);
       });
     });
+
+    const fadeTargets = document.querySelectorAll('.fade-in');
+    if ('IntersectionObserver' in window && fadeTargets.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+      );
+      fadeTargets.forEach((el) => observer.observe(el));
+    } else {
+      fadeTargets.forEach((el) => el.classList.add('is-visible'));
+    }
   </script>
 </Layout>
