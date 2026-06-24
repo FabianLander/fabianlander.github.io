@@ -63,7 +63,7 @@ Since $R_\Pi \in O(q)$, it preserves every level set of $q$, hence restricts to 
 
 ## Fixed sets are totally geodesic
 
-The fixed set of an isometry of a (pseudo-)Riemannian manifold is totally geodesic — see [Fixed sets of isometries are totally geodesic](/blog/2026/fixed-sets-are-totally-geodesic/) for the proof.
+The fixed set of an isometry of a (pseudo-)Riemannian manifold is totally geodesic — see [Fixed sets of isometries are totally geodesic](/posts/2026/fixed-sets-are-totally-geodesic/) for the proof.
 
 A dimension count
 $$
