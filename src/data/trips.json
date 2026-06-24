@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "event": "Geometry, Dynamics, and Computer-Assisted Proofs",
+    "description": "birthday conference for Rich Schwartz",
+    "location": "Heidelberg University, Germany",
+    "date": "2026-06-10",
+    "endDate": "2026-06-12",
+    "url": "https://sites.google.com/view/rich-problems/main-page"
+  },
+  {
+    "event": "Bridges 2026",
+    "description": "as a presenter",
+    "location": "University of Galway, Ireland",
+    "date": "2026-08-05",
+    "endDate": "2026-08-08",
+    "url": "https://www.bridgesmathart.org/b2026/"
+  }
+]
