@@ -7,8 +7,8 @@
 /* ===== Design Tokens ===== */
 :root {
   /* Spacing */
-  --content-width: 40rem;
-  --wide-width: 54rem;
+  --content-width: 45rem;
+  --wide-width: 60rem;
   --body-size: 1.175rem;
   --body-lh: 1.68;
   --heading-lh: 1.2;
@@ -22,6 +22,7 @@
   --font-body: 'Source Serif 4', 'Georgia', serif;
   --font-sans: 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
   --font-mono: 'JetBrains Mono', 'Menlo', monospace;
+  --font-display: 'Fraunces', 'Source Serif 4', 'Georgia', serif;
 
   /* Lift / soft 3D shadow — tinted with the secondary accent (resolved per theme).
      Two layers (close contact + far diffuse) read as a floating object. */
@@ -107,7 +108,7 @@ body {
 
 /* ===== Typography ===== */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   color: var(--text-heading);
   line-height: var(--heading-lh);
   letter-spacing: -0.02em;
@@ -143,6 +144,7 @@ a {
 
 a:hover {
   color: var(--accent-hover);
+  text-decoration-color: var(--accent-secondary);
 }
 
 /* ===== Code ===== */
