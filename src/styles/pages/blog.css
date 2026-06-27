@@ -25,11 +25,15 @@
 
 .blog-page-item {
   display: grid;
-  grid-template-columns: 140px 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-md);
   align-items: start;
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.blog-page-item.has-thumb {
+  grid-template-columns: 140px 1fr;
 }
 
 .blog-page-item:first-child {
@@ -64,7 +68,7 @@
 }
 
 @media (max-width: 600px) {
-  .blog-page-item {
+  .blog-page-item.has-thumb {
     grid-template-columns: 88px 1fr;
     gap: var(--space-sm);
   }

@@ -37,19 +37,17 @@ const slug = (id: string) => id.replace(/(\/index)?\.md$/, '') + '/';
 
     <ul class="blog-page-list">
       {posts.map((post) => (
-        <li class="blog-page-item">
-          <a href={`/posts/${slug(post.id)}`} class="blog-page-thumb-link">
-            {post.resolvedImage ? (
+        <li class={`blog-page-item ${post.resolvedImage ? 'has-thumb' : 'no-thumb'}`}>
+          {post.resolvedImage && (
+            <a href={`/posts/${slug(post.id)}`} class="blog-page-thumb-link">
               <img
                 src={post.resolvedImage.src}
                 alt={post.data.title}
                 loading="lazy"
                 class="blog-page-thumb"
               />
-            ) : (
-              <div class="blog-page-thumb blog-page-thumb-placeholder" aria-hidden="true"></div>
-            )}
-          </a>
+            </a>
+          )}
           <div class="blog-page-body">
             <a href={`/posts/${slug(post.id)}`} class="blog-page-title">{post.data.title}</a>
             <div class="blog-page-meta">

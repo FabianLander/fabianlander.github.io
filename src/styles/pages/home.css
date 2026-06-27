@@ -334,11 +334,16 @@
 
 .blog-item {
   display: grid;
-  grid-template-columns: 110px 1fr;
+  grid-template-columns: 1fr;
   gap: var(--space-md);
-  align-items: center;
+  align-items: start;
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.blog-item.has-thumb {
+  grid-template-columns: 110px 1fr;
+  align-items: center;
 }
 
 .blog-thumb-link {
@@ -361,9 +366,11 @@
   background: var(--bg-subtle);
 }
 
-.blog-thumb-placeholder {
-  background: var(--bg-subtle);
-  border: 1px dashed var(--border);
+.blog-desc {
+  margin: 0.2rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .blog-body {
@@ -390,7 +397,7 @@
 }
 
 @media (max-width: 600px) {
-  .blog-item {
+  .blog-item.has-thumb {
     grid-template-columns: 80px 1fr;
     gap: var(--space-sm);
   }
