@@ -330,22 +330,21 @@ const recentGraphics = await Promise.all(
         {recentBlog.map((post) => {
           const href = `/posts/${post.id.replace(/(\/index)?\.md$/, '')}/`;
           return (
-            <li class="blog-item">
-              <a href={href} class="blog-thumb-link">
-                {post.resolvedImage ? (
+            <li class={`blog-item ${post.resolvedImage ? 'has-thumb' : 'no-thumb'}`}>
+              {post.resolvedImage && (
+                <a href={href} class="blog-thumb-link">
                   <img
                     src={post.resolvedImage.src}
                     alt={post.data.title}
                     loading="lazy"
                     class="blog-thumb"
                   />
-                ) : (
-                  <div class="blog-thumb blog-thumb-placeholder" aria-hidden="true"></div>
-                )}
-              </a>
+                </a>
+              )}
               <div class="blog-body">
                 <a href={href} class="blog-title">{post.data.title}</a>
                 <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                {post.data.description && <p class="blog-desc">{post.data.description}</p>}
               </div>
             </li>
           );
