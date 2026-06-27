@@ -89,6 +89,7 @@ const demos = defineCollection({
     technique: optionalStr,
     url: z.string(),
     image: optionalStr,
+    order: z.number().optional(),
     subject: z.array(z.string()).default([]),
     tags: z.array(z.string()).default([]),
     featured: z.boolean().default(false),

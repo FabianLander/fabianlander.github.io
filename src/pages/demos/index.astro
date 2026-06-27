@@ -10,10 +10,14 @@ const demoImages = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 ) as GlobResult;
 
-// Show all demos, most recent first.
-const allDemos = (await getCollection('demos')).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
-);
+// Curated order first (lower `order` = earlier; entries without `order`
+// fall to the end), then most recent first as a tiebreaker.
+const allDemos = (await getCollection('demos')).sort((a, b) => {
+  const oa = a.data.order ?? Infinity;
+  const ob = b.data.order ?? Infinity;
+  if (oa !== ob) return oa - ob;
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
 
 const demos = await Promise.all(
   allDemos.map(async (d) => {

@@ -33,12 +33,13 @@
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid var(--border-subtle);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .demo-card:hover {
-  border-color: var(--border);
-  box-shadow: 0 2px 8px var(--shadow);
+  transform: translateY(-5px);
+  border-color: var(--accent-secondary);
+  box-shadow: var(--lift-shadow);
 }
 
 /* ---- Screenshot ---- */

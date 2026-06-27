@@ -207,39 +207,6 @@ const recentGraphics = await Promise.all(
       </div>
     </section>
 
-    <!-- ===== Writing ===== -->
-    <section id="writing" class="home-section fade-in">
-      <p class="section-eyebrow">Writing</p>
-      <h2><a href="/posts" class="home-heading-link">Posts</a></h2>
-
-      <ul class="blog-list">
-        {recentBlog.map((post) => {
-          const href = `/posts/${post.id.replace(/(\/index)?\.md$/, '')}/`;
-          return (
-            <li class="blog-item">
-              <a href={href} class="blog-thumb-link">
-                {post.resolvedImage ? (
-                  <img
-                    src={post.resolvedImage.src}
-                    alt={post.data.title}
-                    loading="lazy"
-                    class="blog-thumb"
-                  />
-                ) : (
-                  <div class="blog-thumb blog-thumb-placeholder" aria-hidden="true"></div>
-                )}
-              </a>
-              <div class="blog-body">
-                <a href={href} class="blog-title">{post.data.title}</a>
-                <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-    </section>
-
     <!-- ===== Academic ===== -->
     <section class="home-section fade-in">
       <p class="section-eyebrow">Research</p>
@@ -252,14 +219,15 @@ const recentGraphics = await Promise.all(
       </p>
 
       <p class="teaching-prose">
-        The main thread of my research is moduli spaces of dilation structures on spheres, and the dynamics of their straight-line foliations. Here are other things I do:
+        The main thread of my research is moduli spaces of dilation structures on spheres, and the dynamics of their straight-line foliations. These are other things I currently work and think about:
       </p>
 
       <ul class="research-list">
+        <li>with <strong><a href="https://math.dartmouth.edu/~doyle/">Peter Doyle</a></strong>, <strong><a href="https://www.math.brown.edu/reschwar/">Rich Schwartz</a></strong>, and <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong>: proving that flat 8-vertex tori are universal, i.e. every modulus can be realized by an 8-vertex triangulation.</li>
         <li>with <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong>: classification of surfaces of revolution in homogeneous 3-manifolds.</li>
         <li>with <strong><a href="https://charles-daly-math.github.io/">Charles Daly</a></strong>: symplectic tiling billiards on complete rational tori.</li>
         <li>as part of a team in the <a href="https://www.mis.mpg.de/lab">lab</a>: visualizing a class of aperiodic tilings of the hyperbolic plane, and developing an optimization library for (pseudo-)Riemannian geometry.</li>
-        <li>with <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong> and <strong><a href="https://sites.google.com/view/marit-bobbs-homepage">Marit Bobb</a></strong>: machine learning to study the space of embedded flat 8-vertex tori in ℝ³.</li>
+        <li>with <strong><a href="https://sites.google.com/view/marit-bobbs-homepage">Marit Bobb</a></strong> and <strong><a href="https://stevejtrettel.site/">Steve Trettel</a></strong>: machine learning to study the space of embedded flat 8-vertex tori in ℝ³.</li>
         <li>computational rendering of polygonal representatives of dilation structures arising from meromorphic twisted 1-forms on low-complexity Riemann surfaces.</li>
       </ul>
 
@@ -351,6 +319,39 @@ const recentGraphics = await Promise.all(
 
       <a href="#" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
       */}
+    </section>
+
+    <!-- ===== Writing ===== -->
+    <section id="writing" class="home-section fade-in">
+      <p class="section-eyebrow">Writing</p>
+      <h2><a href="/posts" class="home-heading-link">Posts</a></h2>
+
+      <ul class="blog-list">
+        {recentBlog.map((post) => {
+          const href = `/posts/${post.id.replace(/(\/index)?\.md$/, '')}/`;
+          return (
+            <li class="blog-item">
+              <a href={href} class="blog-thumb-link">
+                {post.resolvedImage ? (
+                  <img
+                    src={post.resolvedImage.src}
+                    alt={post.data.title}
+                    loading="lazy"
+                    class="blog-thumb"
+                  />
+                ) : (
+                  <div class="blog-thumb blog-thumb-placeholder" aria-hidden="true"></div>
+                )}
+              </a>
+              <div class="blog-body">
+                <a href={href} class="blog-title">{post.data.title}</a>
+                <span class="blog-date">{new Date(post.data.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
     </section>
   </main>
 
