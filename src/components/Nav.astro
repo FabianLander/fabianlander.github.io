@@ -7,7 +7,10 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-name">Fabian Lander</a>
+    <a href="/" class="nav-name">
+      <span class="nav-logo" aria-hidden="true"></span>
+      Fabian Lander
+    </a>
 
     <ul class="nav-links">
       {/* Hidden until populated: Graphics, Software */}
