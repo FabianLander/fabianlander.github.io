@@ -5,7 +5,7 @@ tech: C++
 github: https://github.com/FabianLander/Billiards
 status: archived
 seeAlso:
-  label: "Check out Lael Costa's amazing browser-based billiards — honestly way better than mine!"
+  label: "Check out Lael Costa's amazing browser-based billiards (honestly way better than mine!)"
   url: "https://lael.dev/#/billiards"
 subject: []
 tags:
