@@ -1,17 +1,16 @@
-title: "Symplectic billiards for pairs of polygons"
+title: "Symplectic Tiling Billiards on Complete Affine Tori"
 authors:
-  - Peter Albers
+  - Charles Daly
   - Fabian Lander
-  - Jannik M. Westermann
 venue: Preprint
 status: preprint
-date: 2024-02-19
-arxiv: "2402.12244"
+date: 2026-08-28
+arxiv: "2608.28894"
 abstract: ""
 subject:
   - dynamics
   - symplectic geometry
 tags:
   - billiards
-  - polygons
+  - affine tori
 featured: true
