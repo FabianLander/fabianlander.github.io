@@ -295,7 +295,7 @@ const recentGraphics = await Promise.all(
       */}
 
       <div class="academic-col papers-home">
-        <h3><a href="/papers" class="home-heading-link">Recent Papers</a></h3>
+        <h3><a href="/papers" class="home-heading-link">Papers</a></h3>
         <ul class="paper-list">
           {recentPapers.map((p) => {
             const href = p.data.url || (p.data.arxiv ? `https://arxiv.org/abs/${p.data.arxiv}` : null);
