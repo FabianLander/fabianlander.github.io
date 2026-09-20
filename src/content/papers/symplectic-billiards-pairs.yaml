@@ -3,11 +3,13 @@ authors:
   - Peter Albers
   - Fabian Lander
   - Jannik M. Westermann
-venue: Preprint
-status: preprint
+venue: "Arnold Mathematical Journal"
+venueUrl: "https://link.springer.com/journal/40598"
+status: accepted
 date: 2024-02-19
 arxiv: "2402.12244"
 abstract: ""
+image: ./img/symplectic-billiards-pairs.jpg
 subject:
   - dynamics
   - symplectic geometry
