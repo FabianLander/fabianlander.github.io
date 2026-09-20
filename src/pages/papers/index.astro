@@ -1,14 +1,30 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import { resolveEntryImage, type GlobResult } from '../../utils/images';
 import '../../styles/pages/papers.css';
+
+const paperImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/papers/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
 
 const allPapers = await getCollection('papers');
 
-const papers = allPapers.sort((a, b) => {
+const sorted = allPapers.sort((a, b) => {
   if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
   return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
 });
+
+const papers = await Promise.all(
+  sorted.map(async (p) => {
+    const image = p.data.image
+      ? await resolveEntryImage(p.id, p.data.image, 'papers', paperImages, 480)
+      : null;
+    return { ...p, resolvedImage: image };
+  }),
+);
 
 function paperUrl(p: typeof papers[0]): string | null {
   if (p.data.url) return p.data.url;
@@ -27,7 +43,14 @@ function paperUrl(p: typeof papers[0]): string | null {
       {papers.map((p) => {
         const href = paperUrl(p);
         return (
-          <li class="papers-item">
+          <li class={`papers-item ${p.resolvedImage ? 'has-thumb' : ''}`}>
+            {p.resolvedImage && (
+              href ? (
+                <a href={href} class="papers-thumb-link"><img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" /></a>
+              ) : (
+                <img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" />
+              )
+            )}
             <div class="papers-entry">
               <div class="papers-title-row">
                 {href ? (

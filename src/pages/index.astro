@@ -32,13 +32,25 @@ const recentBlog = await Promise.all(
 );
 
 // ---- Papers ----
+const paperImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/content/papers/**/*.{png,jpg,jpeg,webp,svg,avif,PNG,JPG,JPEG,WEBP,SVG,AVIF}',
+  { eager: true },
+) as GlobResult;
 const allPapers = await getCollection('papers');
-const recentPapers = allPapers
+const sortedPapers = allPapers
   .sort((a, b) => {
     if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
     return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
   })
   .slice(0, 5);
+const recentPapers = await Promise.all(
+  sortedPapers.map(async (p) => {
+    const image = p.data.image
+      ? await resolveEntryImage(p.id, p.data.image, 'papers', paperImages, 300)
+      : null;
+    return { ...p, resolvedImage: image };
+  }),
+);
 
 // ---- Talks ----
 const allTalks = await getCollection('talks');
@@ -282,41 +294,36 @@ const recentGraphics = await Promise.all(
       )}
       */}
 
-      {/* Hidden until ready: Recent Papers + Recent Talks grid and CV link
-      <div class="academic-grid">
-        <div class="academic-col">
-          <h3><a href="/papers" class="home-heading-link">Recent Papers</a></h3>
-          <ul class="paper-list">
-            {recentPapers.map((p) => (
-              <li>
-                {p.data.url || p.data.arxiv ? (
-                  <a href={p.data.url || `https://arxiv.org/abs/${p.data.arxiv}`} class="paper-title">{p.data.title}</a>
-                ) : (
-                  <span class="paper-title">{p.data.title}</span>
+      <div class="academic-col papers-home">
+        <h3><a href="/papers" class="home-heading-link">Recent Papers</a></h3>
+        <ul class="paper-list">
+          {recentPapers.map((p) => {
+            const href = p.data.url || (p.data.arxiv ? `https://arxiv.org/abs/${p.data.arxiv}` : null);
+            return (
+              <li class={p.resolvedImage ? 'has-thumb' : ''}>
+                {p.resolvedImage && (
+                  href ? (
+                    <a href={href} class="paper-thumb-link"><img src={p.resolvedImage.src} alt="" loading="lazy" class="paper-thumb" /></a>
+                  ) : (
+                    <img src={p.resolvedImage.src} alt="" loading="lazy" class="paper-thumb" />
+                  )
                 )}
-                <div class="paper-venue">{p.data.venue}, {new Date(p.data.date).getFullYear()}</div>
+                <div class="paper-body">
+                  {href ? (
+                    <a href={href} class="paper-title">{p.data.title}</a>
+                  ) : (
+                    <span class="paper-title">{p.data.title}</span>
+                  )}
+                  <div class="paper-venue">{p.data.venue}, {new Date(p.data.date).getFullYear()}</div>
+                </div>
               </li>
-            ))}
-          </ul>
-          <a href="/papers" class="section-link">All papers &rarr;</a>
-        </div>
-
-        <div class="academic-col">
-          <h3><a href="/talks" class="home-heading-link">Recent Talks</a></h3>
-          <ul class="talk-list">
-            {recentTalks.map((t) => (
-              <li>
-                <a href={`/talks/${t.id.replace(/(\/index)?\.md$/, '')}/`} class="talk-title">{t.data.title}</a>
-                <div class="talk-venue">{t.latestVenue.name}, {new Date(t.latestVenue.date).getFullYear()}</div>
-              </li>
-            ))}
-          </ul>
-          <a href="/talks" class="section-link">All talks &rarr;</a>
-        </div>
+            );
+          })}
+        </ul>
+        <a href="/papers" class="section-link">All papers &rarr;</a>
       </div>
 
-      <a href="#" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
-      */}
+      <a href="/cv.pdf" target="_blank" rel="noopener" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
     </section>
 
     <!-- ===== Writing ===== -->

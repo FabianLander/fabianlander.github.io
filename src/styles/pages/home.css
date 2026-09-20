@@ -514,6 +514,10 @@
   margin-top: var(--space-lg);
 }
 
+.papers-home {
+  margin-top: var(--space-lg);
+}
+
 .academic-col h3 {
   margin-top: 0;
   margin-bottom: var(--space-sm);
@@ -530,6 +534,34 @@
 .talk-list li {
   padding: 0.35rem 0;
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.paper-list li.has-thumb {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: var(--space-md);
+  align-items: center;
+  padding: 0.6rem 0;
+}
+
+.paper-thumb-link {
+  display: block;
+  border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.paper-thumb-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--lift-shadow);
+}
+
+.paper-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--bg-subtle);
 }
 
 .paper-title,
