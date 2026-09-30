@@ -68,9 +68,9 @@ First, when we develop our structure into a polygon, we argued that (potentially
 
 <img src="/assets/svgs/n=4/singularityPermutation.svg" alt="Two different cases." style="width: 50%; display: block; margin: 0 auto;" />
 
-However, when we apply either one of the two cut-paste operation that we described before, we change from one order to the other. This shows that every dilation structure has a polygonal representation as a triangle where the verticies are ordered $a$ (red) -> $b$ (yellow) -> $c$ (green), which is depicted on the left in the previous picture.
+However, when we apply either one of the two cut-paste operations that we described before, we change from one order to the other. This shows that every dilation structure has a polygonal representation as a triangle where the vertices are ordered $a$ (red) -> $b$ (yellow) -> $c$ (green), which is depicted on the left in the previous picture.
 
-Secondly, we could get a $\pi$-rotated version of our polygon depending on how we develop. Here we can make the convention that we edge containing $b$ to have angle in $[0,\pi)$.
+Secondly, we could get a $\pi$-rotated version of our polygon depending on how we develop. Here we make the convention that the edge containing $b$ has angle in $[0,\pi)$.
 
 Thirdly, for normalization, we scale our triangle to have unit area. We call the space of positively oriented unit area triangles (up to translation) $\mathcal{T}$. Positively oriented means that the edges that contain $b$ and $c$ form a positively oriented basis of $\mathbb{R}^2$ (equipped with its standard basis).
 
@@ -78,7 +78,7 @@ Thirdly, for normalization, we scale our triangle to have unit area. We call the
 
 For a different normalization, we could choose an edge of our triangle - let's arbitrarily pick the edge containing vertex $b$ -  and rotate and scale our triangle so that this edge lies on the real line between zero and one and that the opposite vertex is in the upper half plane. However, since dilation structures are not preserved by rotations, we must keep track of the original direction of this edge in some way. Or in other words, we want to remember what the initial vertical direction was.
 
-A very straight forward way would be to simply remember the angle we use to rotate our triangle. Or we could simply record the (unoriented) line with the direction of the edge where containing $b$. This would give us a way to identify with every point in $\mathbb{H}^2 \times \mathbb{RP}^1$ a dilation structure on $S_{0,4}$ (the sphere with four marked points).
+A very straightforward way would be to simply remember the angle we use to rotate our triangle. Or we could simply record the (unoriented) line with the direction of the edge containing $b$. This would give us a way to identify with every point in $\mathbb{H}^2 \times \mathbb{RP}^1$ a dilation structure on $S_{0,4}$ (the sphere with four marked points).
 
 However, it would be nice to have a connection with hyperbolic geometry, so we want a normalization that connects this space of triangles with the unit tangent bundle $T^1\mathbb{H}^2$ and respects its geometry (more specifically its geodesic flow). For this we make use of the fact that both $T^1\mathbb{H}^2$ and the space of all triangles $\mathcal{T}$ in the plane (up to orientation, translations, rotations by $\pi$, and area) can be identified with $\mathrm{PSL}(2,\mathbb{R})$ via their usual simply transitive actions:
 
