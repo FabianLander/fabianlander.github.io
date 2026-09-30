@@ -4,7 +4,7 @@ date: 2026-03-23
 technique: glsl
 url: https://fabianlander.github.io/shader-apps/affine-surface-standalone/
 image: ./screenshot.png
-order: 8
+order: 9
 subject:
   - visualization
 tags:

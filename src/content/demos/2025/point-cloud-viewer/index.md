@@ -5,7 +5,7 @@ description: Minimal Three.js viewer for loading and visualizing JSON point clou
 technique: threejs
 url: https://fabianlander.github.io/apps/pointCloudViewer/
 image: ./screenshot.png
-order: 10
+order: 11
 subject:
   - visualization
 tags:

@@ -4,7 +4,7 @@ date: 2026-06-07
 description: Interactive 3D visualization of a tiling on the pseudosphere, a surface of constant negative curvature.
 url: https://fabianlander.github.io/Surfaces-of-Revolution-in-3-Manifolds/demos/tiled-pseudosphere/
 image: ./screenshot.png
-order: 11
+order: 12
 subject:
   - visualization
 tags:
