@@ -192,33 +192,6 @@ const recentGraphics = await Promise.all(
 
     </section>
 
-    <!-- ===== Software ===== -->
-    <section id="software" class="home-section fade-in">
-      <p class="section-eyebrow">Code</p>
-      <h2>Software</h2>
-
-      <div class="software-list">
-        {allSoftware.map((s) => (
-          <div class="software-item">
-            <h3>{s.data.github
-              ? <a href={s.data.github} target="_blank" rel="noopener">{s.data.title}</a>
-              : s.data.title}</h3>
-            {s.data.description && <p class="software-desc">{s.data.description}</p>}
-            <div class="software-meta">
-              {s.data.tech}
-              {s.data.tech && s.data.github && ' · '}
-              {s.data.github && <a href={s.data.github} target="_blank" rel="noopener">GitHub</a>}
-            </div>
-            {s.data.seeAlso && (
-              <p class="software-seealso">
-                → <a href={s.data.seeAlso.url} target="_blank" rel="noopener">{s.data.seeAlso.label}</a>
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-
     <!-- ===== Academic ===== -->
     <section class="home-section fade-in">
       <p class="section-eyebrow">Research</p>
@@ -321,6 +294,33 @@ const recentGraphics = await Promise.all(
           })}
         </ul>
         <a href="/papers" class="section-link">All papers &rarr;</a>
+      </div>
+    </section>
+
+    <!-- ===== Software ===== -->
+    <section id="software" class="home-section fade-in">
+      <p class="section-eyebrow">Code</p>
+      <h2>Software</h2>
+
+      <div class="software-list">
+        {allSoftware.map((s) => (
+          <div class="software-item">
+            <h3>{s.data.github
+              ? <a href={s.data.github} target="_blank" rel="noopener">{s.data.title}</a>
+              : s.data.title}</h3>
+            {s.data.description && <p class="software-desc">{s.data.description}</p>}
+            <div class="software-meta">
+              {s.data.tech}
+              {s.data.tech && s.data.github && ' · '}
+              {s.data.github && <a href={s.data.github} target="_blank" rel="noopener">GitHub</a>}
+            </div>
+            {s.data.seeAlso && (
+              <p class="software-seealso">
+                → <a href={s.data.seeAlso.url} target="_blank" rel="noopener">{s.data.seeAlso.label}</a>
+              </p>
+            )}
+          </div>
+        ))}
       </div>
 
       <a href="/cv.pdf" target="_blank" rel="noopener" class="section-link cv-link">Curriculum Vitae (PDF) &rarr;</a>
