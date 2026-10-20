@@ -77,11 +77,28 @@
     transition: none;
   }
 
-  .hero-photo {
+  .hero-photo,
+  .news-box {
     animation: none;
     transform: none;
     box-shadow: var(--lift-shadow);
   }
+}
+
+/* ---- News box ---- */
+/* Same lifted treatment as the hero photo, so it reads as part of the intro. */
+.news-box {
+  padding: 1.25rem 1.75rem 1rem;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  transform: translateY(-5px);
+  box-shadow: var(--lift-shadow);
+  animation: lift-in 0.8s cubic-bezier(0.2, 0.7, 0.25, 1) 0.9s both;
+}
+
+.news-box .research-list {
+  margin: 0;
 }
 
 .home-section:not(:has(> .home-section-label)) {

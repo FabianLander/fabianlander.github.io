@@ -29,6 +29,7 @@ const papers = await Promise.all(
 function paperUrl(p: typeof papers[0]): string | null {
   if (p.data.url) return p.data.url;
   if (p.data.arxiv) return `https://arxiv.org/abs/${p.data.arxiv}`;
+  if (p.data.pdf) return p.data.pdf;
   return null;
 }
 ---
@@ -59,7 +60,7 @@ function paperUrl(p: typeof papers[0]): string | null {
                   <span class="papers-title">{p.data.title}</span>
                 )}
                 <span class={`papers-status papers-status--${p.data.status}`}>
-                  {p.data.status}
+                  {p.data.status.replace('-', ' ')}
                 </span>
               </div>
 
@@ -82,6 +83,9 @@ function paperUrl(p: typeof papers[0]): string | null {
                   <a href={`https://arxiv.org/abs/${p.data.arxiv}`} class="papers-arxiv">
                     arXiv:{p.data.arxiv}
                   </a>
+                )}
+                {p.data.pdf && (
+                  <a href={p.data.pdf} class="papers-pdf">PDF</a>
                 )}
               </div>
 

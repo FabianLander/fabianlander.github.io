@@ -149,6 +149,16 @@ const recentGraphics = await Promise.all(
       />
     </section>
 
+    <!-- ===== News ===== -->
+    <aside class="news-box" aria-labelledby="news-heading">
+      <p class="section-eyebrow" id="news-heading">News</p>
+      <ul class="research-list">
+        <li>In preparation, with Peter Doyle, Rich Schwartz, and Steve Trettel: <a href="/papers/universal-8-vertex.pdf" target="_blank" rel="noopener"><em>A Universal 8-Vertex Origami Torus Triangulation</em></a>, proving that one 8-vertex triangulation realizes every flat torus as an origami torus in ℝ³ (8 vertices is the minimum).</li>
+        <li>I'm on the job market! Here is my <a href="/cv.pdf" target="_blank" rel="noopener">CV</a>.</li>
+        <li>My first solo paper is on the arXiv: <a href="https://arxiv.org/abs/2609.10703" target="_blank" rel="noopener"><em>The two most symmetric flat tori as eight-vertex paper tori</em></a>.</li>
+      </ul>
+    </aside>
+
     {/* Hidden until populated: Illustration / Graphics section
     <section id="illustration" class="home-section">
       <div class="home-section-label">Illustration</div>
@@ -271,7 +281,7 @@ const recentGraphics = await Promise.all(
         <h3><a href="/papers" class="home-heading-link">Papers</a></h3>
         <ul class="paper-list">
           {recentPapers.map((p) => {
-            const href = p.data.url || (p.data.arxiv ? `https://arxiv.org/abs/${p.data.arxiv}` : null);
+            const href = p.data.url || (p.data.arxiv ? `https://arxiv.org/abs/${p.data.arxiv}` : null) || p.data.pdf || null;
             return (
               <li class={p.resolvedImage ? 'has-thumb' : ''}>
                 {p.resolvedImage && (
