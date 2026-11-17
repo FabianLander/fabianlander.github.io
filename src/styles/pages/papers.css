@@ -17,6 +17,18 @@
   line-height: var(--heading-lh);
 }
 
+/* ---- Research / expository sections ---- */
+.papers-section {
+  margin-bottom: var(--space-lg);
+}
+
+.papers-section-heading {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
 /* ---- List ---- */
 .papers-list {
   list-style: none;

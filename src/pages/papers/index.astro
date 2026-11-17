@@ -26,6 +26,11 @@ const papers = await Promise.all(
   }),
 );
 
+const groups = [
+  { heading: 'Research Papers', items: papers.filter((p) => p.data.kind === 'research') },
+  { heading: 'Expository and Illustration Papers', items: papers.filter((p) => p.data.kind === 'expository') },
+].filter((g) => g.items.length > 0);
+
 function paperUrl(p: typeof papers[0]): string | null {
   if (p.data.url) return p.data.url;
   if (p.data.arxiv) return `https://arxiv.org/abs/${p.data.arxiv}`;
@@ -34,71 +39,76 @@ function paperUrl(p: typeof papers[0]): string | null {
 }
 ---
 
-<Layout title="Papers — Fabian Lander" description="Research papers by Fabian Lander">
+<Layout title="Papers — Fabian Lander" description="Papers by Fabian Lander">
   <main class="papers-page">
     <header class="papers-header">
       <h1>Papers</h1>
     </header>
 
-    <ol class="papers-list">
-      {papers.map((p) => {
-        const href = paperUrl(p);
-        return (
-          <li class={`papers-item ${p.resolvedImage ? 'has-thumb' : ''}`}>
-            {p.resolvedImage && (
-              href ? (
-                <a href={href} class="papers-thumb-link"><img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" /></a>
-              ) : (
-                <img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" />
-              )
-            )}
-            <div class="papers-entry">
-              <div class="papers-title-row">
-                {href ? (
-                  <a href={href} class="papers-title">{p.data.title}</a>
-                ) : (
-                  <span class="papers-title">{p.data.title}</span>
-                )}
-                <span class={`papers-status papers-status--${p.data.status}`}>
-                  {p.data.status.replace('-', ' ')}
-                </span>
-              </div>
-
-              {p.data.authors.length > 0 && (
-                <div class="papers-authors">{p.data.authors.join(', ')}</div>
-              )}
-
-              <div class="papers-venue-row">
-                <span class="papers-venue">
-                  {p.data.venueUrl ? (
-                    <a href={p.data.venueUrl}>{p.data.venue}</a>
+    {groups.map((g) => (
+      <section class="papers-section">
+        <h2 class="papers-section-heading">{g.heading}</h2>
+        <ol class="papers-list">
+          {g.items.map((p) => {
+            const href = paperUrl(p);
+            return (
+              <li class={`papers-item ${p.resolvedImage ? 'has-thumb' : ''}`}>
+                {p.resolvedImage && (
+                  href ? (
+                    <a href={href} class="papers-thumb-link"><img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" /></a>
                   ) : (
-                    p.data.venue
-                  )}
-                </span>
-                <span class="papers-year">
-                  {new Date(p.data.date).getFullYear()}
-                </span>
-                {p.data.arxiv && (
-                  <a href={`https://arxiv.org/abs/${p.data.arxiv}`} class="papers-arxiv">
-                    arXiv:{p.data.arxiv}
-                  </a>
+                    <img src={p.resolvedImage.src} alt="" loading="lazy" class="papers-thumb" />
+                  )
                 )}
-                {p.data.pdf && (
-                  <a href={p.data.pdf} class="papers-pdf">PDF</a>
-                )}
-              </div>
+                <div class="papers-entry">
+                  <div class="papers-title-row">
+                    {href ? (
+                      <a href={href} class="papers-title">{p.data.title}</a>
+                    ) : (
+                      <span class="papers-title">{p.data.title}</span>
+                    )}
+                    <span class={`papers-status papers-status--${p.data.status}`}>
+                      {p.data.status.replace('-', ' ')}
+                    </span>
+                  </div>
 
-              {p.data.abstract && (
-                <details class="papers-abstract-toggle">
-                  <summary>Abstract</summary>
-                  <p class="papers-abstract">{p.data.abstract}</p>
-                </details>
-              )}
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+                  {p.data.authors.length > 0 && (
+                    <div class="papers-authors">{p.data.authors.join(', ')}</div>
+                  )}
+
+                  <div class="papers-venue-row">
+                    <span class="papers-venue">
+                      {p.data.venueUrl ? (
+                        <a href={p.data.venueUrl}>{p.data.venue}</a>
+                      ) : (
+                        p.data.venue
+                      )}
+                    </span>
+                    <span class="papers-year">
+                      {new Date(p.data.date).getFullYear()}
+                    </span>
+                    {p.data.arxiv && (
+                      <a href={`https://arxiv.org/abs/${p.data.arxiv}`} class="papers-arxiv">
+                        arXiv:{p.data.arxiv}
+                      </a>
+                    )}
+                    {p.data.pdf && (
+                      <a href={p.data.pdf} class="papers-pdf">PDF</a>
+                    )}
+                  </div>
+
+                  {p.data.abstract && (
+                    <details class="papers-abstract-toggle">
+                      <summary>Abstract</summary>
+                      <p class="papers-abstract">{p.data.abstract}</p>
+                    </details>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    ))}
   </main>
 </Layout>

@@ -21,6 +21,7 @@ const papers = defineCollection({
     venue: z.string(),
     venueUrl: z.string().optional(),
     status: z.enum(['published', 'accepted', 'submitted', 'preprint', 'in-preparation']),
+    kind: z.enum(['research', 'expository']).default('research'),
     date: z.coerce.date(),
     url: z.string().optional(),
     arxiv: z.string().optional(),
