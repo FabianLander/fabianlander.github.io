@@ -38,7 +38,6 @@ See [DESIGN.md](DESIGN.md) for the full color palette, typography, and spacing t
 
 - `/papers` — full list of academic papers
 - `/talks` — full list of talks with slides/recordings (when present)
-- `/photos` — photo gallery (currently unused; reserved)
 
 ### Navigation bar
 

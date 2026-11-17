@@ -24,7 +24,6 @@ All content collections are defined in [`src/content.config.ts`](../src/content.
 | `graphics` | Markdown content | `src/content/graphics/<year>/<slug>/index.md` |
 | `software` | Markdown content | `src/content/software/<slug>.md` |
 | `talks` | Markdown content | `src/content/talks/<slug>/index.md` |
-| `photos` | Markdown content | `src/content/photos/<year>/<slug>/index.md` |
 | `now` | Markdown content | `src/content/now/current.md` (single entry) |
 
 ### Papers
@@ -147,17 +146,6 @@ tags: string[]
 featured: boolean
 ```
 
-### Photos
-
-```yaml
-title: string
-date: string                    # YYYY-MM format only
-tags: string[]
-description?: string
-cover?: string
-featured: boolean
-```
-
 ### Now
 
 ```yaml
@@ -192,10 +180,6 @@ Body: short markdown with three sections — Reading / Working on / Open questio
 /graphics/                  Graphics listing
 /graphics/<year>/           Graphics filtered by year
 /software/                  Software listing
-/photos/                    Photos gallery (currently empty)
-/photos/<year>/             Photos by year
-/photos/<tag>/              Photos by tag
-/photos/map/                Photo map view
 ```
 
 ---
@@ -277,7 +261,6 @@ Default width 75%, auto-applies `blog-image` class and `loading="lazy"`.
 - **Astro 6** — static site generator with content layer
 - **KaTeX** — LaTeX math rendering
 - **Sharp** — image optimization
-- **exifr** — EXIF metadata extraction (photos collection)
 - **remark-math + rehype-katex** — math in markdown
 - **remark-directive** — container directives for theorem boxes
 - **GitHub Pages** — hosting at https://fabianlander.github.io
@@ -291,7 +274,6 @@ In `scripts/`:
 - `new-blog.js` — scaffold a new blog post
 - `new-gfx.js` — scaffold a graphics entry
 - `new-art.js` — scaffold an art entry (legacy; art collection has been removed)
-- `new-photos.js` — scaffold a photo collection
 
 Slash commands defined at `~/.claude/commands/` provide a higher-level interface for the publishing workflow (see `/Users/lander/Documents/planning/workflow.md`).
 

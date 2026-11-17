@@ -115,18 +115,6 @@ const blog = defineCollection({
   }),
 });
 
-const photos = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/photos' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.string().regex(/^\d{4}-\d{2}$/, 'Use YYYY-MM format'),
-    tags: z.array(z.string()).default([]),
-    description: z.string().optional(),
-    cover: z.string().optional(),
-    featured: z.boolean().default(false),
-  }),
-});
-
 const talks = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/talks' }),
   schema: z.object({
@@ -156,6 +144,5 @@ export const collections = {
   software,
   blog,
   talks,
-  photos,
   now,
 };

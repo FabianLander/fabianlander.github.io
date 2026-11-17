@@ -86,7 +86,6 @@ See `docs/embedding-experiments-in-astro.md` for the full workflow.
 - `node scripts/new-blog.js` — new blog post
 - `node scripts/new-gfx.js` — new graphics entry
 - `node scripts/new-art.js` — new art entry
-- `node scripts/new-photos.js` — new photo collection
 
 ## Conventions
 
