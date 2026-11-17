@@ -25,7 +25,6 @@ All content collections are defined in [`src/content.config.ts`](../src/content.
 | `software` | Markdown content | `src/content/software/<slug>.md` |
 | `talks` | Markdown content | `src/content/talks/<slug>/index.md` |
 | `photos` | Markdown content | `src/content/photos/<year>/<slug>/index.md` |
-| `food` | Markdown content | `src/content/food/<...>` (currently unused) |
 | `now` | Markdown content | `src/content/now/current.md` (single entry) |
 
 ### Papers
@@ -310,7 +309,7 @@ Slash commands defined at `~/.claude/commands/` provide a higher-level interface
 ## Things to Reconsider for This Site
 
 1. The `art` collection has been removed (Fabian doesn't have an art section yet — can be re-added later if needed)
-2. The `food` collection schema is empty and unused — candidate for removal
+2. The `food` collection and page from the upstream template have been removed
 3. The `writing` collection currently has no entries — defined in case Fabian writes course notes or expository pieces
 4. Content collections still use `z` from `astro:content` (deprecated); minor refactor to import from `zod` directly is pending
 5. Admin review pages from the upstream template are not wired up — add only if bulk-content review becomes useful

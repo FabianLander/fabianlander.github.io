@@ -141,11 +141,6 @@ const talks = defineCollection({
   }),
 });
 
-const food = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/food' }),
-  schema: z.object({}),
-});
-
 const now = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/now' }),
   schema: z.object({
@@ -162,6 +157,5 @@ export const collections = {
   blog,
   talks,
   photos,
-  food,
   now,
 };
