@@ -4,10 +4,10 @@ authors:
   - Fabian Lander
   - Richard Evan Schwartz
   - Steve Trettel
-venue: In preparation
-status: in-preparation
+venue: Preprint
+status: preprint
 date: 2026-11-17
-pdf: /papers/universal-8-vertex.pdf
+arxiv: "2611.21909"
 abstract: ""
 image: ./img/universal-8-vertex-origami-torus.jpg
 subject:
