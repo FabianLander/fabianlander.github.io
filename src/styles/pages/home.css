@@ -615,10 +615,6 @@
   color: var(--accent-hover);
 }
 
-.cv-link {
-  margin-top: var(--space-md);
-}
-
 /* ---- Appearances list ---- */
 .appearances-intro {
   margin-top: var(--space-md);

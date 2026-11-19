@@ -15,7 +15,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
     <ul class="nav-links">
       {/* Hidden until populated: Graphics, Software */}
       <li><a href="/demos" class={isActive('/demos') ? 'active' : undefined}>Online Demos</a></li>
-      <li><a href="/posts" class={isActive('/posts') ? 'active' : undefined}>Posts</a></li>
+      <li><a href="/cv.pdf" target="_blank" rel="noopener">CV</a></li>
+      {/* Hidden: Posts — <li><a href="/posts" class={isActive('/posts') ? 'active' : undefined}>Posts</a></li> */}
       {/* Hidden until ready: Now page — re-enable this link when the Now page is filled in */}
       {/* <li><a href="/now" class={isActive('/now') ? 'active' : undefined}>Now</a></li> */}
     </ul>
@@ -61,11 +62,20 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
   </div>
 
   <div class="nav-mobile-group">
+    <div class="nav-mobile-label">Academic</div>
+    <ul>
+      <li><a href="/cv.pdf" target="_blank" rel="noopener">CV</a></li>
+    </ul>
+  </div>
+
+  {/* Hidden: Posts
+  <div class="nav-mobile-group">
     <div class="nav-mobile-label">Writing</div>
     <ul>
       <li><a href="/posts">Posts</a></li>
     </ul>
   </div>
+  */}
 
   {/* Hidden until ready: Now page — re-enable when filled in
   <div class="nav-mobile-group">
